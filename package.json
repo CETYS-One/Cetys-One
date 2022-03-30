@@ -10,7 +10,9 @@
     "install:client": "yarn --cwd frontend",
     "dev:client": "yarn --cwd frontend dev",
     "dev:server": "yarn --cwd backend dev",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\""
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "db:save": "python3 ./tools/savedb.py",
+    "db:reset": "python3 ./tools/resetdb.py"
   },
   "dependencies": {
     "concurrently": "^7.0.0"
