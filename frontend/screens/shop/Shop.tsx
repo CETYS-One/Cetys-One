@@ -6,7 +6,7 @@ const Shop = () => {
     <SafeAreaView>
       <Box>
         <Text>Shop</Text>
-        <Text>Hola</Text>
+        <Text>hola como estas</Text>
       </Box>
     </SafeAreaView>
   );
