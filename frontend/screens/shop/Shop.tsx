@@ -7,6 +7,7 @@ const Shop = () => {
       <Box>
         <Text>Shop</Text>
         <Text>hola como estas</Text>
+        <Text>hola</Text>
       </Box>
     </SafeAreaView>
   );
