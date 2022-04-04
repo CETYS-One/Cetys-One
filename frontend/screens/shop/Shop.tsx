@@ -1,13 +1,11 @@
 import { Box, Text } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import Header from "../../components/shop/Header";
 const Shop = () => {
   return (
     <SafeAreaView>
       <Box>
-        <Text>Shop</Text>
-        <Text>hola como estas</Text>
-        <Text>hola</Text>
+        <Header/>
       </Box>
     </SafeAreaView>
   );
