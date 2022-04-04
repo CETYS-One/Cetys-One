@@ -8,7 +8,7 @@
     "install:all": "yarn && yarn --cwd backend && yarn --cwd frontend",
     "install:server": "yarn --cwd backend",
     "install:client": "yarn --cwd frontend",
-    "dev:client": "yarn --cwd frontend dev",
+    "dev:client": "yarn --cwd frontend start",
     "dev:server": "yarn --cwd backend dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
     "db:save": "python3 ./tools/savedb.py",
