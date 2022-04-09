@@ -1,20 +1,15 @@
-import {Box ,Text, View, Image, TextArea} from 'native-base';
+import {Box ,Text, View, Image, TextArea, Center, Flex} from 'native-base';
 
 const Header = () => {
   return ( 
-    <Box bg="yellow.400" px={"5px"} py={"5px"} borderWidth={"1px"} borderColor="red.100">
-      <Image
-        style={{width: '50%', height: '50%'}}
-        source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/commons/7/72/Logo-cetys.png',
-
-        }}
-        alt="logo"
-      />      
-      <TextArea h={20} placeholder="hola"></TextArea>
-      <Box>Icono perfil</Box>
-      <Box>Icono carrito</Box>
-    </Box>
+    <Flex bg="white" w={"100%"} h={"100px"} display={"flex"} flexDirection={"row"} align={"center"} justifyContent={"center"}  >
+      <Flex flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"} h={"100%"} w={"95%"} >
+        <Image source={{uri:"https://upload.wikimedia.org/wikipedia/commons/7/72/Logo-cetys.png"}} h={"50px"} w={"65px"} alt={"logo"}/>
+        <TextArea placeholder="hola" h={"30px"} w={"200px"} mt={"20px"} borderRadius={"10px"}></TextArea>
+        <Box>I</Box>
+        <Box>P</Box>
+      </Flex>      
+    </Flex>
   );
 }
 export default Header;

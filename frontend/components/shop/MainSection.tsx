@@ -4,7 +4,6 @@ import Section from './Section';
 const MainSection = () => {
   return(
     <Box>
-      <Text>MainSection</Text>
       <Section/>
       <Section/>
       <Section/>
