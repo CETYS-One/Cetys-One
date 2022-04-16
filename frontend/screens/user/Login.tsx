@@ -13,7 +13,7 @@ import {
   IconButton,
   ChevronLeftIcon,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { TouchableOpacity } from "react-native";
 import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
 
@@ -25,22 +25,20 @@ const Login = () => {
     <Box>
       <Box h="28%" background={"amber.500"}>
         <VStack w={"90%"} margin={"auto"}>
-          <ChevronLeftIcon
-            my={5}
-            onPress={() => navigation.goBack()}
-            color="white"
-          />
-          <Text fontWeight={"700"} fontSize={"20px"} color="white">
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <ChevronLeftIcon color="white" size={5} />
+          </TouchableOpacity>
+          <Text fontWeight={"700"} fontSize={"30px"} color="white" mt={5}>
             Iniciar Sesion
           </Text>
         </VStack>
       </Box>
       <Box h="82%" background={"white"} borderTopRadius={20} mt={-4}>
         <Box w={"90%"} mx={"auto"} mt={10}>
-          <Text fontWeight={"700"} fontSize={"18px"}>
+          <Text fontWeight={"700"} fontSize={"23px"}>
             Bienvenido de vuelta!
           </Text>
-          <Text fontWeight={"400"} fontSize={"12"} color={"gray.600"}>
+          <Text fontWeight={"400"} fontSize={"13"} color={"gray.600"}>
             Hola! Inicia sesion para continuar
           </Text>
           <Box mt={10}>
@@ -92,6 +90,7 @@ const Login = () => {
                     borderRadius="10"
                     backgroundColor={"amber.500"}
                     mt={10}
+                    py={4}
                   >
                     Inicar Sesion
                   </Button>
@@ -103,39 +102,6 @@ const Login = () => {
             </Formik>
           </Box>
         </Box>
-      </Box>
-      <Box w={"90%"} margin={"auto"}>
-        {/* <VStack
-          h={"100%"}
-          w={"100%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Box mb={10} w={"100%"}>
-            <Text fontWeight={"600"} fontSize={"25px"}>
-              Iniciar Sesión
-            </Text>
-            <Text fontSize={"16px"}>
-              Inicia sesión para poder pedir dentro de las cafeterias CETYS
-            </Text>
-          </Box>
-          <VStack space={4} w={"100%"}>
-            <FormControl>
-              <FormControl.Label>Matrícula</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
-              <Input type={"password"} />
-            </FormControl>
-            <Button variant={"ghost"} colorScheme={"gray"} py={4} mt={3}>
-              Olvide mi contraseña
-            </Button>
-            <Button colorScheme={"green"} py={4} mt={3}>
-              Iniciar Sesión
-            </Button>
-          </VStack>
-        </VStack> */}
       </Box>
     </Box>
   );

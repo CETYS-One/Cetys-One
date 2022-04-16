@@ -70,6 +70,7 @@ const Welcome = () => {
             <Button
               borderRadius="10"
               backgroundColor={"amber.500"}
+              py={4}
               onPress={() => navigation.navigate("SignUp")}
             >
               Registrarte
@@ -78,6 +79,7 @@ const Welcome = () => {
               borderRadius="10"
               colorScheme={"amber"}
               variant={"outline"}
+              py={4}
               onPress={() => navigation.navigate("Login")}
             >
               Iniciar Sesion

@@ -12,7 +12,7 @@ import Statistics from "./seller/Statistics";
 import ProductEdit from "./seller/ProductEdit";
 import Orders from "./seller/Orders";
 import AllProducts from "./seller/AllProducts";
-import Welcome from './user/Welcome'
+import Welcome from "./user/Welcome";
 import AllPages from "./AllPages";
 
 export type RootStackParams = {
@@ -39,7 +39,7 @@ const Pages = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="AllPages"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}
       >
         <Stack.Screen name="AllPages" component={AllPages} />
         <Stack.Screen name="Welcome" component={Welcome} />
