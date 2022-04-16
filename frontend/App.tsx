@@ -61,6 +61,7 @@ const nativeTheme = extendTheme({
     body: "Montserrat",
     mono: "Montserrat",
   },
+  colors: {},
 });
 
 export default function App() {

@@ -1,38 +1,86 @@
-import { Box, Text, VStack, FormControl, Input, Button } from "native-base";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  Box,
+  Text,
+  VStack,
+  FormControl,
+  Input,
+  Button,
+  Image,
+  Center,
+  Spacer,
+  AspectRatio,
+} from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RootStackParams } from "../Pages";
 
 const Welcome = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={
+        {
+          // width: 300,
+          // height: 450,
+        }
+      }
+    >
       <Box w={"90%"} margin={"auto"}>
-        <VStack
-          h={"100%"}
-          w={"100%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Box mb={10} w={"100%"}>
-            <Text fontWeight={"600"} fontSize={"25px"}>
-              Iniciar Sesión
-            </Text>
-            <Text fontSize={"16px"}>
-              Inicia sesión para poder pedir dentro de las cafeterias CETYS
-            </Text>
+        <VStack w="100%" h="100%">
+          <Center mt={2}>
+            <AspectRatio height={"50px"} ratio={{ base: 302 / 240 }}>
+              <Image
+                source={{
+                  uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo-cetys.png/302px-Logo-cetys.png",
+                }}
+                alt="Logo CETYS"
+                resizeMode="cover"
+              />
+            </AspectRatio>
+          </Center>
+          <Box position={"relative"} h="50%">
+            <Image
+              source={require("../../assets/images/soda.png")}
+              alt="soda"
+              w={"180px"}
+              h={"180px"}
+              position="absolute"
+              top="70px"
+              right="0"
+            />
+            <Image
+              source={require("../../assets/images/burger.png")}
+              alt="burger"
+              w={"150px"}
+              h={"150px"}
+              position="absolute"
+              top="140px"
+              left="8"
+            />
           </Box>
-          <VStack space={4} w={"100%"}>
-            <FormControl>
-              <FormControl.Label>Matrícula</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
-              <Input type={"password"} />
-            </FormControl>
-            <Button variant={"ghost"} colorScheme={"gray"} py={4} mt={3}>
-              Olvide mi contraseña
+          <Text fontSize={"20px"} fontWeight="700">
+            Bienvenido a CETYS One
+          </Text>
+          <Text fontSize={"16"} fontWeight="400">
+            Pedir comida en las cafeterias nunca habia sido tan sencillo
+          </Text>
+          <VStack width={"100%"} space={2} mt={"20"}>
+            <Button
+              borderRadius="10"
+              backgroundColor={"amber.500"}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              Registrarte
             </Button>
-            <Button colorScheme={"green"} py={4} mt={3}>
-              Iniciar Sesión
+            <Button
+              borderRadius="10"
+              colorScheme={"amber"}
+              variant={"outline"}
+              onPress={() => navigation.navigate("Login")}
+            >
+              Iniciar Sesion
             </Button>
           </VStack>
         </VStack>
