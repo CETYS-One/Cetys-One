@@ -9,6 +9,7 @@ import { RootStackParams } from "./Pages";
 
 const pages: string[] = [
   "SignUp",
+  "Welcome",
   "Login",
   "Profile",
   "Password",

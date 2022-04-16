@@ -1,7 +1,7 @@
 import { Box, Text, VStack, FormControl, Input, Button } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Login = () => {
+const Welcome = () => {
   return (
     <SafeAreaView>
       <Box w={"90%"} margin={"auto"}>
@@ -41,4 +41,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Welcome;
