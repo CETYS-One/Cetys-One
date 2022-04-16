@@ -31,7 +31,7 @@ const Cantidad = () => {
         <Button
           bgColor={"white"}
           color={"black"}
-          borderRadius={"100px"}
+          borderRadius={"10000"}
           h={"40px"}
           w={"40px"}
           onPress={reduceOne}
@@ -44,7 +44,6 @@ const Cantidad = () => {
         </Button>
         <Text>{quantity}</Text>
         <Button
-          display={"flex"}
           bgColor={"white"}
           color={"black"}
           borderRadius={"10000"}
@@ -53,17 +52,8 @@ const Cantidad = () => {
           borderWidth={"1px"}
           borderColor={"gray.300"}
           onPress={addOne}
-          alignItem={"center"}
-          justifyContent={"center"}
         >
-          <Text
-            display={"flex"}
-            fontWeight={"bold"}
-            adjustsFontSizeToFit
-            alignItems={"center"}
-            justifyContent={"center"}
-            style={{ textAlign: "center", textAlignVertical: "center" }}
-          >
+          <Text fontWeight={"bold"} adjustsFontSizeToFit textAlign={"center"}>
             +
           </Text>
         </Button>

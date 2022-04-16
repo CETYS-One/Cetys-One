@@ -8,6 +8,7 @@ import {
   HStack,
   TextArea,
   Button,
+  ScrollView,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Description from "../../components/Product/Description";
@@ -16,8 +17,8 @@ import Comentario from "../../components/Product/Comentario";
 
 const Product = () => {
   return (
-    <Box>
-      <Box h={"100%"} bgColor={"white"}>
+    <SafeAreaView>
+      <ScrollView h={"100%"} bgColor={"white"}>
         <Center w={"100%"}>
           <Image
             w={"100%"}
@@ -41,25 +42,23 @@ const Product = () => {
         >
           <VStack space={6} alignItems={"center"}>
             <Description />
-            <HStack justifyContent={"space-around"} w={"85%"}>
+            <HStack
+              flexDirection={"row"}
+              justifyContent={"space-around"}
+              w={"85%"}
+            >
               <Cantidad />
               <Comentario />
             </HStack>
           </VStack>
-          <Button
-            bgColor={"yellow.400"}
-            borderRadius={"100px"}
-            px={"20px"}
-            w={"92%"}
-            alignItems={"center"}
-          >
+          <Button bgColor={"yellow.400"} borderRadius={"100px"}>
             <Text color={"white"} fontSize={"30px"} fontWeight={"bold"}>
               Agregar al Carrito
             </Text>
           </Button>
         </VStack>
-      </Box>
-    </Box>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
