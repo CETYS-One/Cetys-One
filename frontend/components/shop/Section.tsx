@@ -4,11 +4,11 @@ const Section = () => {
   return(
       <Box>
         <VStack >
-          <Box pl={"7px"}>
+          <Box pl={"10px"}>
             <Text fontSize={"20px"} fontWeight={"bold" }>BURRITOS</Text>
           </Box>
           <ScrollView horizontal={true}>
-            <HStack flexDirection={"row"} overflow={"hidden"} mt={"10px"} space={"3"}  paddingBottom={"10px"}>
+            <HStack flexDirection={"row"} overflow={"hidden"} mt={"10px"} space={"3"}  paddingBottom={"10px"} paddingLeft={"8px"}>
               <Product/>
               <Product/>
               <Product/>
