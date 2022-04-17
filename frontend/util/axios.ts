@@ -1,9 +1,8 @@
 import axios from "axios";
+import config from "../config.json";
 
 export const baseURL =
-  process.env.NODE_ENV === "production"
-    ? "algo"
-    : "https://6663-2806-2f0-1100-1276-3c85-442c-16f-32d1.ngrok.io";
+  process.env.NODE_ENV === "production" ? "algo" : config.baseUrl;
 
 const instance = axios.create({
   baseURL,
