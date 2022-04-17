@@ -15,7 +15,7 @@ import { onChange } from "react-native-reanimated";
 interface PropTypes {
   src?: string;
   onImageUpload: (value: ImagePicker.ImageInfo) => void;
-  deleteImage: (id: string) => void;
+  deleteImage?: (id: string) => void;
 }
 
 const ImageThumbnail = (props: PropTypes) => {
@@ -61,6 +61,13 @@ const ImageThumbnail = (props: PropTypes) => {
     }
   };
 
+  const handleDeleteImage = () => {
+    if (!src || !deleteImage) return;
+
+    deleteImage(src);
+    onCloseEdit();
+  };
+
   return (
     <Box w={"100px"} h="100px">
       <TouchableOpacity onPress={handlePress}>
@@ -78,14 +85,14 @@ const ImageThumbnail = (props: PropTypes) => {
           )}
         </Center>
         <Text>{src}</Text>
-        <Actionsheet isOpen={isOpenEdit} onClose={onCloseEdit}>
-          <Actionsheet.Content>
-            <Actionsheet.Item onPress={() => deleteImage("2")}>
-              Eliminar
-            </Actionsheet.Item>
-          </Actionsheet.Content>
-        </Actionsheet>
       </TouchableOpacity>
+      <Actionsheet isOpen={isOpenEdit} onClose={onCloseEdit}>
+        <Actionsheet.Content>
+          <Actionsheet.Item onPress={handleDeleteImage}>
+            Eliminar
+          </Actionsheet.Item>
+        </Actionsheet.Content>
+      </Actionsheet>
       <Actionsheet isOpen={isOpenAdd} onClose={onCloseAdd}>
         <Actionsheet.Content>
           <Actionsheet.Item onPress={() => handleChoosePhoto(true)}>

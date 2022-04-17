@@ -157,7 +157,14 @@ const ProductEdit = () => {
                                     result,
                                   ])
                                 }
-                                deleteImage={(id) => console.log(id)}
+                                deleteImage={(deletedId) =>
+                                  setFieldValue(
+                                    "images",
+                                    values.images.filter(
+                                      (image) => image.uri !== deletedId
+                                    )
+                                  )
+                                }
                               />
                             ))}
                             <ImageThumbnail
@@ -167,7 +174,6 @@ const ProductEdit = () => {
                                   result,
                                 ])
                               }
-                              deleteImage={(id) => console.log(id)}
                             />
                           </HStack>
                         </ScrollView>
