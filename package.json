@@ -9,8 +9,10 @@
     "install:server": "yarn --cwd backend",
     "install:client": "yarn --cwd frontend",
     "dev:client": "yarn --cwd frontend start",
+    "dev:client:android": "yarn --cwd frontend start --android",
     "dev:server": "yarn --cwd backend dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "dev:android": "concurrently \"yarn dev:server\" \"yarn dev:client:android\"",
     "db:save": "python ./tools/savedb.py",
     "db:reset": "python ./tools/resetdb.py"
   },

@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Pages from "./screens/Pages";
+import Toast from "react-native-toast-message";
 
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
@@ -111,6 +112,7 @@ export default function App() {
         <NativeBaseProvider theme={nativeTheme}>
           <Pages />
           <StatusBar />
+          <Toast />
         </NativeBaseProvider>
       </SafeAreaProvider>
     );

@@ -24,10 +24,14 @@ import {
   SafeAreaView,
   withSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
 import * as ImagePicker from "expo-image-picker";
 import Header from "../../components/common/Header";
+import { uploadPhoto } from "../../util/uploadPhoto";
+import { UploadFile } from "../../types/strapi";
+import Toast from "react-native-toast-message";
+import axios from "../../util/axios";
 
 interface FormTypes {
   name: string;
@@ -47,7 +51,70 @@ const ProductEdit = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const handleSubmit = async (values: FormTypes) => {};
+  const [photosUploaded, setPhotosUploaded] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const uploadFiles = async (images: ImagePicker.ImageInfo[]) => {
+    const files: UploadFile[] = [];
+    for (const [index, image] of images.entries()) {
+      setPhotosUploaded(`Subiendo foto ${index + 1}/${images.length}`);
+
+      const file = await uploadPhoto(image);
+      if (!file) {
+        Toast.show({
+          type: "error",
+          text1: "Error!",
+          text2: "Hubo un error subiendo las fotos",
+        });
+        return;
+      }
+
+      files.push(file);
+    }
+    setPhotosUploaded("");
+    return files;
+  };
+
+  const handleSubmit = async (values: FormTypes) => {
+    setIsSubmitting(true);
+
+    const files = await uploadFiles(values.images);
+    if (!files) {
+      Toast.show({
+        type: "error",
+        text1: "Error!",
+        text2: "No se puede subir el producto en este momento",
+      });
+      setIsSubmitting(false);
+
+      return;
+    }
+
+    try {
+      const res = await axios.post("/products", {
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        photos: files?.map((f) => f._id),
+      });
+      console.log(res.data);
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error!",
+        text2: "No se puede subir el producto en este momento",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    Toast.show({
+      type: "success",
+      text1: "Exito!",
+      text2: "Producto subido correctamente",
+    });
+    setIsSubmitting(false);
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
@@ -62,7 +129,7 @@ const ProductEdit = () => {
         <Box h={"600px"} mt={10}>
           <Formik
             initialValues={formInitialValues}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={handleSubmit}
             validationSchema={Yup.object({
               name: Yup.string().required("El nombre es requerido"),
               description: Yup.string().required("La descripcion es requerida"),
@@ -159,17 +226,21 @@ const ProductEdit = () => {
                         />
                       </HStack>
                     </ScrollView>
+                    <FormControl.Label>{photosUploaded}</FormControl.Label>
                   </FormControl>
-                  <Button
-                    type="submit"
-                    onPress={() => handleSubmit()}
-                    borderRadius="10"
-                    backgroundColor={"amber.500"}
-                    mt={10}
-                    py={4}
-                  >
-                    Crear Producto
-                  </Button>
+                  <TouchableOpacity>
+                    <Button
+                      type="submit"
+                      onPress={() => handleSubmit()}
+                      borderRadius="10"
+                      backgroundColor={"amber.500"}
+                      mt={10}
+                      py={4}
+                      isLoading={isSubmitting}
+                    >
+                      Crear Producto
+                    </Button>
+                  </TouchableOpacity>
                 </ScrollView>
               </KeyboardAwareScrollView>
             )}
