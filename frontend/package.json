@@ -17,6 +17,7 @@
     "@expo-google-fonts/montserrat": "^0.2.2",
     "@expo-google-fonts/roboto": "^0.2.2",
     "@expo/vector-icons": "^12.0.0",
+    "@react-native-community/datetimepicker": "4.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
@@ -29,6 +30,7 @@
     "expo-splash-screen": "~0.14.0",
     "expo-status-bar": "~1.2.0",
     "expo-web-browser": "~10.1.0",
+    "firebase": "^9.6.11",
     "formik": "^2.2.9",
     "moti": "^0.17.1",
     "native-base": "^3.3.10",
@@ -42,6 +44,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "^12.3.0",
     "react-native-web": "0.17.1",
+    "react-query": "^3.34.20",
     "yup": "^0.32.11"
   },
   "devDependencies": {

@@ -42,9 +42,12 @@ const formInitialValues: FormTypes = {
   price: 0,
   images: [],
 };
+
 const ProductEdit = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const handleSubmit = async (values: FormTypes) => {};
 
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
