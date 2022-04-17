@@ -67,9 +67,15 @@ const nativeTheme = extendTheme({
       variants: {
         white: () => {
           return {
-            color: "white",
-            placeholderTextColor: "white",
-            focusOutlineColor: "gray.200",
+            _light: {
+              borderColor: "white",
+              placeholderTextColor: "white",
+              _focus: {
+                borderColor: "green.500",
+              },
+            },
+            placeholder: "Busca aqui",
+            style: { color: "white", borderColor: "white", borderWidth: 1 },
           };
         },
       },

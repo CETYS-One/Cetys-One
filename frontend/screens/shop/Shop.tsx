@@ -4,8 +4,8 @@ import Header from "../../components/common/Header";
 import MainSection from "../../components/shop/MainSection";
 const Shop = () => {
   return (
-    <SafeAreaView>
-      <Header title={"Tienda"} searchBar>
+    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
+      <Header title={"Tienda"} searchBar container={false}>
         <MainSection />
       </Header>
     </SafeAreaView>
