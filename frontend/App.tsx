@@ -62,6 +62,19 @@ const nativeTheme = extendTheme({
     mono: "Montserrat",
   },
   colors: {},
+  components: {
+    Input: {
+      variants: {
+        white: () => {
+          return {
+            color: "white",
+            placeholderTextColor: "white",
+            focusOutlineColor: "gray.200",
+          };
+        },
+      },
+    },
+  },
 });
 
 export default function App() {
