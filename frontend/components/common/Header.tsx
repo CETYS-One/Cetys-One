@@ -22,6 +22,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { ReactNode, useState } from "react";
 import { RootStackParams } from "../../screens/Pages";
 import { color } from "react-native-reanimated";
+import { AnimatePresence, MotiText, MotiView } from "moti";
 
 interface PropTypes {
   title: string;
@@ -54,28 +55,54 @@ const Header = (props: PropTypes) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       enabled={false}
     >
-      <Box height="18%" background={"amber.500"}>
+      <Box height={"18%"} background={"amber.500"}>
         <VStack w={"90%"} margin={"auto"}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ChevronLeftIcon color="white" size={5} />
-          </TouchableOpacity>
-          {/* <HStack mt={2}> */}
-          <HStack mt={2}>
-            <Text fontWeight={"700"} fontSize={"30px"} color="white">
-              {title}
-            </Text>
-            <Spacer />
-            <Center>
-              {searchBar && (
-                <SearchIcon
-                  color="white"
-                  size="5"
-                  onPress={handleOpenSearchbar}
-                />
-              )}
-            </Center>
-          </HStack>
-          <PresenceTransition
+          <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <ChevronLeftIcon color="white" size={5} />
+            </TouchableOpacity>
+            <HStack mt={2}>
+              <Text fontWeight={"700"} fontSize={"30px"} color="white">
+                {title}
+              </Text>
+              <Spacer />
+              <Center>
+                {searchBar && (
+                  <SearchIcon
+                    color="white"
+                    size="5"
+                    onPress={handleOpenSearchbar}
+                  />
+                )}
+              </Center>
+            </HStack>
+          </MotiView>
+          <AnimatePresence exitBeforeEnter>
+            {isSearchbarOpen && (
+              <MotiView
+                from={{ translateX: -400 }}
+                animate={{ translateX: 0 }}
+                exit={{ translateX: -400 }}
+                style={{ position: "absolute", bottom: -40, right: 0, left: 0 }}
+              >
+                <FormControl w="100%" mt={2}>
+                  <Input
+                    variant={"outline"}
+                    borderColor={"white"}
+                    _light={{
+                      placeholderTextColor: "white",
+                      _focus: {
+                        borderColor: "white",
+                      },
+                    }}
+                    placeholder={"Busca aqui"}
+                    style={{ color: "white" }}
+                  />
+                </FormControl>
+              </MotiView>
+            )}
+          </AnimatePresence>
+          {/* <PresenceTransition
             visible={isSearchbarOpen}
             initial={{ translateX: -400 }}
             animate={{
@@ -100,30 +127,14 @@ const Header = (props: PropTypes) => {
                 style={{ color: "white" }}
               />
             </FormControl>
-          </PresenceTransition>
+          </PresenceTransition> */}
         </VStack>
       </Box>
-      {searchBar ? (
-        <PresenceTransition
-          style={{ height: "85%" }}
-          visible={isSearchbarOpen}
-          initial={{ translateY: 0 }}
-          animate={{ translateY: 30 }}
-        >
-          <Box
-            background={"white"}
-            borderTopRadius={20}
-            mt={-4}
-            height={"100%"}
-          >
-            <ScrollView height={"100%"}>
-              <Box w={"90%"} mx={"auto"} mt={10} background="white">
-                <>{children}</>
-              </Box>
-            </ScrollView>
-          </Box>
-        </PresenceTransition>
-      ) : (
+
+      <MotiView
+        animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
+        style={{ height: "100%" }}
+      >
         <Box background={"white"} borderTopRadius={20} mt={-4} height="85%">
           <ScrollView height={"100%"}>
             <Box w={"90%"} mx={"auto"} mt={10} background="white">
@@ -131,7 +142,8 @@ const Header = (props: PropTypes) => {
             </Box>
           </ScrollView>
         </Box>
-      )}
+      </MotiView>
+      {/* )} */}
     </KeyboardAvoidingView>
   );
 };

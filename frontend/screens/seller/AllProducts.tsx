@@ -44,10 +44,6 @@ const AllProducts = () => {
         <Input />
         <Input />
         <Input />
-        <Input placeholder="hola" />
-        <Input placeholder="hola" />
-        <Input placeholder="hola" />
-        <Input placeholder="hola" mb={5} />
       </Header>
     </SafeAreaView>
   );
