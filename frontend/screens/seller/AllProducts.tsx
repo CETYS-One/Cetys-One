@@ -20,16 +20,9 @@ import Product from "../../components/shop/Product";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const AllProducts = () => {
-  const [searchar, setSearchbar] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header
-        title="Mis Productos"
-        searchBar
-        onSearchbarPressed={() => setSearchbar(!searchar)}
-      >
+      <Header title="Mis Productos" searchBar>
         <Input />
         <Input />
         <Input />

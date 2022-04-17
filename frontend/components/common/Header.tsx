@@ -29,23 +29,13 @@ interface PropTypes {
   title: string;
   children: ReactNode;
   searchBar?: boolean;
-  onSearchbarPressed?: () => void;
 }
 const Header = (props: PropTypes) => {
-  const { title, children, searchBar = false, onSearchbarPressed } = props;
+  const { title, children, searchBar = false } = props;
 
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
 
-  // Workarourd
-  const [renderPlaceholderList, setRenderPlaceholderList] = useState(false);
-
-  const handleSearch = () => {
-    setIsSearchbarOpen(false);
-    setIsSearchbarOpen(!isSearchbarOpen);
-  };
-
   const handleOpenSearchbar = () => {
-    // setRenderPlaceholderList(true);
     setIsSearchbarOpen(!isSearchbarOpen);
   };
   const navigation =
