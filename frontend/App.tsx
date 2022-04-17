@@ -23,6 +23,8 @@ import {
   Montserrat_700Bold,
   Montserrat_700Bold_Italic,
 } from "@expo-google-fonts/montserrat";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const nativeTheme = extendTheme({
   fontConfig: {
@@ -84,6 +86,8 @@ const nativeTheme = extendTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -110,9 +114,13 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NativeBaseProvider theme={nativeTheme}>
-          <Pages />
-          <StatusBar />
-          <Toast />
+          <QueryClientProvider client={queryClient}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Pages />
+              <StatusBar />
+              <Toast />
+            </GestureHandlerRootView>
+          </QueryClientProvider>
         </NativeBaseProvider>
       </SafeAreaProvider>
     );

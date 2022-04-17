@@ -25,3 +25,12 @@ export interface ImageFormat {
   size: number;
   url: string;
 }
+
+export interface ICategories {
+  _id: string;
+  name: string;
+  created_by: string;
+  updated_by: string;
+  createdAt: string;
+  updatedBy: string;
+}

@@ -15,6 +15,7 @@ import {
   ScrollView,
   TextArea,
   HStack,
+  Select,
 } from "native-base";
 import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
@@ -29,15 +30,17 @@ import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
 import * as ImagePicker from "expo-image-picker";
 import Header from "../../components/common/Header";
 import { uploadPhoto } from "../../util/uploadPhoto";
-import { UploadFile } from "../../types/strapi";
+import { ICategories, UploadFile } from "../../types/strapi";
 import Toast from "react-native-toast-message";
 import axios from "../../util/axios";
+import { useQuery } from "react-query";
 
 interface FormTypes {
   name: string;
   description: string;
   price: number;
   images: ImagePicker.ImageInfo[];
+  categories: string;
 }
 
 const formInitialValues: FormTypes = {
@@ -45,11 +48,20 @@ const formInitialValues: FormTypes = {
   description: "",
   price: 0,
   images: [],
+  categories: "",
 };
 
 const ProductEdit = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const { data: categories, isLoading: isLoadingCategories } = useQuery(
+    "categories",
+    async () => {
+      const res = await axios.get<ICategories[]>("/categories");
+      return res.data;
+    }
+  );
 
   const [photosUploaded, setPhotosUploaded] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,7 +130,7 @@ const ProductEdit = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header title="Agregar Producto">
+      <Header title="Agregar Producto" isLoading={isLoadingCategories}>
         <Text fontWeight={"700"} fontSize={"23px"}>
           Manos a la obra!
         </Text>
@@ -126,7 +138,7 @@ const ProductEdit = () => {
           Haz las modificaciones que sean necesarias, nosotros nos encargaremos
           del resto
         </Text>
-        <Box h={"600px"} mt={10}>
+        <Box h={"700px"} mt={10}>
           <Formik
             initialValues={formInitialValues}
             onSubmit={handleSubmit}
@@ -134,6 +146,7 @@ const ProductEdit = () => {
               name: Yup.string().required("El nombre es requerido"),
               description: Yup.string().required("La descripcion es requerida"),
               price: Yup.number().moreThan(0, "El precio debe ser mayor a 0"),
+              categories: Yup.string().required("La categoria es requerida"),
             })}
           >
             {({
@@ -190,6 +203,30 @@ const ProductEdit = () => {
                     />
                     <FormControl.ErrorMessage>
                       {errors.price}
+                    </FormControl.ErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={touched.categories && !!errors.categories}
+                  >
+                    <FormControl.Label>Categoria</FormControl.Label>
+                    <Select
+                      isDisabled={isLoadingCategories}
+                      selectedValue={values.categories}
+                      onValueChange={(value) =>
+                        setFieldValue("categories", value)
+                      }
+                    >
+                      {categories &&
+                        categories.map((category) => (
+                          <Select.Item
+                            value={category._id}
+                            label={category.name}
+                            key={category._id}
+                          />
+                        ))}
+                    </Select>
+                    <FormControl.ErrorMessage>
+                      {errors.categories}
                     </FormControl.ErrorMessage>
                   </FormControl>
                   <FormControl>

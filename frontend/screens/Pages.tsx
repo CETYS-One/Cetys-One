@@ -14,6 +14,7 @@ import Orders from "./seller/Orders";
 import AllProducts from "./seller/AllProducts";
 import Welcome from "./user/Welcome";
 import AllPages from "./AllPages";
+import Categories from "./seller/Categories";
 
 export type RootStackParams = {
   AllPages: any;
@@ -30,6 +31,7 @@ export type RootStackParams = {
   ProductEdit: any;
   AllProduct: any;
   Welcome: any;
+  Categories: any;
 };
 
 const Stack = createNativeStackNavigator<RootStackParams>();
@@ -52,6 +54,7 @@ const Pages = () => {
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Orders" component={Orders} />
+        <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Statistics" component={Statistics} />
         <Stack.Screen name="ProductEdit" component={ProductEdit} />
         <Stack.Screen name="AllProduct" component={AllProducts} />

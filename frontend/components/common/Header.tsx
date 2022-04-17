@@ -13,6 +13,7 @@ import {
   ScrollView,
   SearchIcon,
   Spacer,
+  Spinner,
   Text,
   VStack,
 } from "native-base";
@@ -27,6 +28,7 @@ interface PropTypes {
   children: ReactNode;
   searchBar?: boolean;
   container?: boolean;
+  isLoading?: boolean;
   onSearch?: (value: string) => void;
 }
 
@@ -36,6 +38,7 @@ const Header = (props: PropTypes) => {
     children,
     searchBar = false,
     container = true,
+    isLoading = false,
     onSearch,
   } = props;
 
@@ -68,6 +71,7 @@ const Header = (props: PropTypes) => {
               <Text fontWeight={"700"} fontSize={"30px"} color="white">
                 {title}
               </Text>
+              {isLoading && <Spinner color={"white"} ml={5} />}
               <Spacer />
               {searchBar && (
                 <Center>

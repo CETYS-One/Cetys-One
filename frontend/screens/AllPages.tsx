@@ -18,6 +18,7 @@ const pages: string[] = [
   "Cart",
   "OrderHistory",
   "Orders",
+  "Categories",
   "Statistics",
   "ProductEdit",
   "AllProduct",
@@ -44,7 +45,10 @@ const AllPages = () => {
           <ScrollView h="550">
             {pages.map((page) => (
               // @ts-ignore
-              <TouchableOpacity onPress={() => navigation.navigate(page)}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(page)}
+                key={page}
+              >
                 <Box key={page} my={2} p={4} bg={"gray.200"} borderRadius={4}>
                   <Text>{page}</Text>
                 </Box>
