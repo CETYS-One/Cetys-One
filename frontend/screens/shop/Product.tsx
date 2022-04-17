@@ -17,48 +17,46 @@ import Comentario from "../../components/Product/Comentario";
 
 const Product = () => {
   return (
-    <SafeAreaView>
-      <ScrollView h={"100%"} bgColor={"white"}>
-        <Center w={"100%"}>
-          <Image
-            w={"100%"}
-            h={"400px"}
-            source={{
-              uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
-            }}
-            alt="hola"
-          />
-        </Center>
-
-        <VStack
-          borderRadius={"30px"}
-          mt={"-30px"}
-          bgColor={"white"}
-          alignItems={"center"}
+    <ScrollView h={"100%"} bgColor={"white"}>
+      <Center w={"100%"}>
+        <Image
           w={"100%"}
-          justifyContent={"space-between"}
-          space={10}
-          paddingTop={"28px"}
-        >
-          <VStack space={6} alignItems={"center"}>
-            <Description />
-            <HStack
-              flexDirection={"row"}
-              justifyContent={"space-around"}
-              w={"85%"}
-            >
-              <Cantidad />
-              <Comentario />
-            </HStack>
-          </VStack>
-          <Button bgColor={"yellow.400"} borderRadius={"100px"}>
-            <Text color={"white"} fontSize={"30px"} fontWeight={"bold"}>
-              Agregar al Carrito
-            </Text>
-          </Button>
+          h={"400px"}
+          source={{
+            uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
+          }}
+          alt="hola"
+        />
+      </Center>
+
+      <VStack
+        borderRadius={"30px"}
+        mt={"-30px"}
+        bgColor={"white"}
+        alignItems={"center"}
+        w={"100%"}
+        justifyContent={"space-between"}
+        space={10}
+        paddingTop={"28px"}
+        py={"20px"}
+      >
+        <VStack space={6} alignItems={"center"}>
+          <Description />
+          <Cantidad />
+          <Comentario />
         </VStack>
-      </ScrollView>
-    </SafeAreaView>
+
+        <Button
+          type="submit"
+          borderRadius="10"
+          backgroundColor={"amber.500"}
+          py={4}
+          w={"90%"}
+        >
+          Agregar a carro
+        </Button>
+      </VStack>
+    </ScrollView>
   );
 };
 
