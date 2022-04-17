@@ -1,20 +1,17 @@
-import {Text, Box, VStack, ScrollView} from 'native-base';
-import Section from './Section';
+import { Text, Box, VStack, ScrollView } from "native-base";
+import Section from "./Section";
 
 const MainSection = () => {
-  return(
-    <ScrollView>
-      <VStack mt={"15px"}>
-        <Section/>
-        <Section/>
-        <Section/>
-        <Section/>
-        <Section/>
-        <Section/>
-      </VStack>  
-    </ScrollView>
-    
+  return (
+    <VStack mt={"15px"}>
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+    </VStack>
   );
-}
+};
 
 export default MainSection;

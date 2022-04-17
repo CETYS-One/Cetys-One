@@ -5,7 +5,7 @@ const Comentario = () => {
     <VStack space={"2"} alignItems={"center"}>
       <Text fontSize={"20px"}>Comentario</Text>
       <TextArea
-        placeholder="Hola"
+        placeholder="Agrega un comentario"
         h={"70px"}
         w={"300px"}
         bgColor={"white"}

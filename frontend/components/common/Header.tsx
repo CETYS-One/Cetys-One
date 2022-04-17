@@ -103,7 +103,7 @@ const Header = (props: PropTypes) => {
         height="85%"
         animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
       >
-        <ScrollView height={"100%"}>
+        <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
           <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
             {children}
           </Box>

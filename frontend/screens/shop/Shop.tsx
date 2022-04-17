@@ -5,11 +5,9 @@ import MainSection from "../../components/shop/MainSection";
 const Shop = () => {
   return (
     <SafeAreaView>
-      <Box bgColor={"white"}>
-        <Header title="Productos">
-          <MainSection />
-        </Header>
-      </Box>
+      <Header title={"Tienda"} searchBar>
+        <MainSection />
+      </Header>
     </SafeAreaView>
   );
 };

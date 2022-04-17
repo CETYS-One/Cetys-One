@@ -17,7 +17,11 @@ import Comentario from "../../components/Product/Comentario";
 
 const Product = () => {
   return (
-    <ScrollView h={"100%"} bgColor={"white"}>
+    <ScrollView
+      h={"100%"}
+      bgColor={"white"}
+      showsVerticalScrollIndicator={false}
+    >
       <Center w={"100%"}>
         <Image
           w={"100%"}

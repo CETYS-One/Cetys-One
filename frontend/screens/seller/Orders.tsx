@@ -1,13 +1,14 @@
 import { Box, Text } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/Orders/Header";
+import Header from "../../components/common/Header";
 import MainSection from "../../components/Orders/MainSection";
 
 const Orders = () => {
   return (
     <SafeAreaView>
-      <Header/>
-      <MainSection/>
+      <Header title={"Ordenes"}>
+        <MainSection />
+      </Header>
     </SafeAreaView>
   );
 };
