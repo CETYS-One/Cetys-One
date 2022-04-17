@@ -23,6 +23,7 @@ import React, { ReactNode, useState } from "react";
 import { RootStackParams } from "../../screens/Pages";
 import { color } from "react-native-reanimated";
 import { AnimatePresence, MotiText, MotiView } from "moti";
+import { AnimatedBox } from "./Animated";
 
 interface PropTypes {
   title: string;
@@ -77,7 +78,7 @@ const Header = (props: PropTypes) => {
               </Center>
             </HStack>
           </MotiView>
-          <AnimatePresence exitBeforeEnter>
+          <AnimatePresence>
             {isSearchbarOpen && (
               <MotiView
                 from={{ translateX: -400 }}
@@ -102,47 +103,22 @@ const Header = (props: PropTypes) => {
               </MotiView>
             )}
           </AnimatePresence>
-          {/* <PresenceTransition
-            visible={isSearchbarOpen}
-            initial={{ translateX: -400 }}
-            animate={{
-              translateX: 0,
-              transition: {
-                type: "spring",
-                velocity: 10,
-              },
-            }}
-          >
-            <FormControl w="100%" mt={2}>
-              <Input
-                variant={"outline"}
-                borderColor={"white"}
-                _light={{
-                  placeholderTextColor: "white",
-                  _focus: {
-                    borderColor: "white",
-                  },
-                }}
-                placeholder={"Busca aqui"}
-                style={{ color: "white" }}
-              />
-            </FormControl>
-          </PresenceTransition> */}
         </VStack>
       </Box>
 
-      <MotiView
+      <AnimatedBox
+        background={"white"}
+        borderTopRadius={20}
+        mt={-4}
+        height="85%"
         animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
-        style={{ height: "100%" }}
       >
-        <Box background={"white"} borderTopRadius={20} mt={-4} height="85%">
-          <ScrollView height={"100%"}>
-            <Box w={"90%"} mx={"auto"} mt={10} background="white">
-              <>{children}</>
-            </Box>
-          </ScrollView>
-        </Box>
-      </MotiView>
+        <ScrollView height={"100%"}>
+          <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
+            {children}
+          </Box>
+        </ScrollView>
+      </AnimatedBox>
       {/* )} */}
     </KeyboardAvoidingView>
   );

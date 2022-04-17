@@ -44,6 +44,7 @@ const AllProducts = () => {
         <Input />
         <Input />
         <Input />
+        <Text> This is down</Text>
       </Header>
     </SafeAreaView>
   );
