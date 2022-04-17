@@ -70,6 +70,7 @@ const SignUp = () => {
                 errors,
                 touched,
               }) => (
+                // @ts-ignore
                 <KeyboardAwareScrollView
                   extraScrollHeight={100}
                   enableOnAndroid
