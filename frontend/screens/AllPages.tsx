@@ -39,7 +39,7 @@ const AllPages = () => {
             <Text mt={2}>
               Aqui puedes acceder a cualquier pagina que se esta trabajando.
               Tambien puedes ver el progreso de los demas sin tanta
-              complicacion:D
+              complicacion:D jijijija
             </Text>
           </Box>
           <ScrollView h="550">
