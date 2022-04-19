@@ -92,7 +92,7 @@ const Login = () => {
                     mt={10}
                     py={4}
                   >
-                    Inicar Sesion
+                    Iniciar Sesion
                   </Button>
                   <Button variant="ghost" colorScheme={"amber"} mt={5}>
                     Olvide mi contrasena
