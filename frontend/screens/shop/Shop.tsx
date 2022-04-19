@@ -2,8 +2,12 @@ import { Box, HStack, Text } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
-import MainSection from "../../components/shop/MainSection";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "../../util/axios";
+import mainPage from "../../components/shop/mainPage";
+import Product from "./Product";
+import * as React from "react";
 
 const Shop = () => {
   async function getProduct() {
@@ -17,15 +21,19 @@ const Shop = () => {
 
   const [productos, setProductos] = useState([]);
 
+  const Stack = createNativeStackNavigator();
   return (
-    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header title={"Tienda"} searchBar container={false}>
-        <MainSection />
-        {productos.map((producto) => {
-          return <Text>{producto.description}</Text>;
-        })}
-      </Header>
-    </SafeAreaView>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator
+        initialRouteName="shop"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="shop" component={mainPage} />
+        <Stack.Screen name="product" component={Product} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

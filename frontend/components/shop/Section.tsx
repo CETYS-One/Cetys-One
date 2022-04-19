@@ -6,9 +6,11 @@ import {
   HStack,
   VStack,
   ScrollView,
+  Button,
 } from "native-base";
 import Product from "./Product";
-const Section = () => {
+
+const Section = ({ navigation }) => {
   return (
     <Box>
       <VStack>
@@ -26,10 +28,7 @@ const Section = () => {
             paddingBottom={"10px"}
             paddingLeft={"8px"}
           >
-            <Product />
-            <Product />
-            <Product />
-            <Product />
+            <Product navigation={navigation} />
           </HStack>
         </ScrollView>
       </VStack>
