@@ -9,12 +9,13 @@ import {
   TextArea,
   Button,
   ScrollView,
+  ChevronLeftIcon,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Description from "../../components/Product/Description";
 import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
-import { Ionicons } from "@expo/vector-icons";
+import { SharedElement } from "react-navigation-shared-element";
 
 const Product = () => {
   return (
@@ -24,14 +25,22 @@ const Product = () => {
       showsVerticalScrollIndicator={false}
     >
       <Center w={"100%"}>
-        <Image
-          w={"100%"}
-          h={"400px"}
-          source={{
-            uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
-          }}
-          alt="hola"
+        <ChevronLeftIcon
+          color="black"
+          postion={"absolute"}
+          top={"10px"}
+          zIndex={1}
         />
+        <SharedElement id={"image"}>
+          <Image
+            w={"100%"}
+            h={"400px"}
+            source={{
+              uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
+            }}
+            alt="hola"
+          />
+        </SharedElement>
       </Center>
 
       <VStack
