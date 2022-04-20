@@ -1,13 +1,10 @@
 import { Box, Flex, HStack, Text, Button } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import Header from "../common/Header";
-import MainSection from "./MainSection";
+import Header from "../../components/common/Header";
+import MainSection from "../../components/shop/MainSection";
 
-{
-  /* @ts-ignore */
-}
-const MainPage = ({ navigation }) => {
+const mainPage = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
       <Header title={"Tienda"} searchBar container={false}>
@@ -17,4 +14,4 @@ const MainPage = ({ navigation }) => {
   );
 };
 
-export default MainPage;
+export default mainPage;
