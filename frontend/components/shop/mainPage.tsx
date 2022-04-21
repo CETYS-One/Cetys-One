@@ -8,7 +8,6 @@ const mainPage = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
       <Header title={"Tienda"} searchBar container={false}>
-        <Text>Holasfsafdsfsa</Text>
         <MainSection navigation={navigation} />
       </Header>
     </SafeAreaView>

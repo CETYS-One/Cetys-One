@@ -15,7 +15,6 @@ import Description from "../../components/Product/Description";
 import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
 import { Ionicons } from "@expo/vector-icons";
-import { SharedElement } from "react-navigation-shared-element";
 
 const Product = () => {
   return (
@@ -25,16 +24,14 @@ const Product = () => {
       showsVerticalScrollIndicator={false}
     >
       <Center w={"100%"}>
-        <SharedElement id={"imagen"}>
-          <Image
-            w={"100%"}
-            h={"400px"}
-            source={{
-              uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
-            }}
-            alt="hola"
-          />
-        </SharedElement>
+        <Image
+          w={"100%"}
+          h={"400px"}
+          source={{
+            uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
+          }}
+          alt="hola"
+        />
       </Center>
 
       <VStack
