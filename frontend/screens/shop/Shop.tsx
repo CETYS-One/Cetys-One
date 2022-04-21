@@ -31,7 +31,11 @@ const Shop = () => {
         }}
       >
         <Stack.Screen name="shop" component={mainPage} />
-        <Stack.Screen name="product" component={Product} />
+        <Stack.Screen
+          name="product"
+          component={Product}
+          sharedElementsConfig={() => ["images"]}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
