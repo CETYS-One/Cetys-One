@@ -8,7 +8,7 @@ import axios from "../../util/axios";
 import mainPage from "../../components/shop/mainPage";
 import Product from "./Product";
 import * as React from "react";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+
 const Shop = () => {
   async function getProduct() {
     const res = await axios.get("/products");
@@ -21,7 +21,7 @@ const Shop = () => {
 
   const [productos, setProductos] = useState([]);
 
-  const Stack = createSharedElementStackNavigator();
+  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
