@@ -1,8 +1,8 @@
 import { Box, Flex, HStack, Text, Button } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import Header from "../../components/common/Header";
-import MainSection from "../../components/shop/MainSection";
+import Header from "../common/Header";
+import MainSection from "./MainSection";
 
 const mainPage = () => {
   return (

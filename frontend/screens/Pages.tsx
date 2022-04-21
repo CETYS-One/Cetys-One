@@ -51,7 +51,11 @@ const Pages = () => {
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Shop" component={Shop} />
-        <Stack.Screen name="Product" component={Product} />
+        <Stack.Screen
+          name="Product"
+          component={Product}
+          sharedElements={() => ["imagenProducto"]}
+        />
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Orders" component={Orders} />

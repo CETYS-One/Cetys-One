@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import { NavigationContainer } from "@react-navigation/native";
 import axios from "../../util/axios";
-import MainPage from "../../components/shop/mainPage";
+import MainPage from "../../components/shop/MainPage";
 import Product from "./Product";
 import * as React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
