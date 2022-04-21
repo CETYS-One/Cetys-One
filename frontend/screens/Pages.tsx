@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./user/Login";
 import Password from "./user/Password";
 import Profile from "./user/Profile";
@@ -15,6 +15,7 @@ import AllProducts from "./seller/AllProducts";
 import Welcome from "./user/Welcome";
 import AllPages from "./AllPages";
 import Categories from "./seller/Categories";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 export type RootStackParams = {
   AllPages: any;
@@ -34,14 +35,14 @@ export type RootStackParams = {
   Categories: any;
 };
 
-const Stack = createNativeStackNavigator<RootStackParams>();
+const Stack = createSharedElementStackNavigator<RootStackParams>();
 
 const Pages = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="AllPages"
-        screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}
+        screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="AllPages" component={AllPages} />
         <Stack.Screen name="Welcome" component={Welcome} />
