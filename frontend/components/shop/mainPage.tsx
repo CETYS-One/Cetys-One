@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import MainSection from "../../components/shop/MainSection";
 
-const mainPage = ({ navigation }) => {
+const mainPage = () => {
   return (
     <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
       <Header title={"Tienda"} searchBar container={false}>
-        <MainSection navigation={navigation} />
+        <MainSection />
       </Header>
     </SafeAreaView>
   );

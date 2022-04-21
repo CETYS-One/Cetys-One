@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import { Text, Box, Image, Flex } from "native-base";
 import { TouchableOpacity } from "react-native";
-const Product = ({ navigation }) => {
+const Product = () => {
+  const navigation = useNavigation();
   return (
     <Flex shadow={"1"} bgColor={"gray.50"} borderRadius={"10px"}>
       <TouchableOpacity onPress={() => navigation.navigate("product")}>

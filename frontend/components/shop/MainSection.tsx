@@ -1,10 +1,10 @@
 import { Text, Button, Box, VStack, ScrollView } from "native-base";
 import Section from "./Section";
-const MainSection = ({ navigation }) => {
+const MainSection = () => {
   return (
     <VStack>
-      <Section navigation={navigation} />
-      <Section navigation={navigation} />
+      <Section />
+      <Section />
     </VStack>
   );
 };

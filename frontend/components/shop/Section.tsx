@@ -10,7 +10,7 @@ import {
 } from "native-base";
 import Product from "./Product";
 
-const Section = ({ navigation }) => {
+const Section = () => {
   return (
     <Box>
       <VStack>
@@ -28,7 +28,7 @@ const Section = ({ navigation }) => {
             paddingBottom={"10px"}
             paddingLeft={"8px"}
           >
-            <Product navigation={navigation} />
+            <Product />
           </HStack>
         </ScrollView>
       </VStack>

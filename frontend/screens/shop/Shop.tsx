@@ -3,11 +3,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "../../util/axios";
 import mainPage from "../../components/shop/mainPage";
 import Product from "./Product";
 import * as React from "react";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 const Shop = () => {
   async function getProduct() {
@@ -21,7 +21,7 @@ const Shop = () => {
 
   const [productos, setProductos] = useState([]);
 
-  const Stack = createNativeStackNavigator();
+  const Stack = createSharedElementStackNavigator();
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
