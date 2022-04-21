@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Description from "../../components/Product/Description";
 import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
+import { Ionicons } from "@expo/vector-icons";
 
 const Product = () => {
   return (
