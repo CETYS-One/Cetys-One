@@ -1,22 +1,20 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Formik } from "formik";
 import {
   Box,
-  Text,
-  VStack,
-  FormControl,
-  Input,
   Button,
   ChevronLeftIcon,
+  FormControl,
+  Input,
+  Text,
+  VStack,
 } from "native-base";
 import { TouchableOpacity } from "react-native";
-import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
+import { RootStackParams } from "../Pages";
 const Password = () => {
-  const navigation =
-  useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   return (
     <Box>
       <Box h="28%" background={"amber.500"}>
@@ -32,10 +30,10 @@ const Password = () => {
       <Box h="80%" background={"white"} borderTopRadius={20} mt={-4}>
         <Box w={"90%"} mx={"auto"} mt={10}>
           <Text fontWeight={"700"} fontSize={"15px"}>
-            Si has olvidado tu contraseña no te preocupes, 
-            sigue estos pasos para recuperar tu cuenta 
+            Si has olvidado tu contraseña no te preocupes, sigue estos pasos
+            para recuperar tu cuenta
           </Text>
-          
+
           <Box mt={10}>
             <Formik
               initialValues={{ id: "", password: "" }}
@@ -68,9 +66,10 @@ const Password = () => {
                   <FormControl
                     isInvalid={touched.password && !!errors.password}
                   >
-                    <FormControl.Label>Correo asociado a la cuenta</FormControl.Label>
+                    <FormControl.Label>
+                      Correo asociado a la cuenta
+                    </FormControl.Label>
                     <Input
-                     
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("id")}
                       value={values.password}
@@ -89,7 +88,6 @@ const Password = () => {
                   >
                     Enviar
                   </Button>
-                 
                 </>
               )}
             </Formik>
@@ -97,7 +95,6 @@ const Password = () => {
         </Box>
       </Box>
     </Box>
-  
   );
 };
 

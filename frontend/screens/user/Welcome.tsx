@@ -1,23 +1,19 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import {
+  AspectRatio,
   Box,
+  Button,
+  Center,
+  Image,
   Text,
   VStack,
-  FormControl,
-  Input,
-  Button,
-  Image,
-  Center,
-  Spacer,
-  AspectRatio,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParams } from "../Pages";
 
 const Welcome = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   return (
     <SafeAreaView
       style={

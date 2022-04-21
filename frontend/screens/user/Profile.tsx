@@ -1,26 +1,24 @@
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Formik } from "formik";
 import {
-  Button,
   Box,
-  VStack,
-  Text,
+  Button,
   ChevronLeftIcon,
-  ScrollView,
   FormControl,
   Input,
+  ScrollView,
+  Text,
+  VStack,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { RootStackParams } from "../Pages";
-import { Formik } from "formik";
+import { TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Yup from "yup";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RootStackParams } from "../Pages";
 
 const Profile = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   return (
     <SafeAreaView>

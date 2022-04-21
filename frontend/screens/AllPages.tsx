@@ -1,10 +1,7 @@
-import { SafeAreaView, TouchableOpacity } from "react-native";
-import { Box, Text, Center, ScrollView } from "native-base";
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Box, Center, ScrollView, Text } from "native-base";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import { RootStackParams } from "./Pages";
 
 const pages: string[] = [
@@ -25,8 +22,7 @@ const pages: string[] = [
 ];
 
 const AllPages = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   return (
     <SafeAreaView>

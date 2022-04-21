@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, Box, Image, Flex } from "native-base";
 import { TouchableOpacity } from "react-native";
+import { RootStackParams } from "../../screens/Pages";
 const Product = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   return (
     <Flex shadow={"1"} bgColor={"gray.50"} borderRadius={"10px"}>
-      <TouchableOpacity onPress={() => navigation.navigate("product")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Product")}>
         <Image
           height={"120px"}
           width={"120px"}

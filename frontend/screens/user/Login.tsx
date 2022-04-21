@@ -1,24 +1,21 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Formik } from "formik";
 import {
   Box,
-  Text,
-  VStack,
+  Button,
+  ChevronLeftIcon,
   FormControl,
   Input,
-  Button,
-  IconButton,
-  ChevronLeftIcon,
+  Text,
+  VStack,
 } from "native-base";
 import { TouchableOpacity } from "react-native";
-import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
+import { RootStackParams } from "../Pages";
 
 const Login = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   return (
     <Box>

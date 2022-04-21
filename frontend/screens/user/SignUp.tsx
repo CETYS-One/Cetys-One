@@ -1,28 +1,23 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Formik } from "formik";
-import { MotiView } from "moti";
 import {
   Box,
-  Text,
-  VStack,
+  Button,
+  ChevronLeftIcon,
   FormControl,
   Input,
-  Button,
-  IconButton,
-  ChevronLeftIcon,
   ScrollView,
+  Text,
+  VStack,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { RootStackParams } from "../Pages";
-import * as Yup from "yup";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TouchableOpacity } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as Yup from "yup";
+import { RootStackParams } from "../Pages";
 
 const SignUp = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   return (
     <Box>
