@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { AnimatePresence, MotiView } from "moti";
 import {
   Box,
@@ -45,8 +45,7 @@ const Header = (props: PropTypes) => {
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
