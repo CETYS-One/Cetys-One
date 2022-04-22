@@ -6,7 +6,7 @@ import MainSection from "./MainSection";
 
 const mainPage = () => {
   return (
-    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
+    <SafeAreaView>
       <Header title={"Tienda"} searchBar container={false}>
         <MainSection />
       </Header>

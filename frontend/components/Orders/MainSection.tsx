@@ -13,11 +13,9 @@ import Order from "./Order";
 const MainSection = () => {
   return (
     <Flex w={"100%"}>
-      <Center>
-        <VStack>
-          <Order />
-        </VStack>
-      </Center>
+      <VStack>
+        <Order />
+      </VStack>
     </Flex>
   );
 };

@@ -60,7 +60,7 @@ const Header = (props: PropTypes) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       enabled={false}
     >
-      <Box height={"18%"} background={"amber.500"}>
+      <Box height={"18%"} bgColor={"amber.400"}>
         <VStack w={"90%"} margin={"auto"}>
           <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
