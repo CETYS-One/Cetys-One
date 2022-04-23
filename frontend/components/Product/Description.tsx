@@ -1,4 +1,5 @@
 import { Text, Flex, VStack, Box } from "native-base";
+import { SharedElement } from "react-navigation-shared-element";
 
 const Description = () => {
   return (

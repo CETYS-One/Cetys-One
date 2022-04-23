@@ -20,22 +20,20 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const AllProducts = () => {
   return (
-    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header title="Mis Productos" searchBar container={false}>
-        <SimpleGrid columns={3} space={2} px={2}>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-        </SimpleGrid>
-      </Header>
-    </SafeAreaView>
+    <Header title="Mis Productos" searchBar container={false}>
+      <SimpleGrid columns={3} space={2} px={2}>
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+      </SimpleGrid>
+    </Header>
   );
 };
 

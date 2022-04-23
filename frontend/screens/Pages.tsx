@@ -16,6 +16,8 @@ import Welcome from "./user/Welcome";
 import AllPages from "./AllPages";
 import Categories from "./seller/Categories";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { enableScreens } from "react-native-screens";
+enableScreens(false);
 
 export type RootStackParams = {
   AllPages: any;
@@ -42,7 +44,9 @@ const Pages = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="AllPages"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          headerShown: false,
+        }}
       >
         <Stack.Screen name="AllPages" component={AllPages} />
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -54,7 +58,9 @@ const Pages = () => {
         <Stack.Screen
           name="Product"
           component={Product}
-          sharedElements={() => ["imagenProducto"]}
+          sharedElementsConfig={() => {
+            return ["hola"];
+          }}
         />
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />

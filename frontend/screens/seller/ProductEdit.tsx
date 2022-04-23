@@ -1,39 +1,30 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Form, Formik } from "formik";
-import { MotiView } from "moti";
+import { StackNavigationProp } from "@react-navigation/stack";
+import * as ImagePicker from "expo-image-picker";
+import { Formik } from "formik";
 import {
   Box,
-  Text,
-  VStack,
-  FormControl,
-  Input,
   Button,
-  IconButton,
-  ChevronLeftIcon,
-  ScrollView,
-  TextArea,
+  FormControl,
   HStack,
+  Input,
+  ScrollView,
   Select,
+  Text,
+  TextArea,
 } from "native-base";
-import { RootStackParams } from "../Pages";
-import * as Yup from "yup";
+import { useState } from "react";
+import { Platform, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Platform, TouchableOpacity, Animated, Dimensions } from "react-native";
-import {
-  SafeAreaView,
-  withSafeAreaInsets,
-} from "react-native-safe-area-context";
-import { useRef, useState } from "react";
-import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
-import * as ImagePicker from "expo-image-picker";
-import Header from "../../components/common/Header";
-import { uploadPhoto } from "../../util/uploadPhoto";
-import { ICategories, UploadFile } from "../../types/strapi";
 import Toast from "react-native-toast-message";
-import axios from "../../util/axios";
 import { useQuery } from "react-query";
+import * as Yup from "yup";
+import Header from "../../components/common/Header";
+import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
+import { ICategories, UploadFile } from "../../types/strapi";
+import axios from "../../util/axios";
+import { uploadPhoto } from "../../util/uploadPhoto";
+import { RootStackParams } from "../Pages";
 
 interface FormTypes {
   name: string;
@@ -52,8 +43,7 @@ const formInitialValues: FormTypes = {
 };
 
 const ProductEdit = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery(
     "categories",
@@ -129,162 +119,156 @@ const ProductEdit = () => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header title="Agregar Producto" isLoading={isLoadingCategories}>
-        <Text fontWeight={"700"} fontSize={"23px"}>
-          Manos a la obra!
-        </Text>
-        <Text fontWeight={"400"} fontSize={"13"} color={"gray.600"}>
-          Haz las modificaciones que sean necesarias, nosotros nos encargaremos
-          del resto
-        </Text>
-        <Box h={"700px"} mt={10}>
-          <Formik
-            initialValues={formInitialValues}
-            onSubmit={handleSubmit}
-            validationSchema={Yup.object({
-              name: Yup.string().required("El nombre es requerido"),
-              description: Yup.string().required("La descripcion es requerida"),
-              price: Yup.number().moreThan(0, "El precio debe ser mayor a 0"),
-              categories: Yup.string().required("La categoria es requerida"),
-            })}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-              setFieldValue,
-            }) => (
-              // @ts-ignore
-              <KeyboardAwareScrollView
-                extraScrollHeight={100}
-                enableOnAndroid
-                keyboardShouldPersistTaps="handled"
-              >
-                <ScrollView showsVerticalScrollIndicator={true}>
-                  <FormControl isInvalid={touched.name && !!errors.name}>
-                    <FormControl.Label>Nombre *</FormControl.Label>
-                    <Input
-                      onChangeText={handleChange("name")}
-                      onBlur={handleBlur("name")}
-                      value={values.name}
-                    />
-                    <FormControl.ErrorMessage>
-                      {errors.name}
-                    </FormControl.ErrorMessage>
-                  </FormControl>
-                  <FormControl
+    <Header title="Agregar Producto" isLoading={isLoadingCategories}>
+      <Text fontWeight={"700"} fontSize={"23px"}>
+        Manos a la obra!
+      </Text>
+      <Text fontWeight={"400"} fontSize={"13"} color={"gray.600"}>
+        Haz las modificaciones que sean necesarias, nosotros nos encargaremos
+        del resto
+      </Text>
+      <Box h={"700px"} mt={10}>
+        <Formik
+          initialValues={formInitialValues}
+          onSubmit={handleSubmit}
+          validationSchema={Yup.object({
+            name: Yup.string().required("El nombre es requerido"),
+            description: Yup.string().required("La descripcion es requerida"),
+            price: Yup.number().moreThan(0, "El precio debe ser mayor a 0"),
+            categories: Yup.string().required("La categoria es requerida"),
+          })}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            setFieldValue,
+          }) => (
+            // @ts-ignore
+            <KeyboardAwareScrollView
+              extraScrollHeight={100}
+              enableOnAndroid
+              keyboardShouldPersistTaps="handled"
+            >
+              <ScrollView showsVerticalScrollIndicator={true}>
+                <FormControl isInvalid={touched.name && !!errors.name}>
+                  <FormControl.Label>Nombre *</FormControl.Label>
+                  <Input
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                  />
+                  <FormControl.ErrorMessage>
+                    {errors.name}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl
+                  isInvalid={touched.description && !!errors.description}
+                >
+                  <FormControl.Label>Descripcion *</FormControl.Label>
+                  <TextArea
+                    onChangeText={handleChange("description")}
+                    onBlur={handleBlur("description")}
                     isInvalid={touched.description && !!errors.description}
+                    value={values.description}
+                  />
+                  <FormControl.ErrorMessage>
+                    {errors.description}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={touched.price && !!errors.price}>
+                  <FormControl.Label>Precio (MXN)*</FormControl.Label>
+                  <Input
+                    keyboardType={
+                      Platform.OS === "android" ? "numeric" : "number-pad"
+                    }
+                    onChangeText={handleChange("price")}
+                    onBlur={handleBlur("price")}
+                    value={`${values.price}`}
+                  />
+                  <FormControl.ErrorMessage>
+                    {errors.price}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl
+                  isInvalid={touched.categories && !!errors.categories}
+                >
+                  <FormControl.Label>Categoria</FormControl.Label>
+                  <Select
+                    isDisabled={isLoadingCategories}
+                    selectedValue={values.categories}
+                    onValueChange={(value) =>
+                      setFieldValue("categories", value)
+                    }
                   >
-                    <FormControl.Label>Descripcion *</FormControl.Label>
-                    <TextArea
-                      onChangeText={handleChange("description")}
-                      onBlur={handleBlur("description")}
-                      isInvalid={touched.description && !!errors.description}
-                      value={values.description}
-                    />
-                    <FormControl.ErrorMessage>
-                      {errors.description}
-                    </FormControl.ErrorMessage>
-                  </FormControl>
-                  <FormControl isInvalid={touched.price && !!errors.price}>
-                    <FormControl.Label>Precio (MXN)*</FormControl.Label>
-                    <Input
-                      keyboardType={
-                        Platform.OS === "android" ? "numeric" : "number-pad"
-                      }
-                      type="number"
-                      onChangeText={handleChange("price")}
-                      onBlur={handleBlur("price")}
-                      value={`${values.price}`}
-                    />
-                    <FormControl.ErrorMessage>
-                      {errors.price}
-                    </FormControl.ErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={touched.categories && !!errors.categories}
+                    {categories &&
+                      categories.map((category) => (
+                        <Select.Item
+                          value={category._id}
+                          label={category.name}
+                          key={category._id}
+                        />
+                      ))}
+                  </Select>
+                  <FormControl.ErrorMessage>
+                    {errors.categories}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl>
+                  <FormControl.Label>Imagenes</FormControl.Label>
+                  <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                   >
-                    <FormControl.Label>Categoria</FormControl.Label>
-                    <Select
-                      isDisabled={isLoadingCategories}
-                      selectedValue={values.categories}
-                      onValueChange={(value) =>
-                        setFieldValue("categories", value)
-                      }
-                    >
-                      {categories &&
-                        categories.map((category) => (
-                          <Select.Item
-                            value={category._id}
-                            label={category.name}
-                            key={category._id}
-                          />
-                        ))}
-                    </Select>
-                    <FormControl.ErrorMessage>
-                      {errors.categories}
-                    </FormControl.ErrorMessage>
-                  </FormControl>
-                  <FormControl>
-                    <FormControl.Label>Imagenes</FormControl.Label>
-                    <ScrollView
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                    >
-                      <HStack space={4}>
-                        {values.images.map((image) => (
-                          <ImageThumbnail
-                            key={image.uri}
-                            src={image.uri}
-                            onImageUpload={(result) =>
-                              setFieldValue("images", [
-                                ...values.images,
-                                result,
-                              ])
-                            }
-                            deleteImage={(deletedId) =>
-                              setFieldValue(
-                                "images",
-                                values.images.filter(
-                                  (image) => image.uri !== deletedId
-                                )
-                              )
-                            }
-                          />
-                        ))}
+                    <HStack space={4}>
+                      {values.images.map((image) => (
                         <ImageThumbnail
+                          key={image.uri}
+                          src={image.uri}
                           onImageUpload={(result) =>
                             setFieldValue("images", [...values.images, result])
                           }
+                          deleteImage={(deletedId) =>
+                            setFieldValue(
+                              "images",
+                              values.images.filter(
+                                (image) => image.uri !== deletedId
+                              )
+                            )
+                          }
                         />
-                      </HStack>
-                    </ScrollView>
-                    <FormControl.Label>{photosUploaded}</FormControl.Label>
-                  </FormControl>
-                  <TouchableOpacity>
-                    <Button
-                      type="submit"
-                      onPress={() => handleSubmit()}
-                      borderRadius="10"
-                      backgroundColor={"amber.500"}
-                      mt={10}
-                      py={4}
-                      isLoading={isSubmitting}
-                    >
-                      Crear Producto
-                    </Button>
-                  </TouchableOpacity>
-                </ScrollView>
-              </KeyboardAwareScrollView>
-            )}
-          </Formik>
-        </Box>
-      </Header>
-    </SafeAreaView>
+                      ))}
+                      <ImageThumbnail
+                        onImageUpload={(result) =>
+                          setFieldValue("images", [...values.images, result])
+                        }
+                      />
+                    </HStack>
+                  </ScrollView>
+                  <FormControl.Label>{photosUploaded}</FormControl.Label>
+                </FormControl>
+                <TouchableOpacity>
+                  <Button
+                    type="submit"
+                    onPress={() => handleSubmit()}
+                    borderRadius="10"
+                    backgroundColor={"amber.500"}
+                    mt={10}
+                    py={4}
+                    isLoading={isSubmitting}
+                  >
+                    Crear Producto
+                  </Button>
+                </TouchableOpacity>
+              </ScrollView>
+            </KeyboardAwareScrollView>
+          )}
+        </Formik>
+      </Box>
+    </Header>
   );
 };
 export default ProductEdit;

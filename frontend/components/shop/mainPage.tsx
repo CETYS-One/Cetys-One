@@ -4,14 +4,12 @@ import { useEffect, useState } from "react";
 import Header from "../common/Header";
 import MainSection from "./MainSection";
 
-const mainPage = () => {
+const MainPage = () => {
   return (
-    <SafeAreaView>
-      <Header title={"Tienda"} searchBar container={false}>
-        <MainSection />
-      </Header>
-    </SafeAreaView>
+    <Header title={"Tienda"} searchBar container={false}>
+      <MainSection />
+    </Header>
   );
 };
 
-export default mainPage;
+export default MainPage;

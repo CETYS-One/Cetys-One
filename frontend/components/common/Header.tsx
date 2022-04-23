@@ -17,8 +17,10 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { ColorType } from "native-base/lib/typescript/components/types";
 import React, { ReactNode, useState } from "react";
 import { Platform, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParams } from "../../screens/Pages";
 import { AnimatedBox } from "./Animated";
 import WhiteInput from "./WhiteInput";
@@ -29,6 +31,7 @@ interface PropTypes {
   searchBar?: boolean;
   container?: boolean;
   isLoading?: boolean;
+  bgColor?: string;
   onSearch?: (value: string) => void;
 }
 
@@ -40,6 +43,7 @@ const Header = (props: PropTypes) => {
     container = true,
     isLoading = false,
     onSearch,
+    bgColor = "#f59e0b",
   } = props;
 
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
@@ -56,80 +60,87 @@ const Header = (props: PropTypes) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      enabled={false}
-    >
-      <Box height={"18%"} bgColor={"amber.400"}>
-        <VStack w={"90%"} margin={"auto"}>
-          <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <ChevronLeftIcon color="white" size={5} />
-            </TouchableOpacity>
-            <HStack mt={2}>
-              <Text fontWeight={"700"} fontSize={"30px"} color="white">
-                {title}
-              </Text>
-              {isLoading && <Spinner color={"white"} ml={5} />}
-              <Spacer />
-              {searchBar && (
-                <Center>
-                  <Pressable pl={5} py={4} onPress={handleOpenSearchbar}>
-                    <SearchIcon color="white" size="5" />
-                  </Pressable>
-                </Center>
-              )}
-            </HStack>
-          </MotiView>
-          <AnimatePresence>
-            {isSearchbarOpen && (
-              <MotiView
-                from={{ translateX: -400 }}
-                animate={{ translateX: 0 }}
-                exit={{ translateX: -400 }}
-                style={{ position: "absolute", bottom: -40, right: 0, left: 0 }}
-              >
-                <FormControl w="100%" mt={2}>
-                  <WhiteInput
-                    onChange={(e) => setSearchQuery(e.nativeEvent.text)}
-                    InputRightElement={
-                      <Button
-                        rounded={"none"}
-                        h={"100%"}
-                        colorScheme={"amber"}
-                        onPress={handleSearch}
-                      >
-                        Buscar
-                      </Button>
-                    }
-                  />
-                </FormControl>
-              </MotiView>
-            )}
-          </AnimatePresence>
-        </VStack>
-      </Box>
-
-      <AnimatedBox
-        background={"white"}
-        borderTopRadius={20}
-        mt={-4}
-        height="85%"
-        animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
+    <SafeAreaView style={{ backgroundColor: bgColor }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        enabled={false}
       >
-        <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
-          {container ? (
-            <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
-              {children}
-            </Box>
-          ) : (
-            <Box mt={10} mb={20} background={"white"}>
-              {children}
-            </Box>
-          )}
-        </ScrollView>
-      </AnimatedBox>
-    </KeyboardAvoidingView>
+        <Box height={"18%"} style={{ backgroundColor: bgColor }}>
+          <VStack w={"90%"} margin={"auto"}>
+            <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <ChevronLeftIcon color="white" size={5} />
+              </TouchableOpacity>
+              <HStack mt={2}>
+                <Text fontWeight={"700"} fontSize={"30px"} color="white">
+                  {title}
+                </Text>
+                {isLoading && <Spinner color={"white"} ml={5} />}
+                <Spacer />
+                {searchBar && (
+                  <Center>
+                    <Pressable pl={5} py={4} onPress={handleOpenSearchbar}>
+                      <SearchIcon color="white" size="5" />
+                    </Pressable>
+                  </Center>
+                )}
+              </HStack>
+            </MotiView>
+            <AnimatePresence>
+              {isSearchbarOpen && (
+                <MotiView
+                  from={{ translateX: -400 }}
+                  animate={{ translateX: 0 }}
+                  exit={{ translateX: -400 }}
+                  style={{
+                    position: "absolute",
+                    bottom: -40,
+                    right: 0,
+                    left: 0,
+                  }}
+                >
+                  <FormControl w="100%" mt={2}>
+                    <WhiteInput
+                      onChange={(e) => setSearchQuery(e.nativeEvent.text)}
+                      InputRightElement={
+                        <Button
+                          rounded={"none"}
+                          h={"100%"}
+                          colorScheme={"amber"}
+                          onPress={handleSearch}
+                        >
+                          Buscar
+                        </Button>
+                      }
+                    />
+                  </FormControl>
+                </MotiView>
+              )}
+            </AnimatePresence>
+          </VStack>
+        </Box>
+
+        <AnimatedBox
+          background={"white"}
+          borderTopRadius={20}
+          mt={-4}
+          height="85%"
+          animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
+        >
+          <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
+            {container ? (
+              <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
+                {children}
+              </Box>
+            ) : (
+              <Box mt={10} mb={20} background={"white"}>
+                {children}
+              </Box>
+            )}
+          </ScrollView>
+        </AnimatedBox>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

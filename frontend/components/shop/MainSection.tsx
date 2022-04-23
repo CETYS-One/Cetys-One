@@ -4,7 +4,6 @@ const MainSection = () => {
   return (
     <VStack>
       <Section />
-      <Section />
     </VStack>
   );
 };

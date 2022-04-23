@@ -5,11 +5,9 @@ import MainSection from "../../components/Orders/MainSection";
 
 const Orders = () => {
   return (
-    <SafeAreaView>
-      <Header title={"Ordenes"}>
-        <MainSection />
-      </Header>
-    </SafeAreaView>
+    <Header title={"Ordenes"}>
+      <MainSection />
+    </Header>
   );
 };
 

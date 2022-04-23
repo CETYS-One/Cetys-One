@@ -8,6 +8,7 @@ import {
   AddIcon,
   FormControl,
   Spinner,
+  Text,
 } from "native-base";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,7 +16,12 @@ import Toast from "react-native-toast-message";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Header from "../../components/common/Header";
 import { ICategories } from "../../types/strapi";
+import { View } from "react-native";
 import axios from "../../util/axios";
+import { AnimatedBox, AnimatedText } from "../../components/common/Animated";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { AnimatePresence } from "moti";
+import { Layout } from "react-native-reanimated";
 
 const Categories = () => {
   const { values, handleChange, handleBlur, resetForm, submitForm } = useFormik(
@@ -62,64 +68,110 @@ const Categories = () => {
     }
   );
 
-  const renderRightView = (onDeleteHandler: any) => (
-    <Box w={90} alignContent={"center"} m={0}>
-      <Button colorScheme={"red"}></Button>
+  const deleteCategory = useMutation(
+    async (id: string) => await axios.delete(`/categories/${id}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("categories");
+        Toast.show({
+          type: "success",
+          text1: "Exito!",
+          text2: "Categoria eliminada correctamente",
+        });
+      },
+      onError: () => {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Hubo un error eliminando la categoria",
+        });
+      },
+    }
+  );
+
+  const renderRightView = (onDelete: () => void, isLoading: boolean) => (
+    <Box
+      bg={"red.500"}
+      alignItems={"flex-end"}
+      justifyContent={"center"}
+      roundedRight={4}
+    >
+      <TouchableOpacity onPress={() => onDelete()}>
+        <Box w={"100px"}>
+          {isLoading ? (
+            <Spinner color={"white"} />
+          ) : (
+            <Text textAlign={"center"} color={"white"} px={4}>
+              Eliminar
+            </Text>
+          )}
+        </Box>
+      </TouchableOpacity>
     </Box>
   );
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#f59e0b" }}>
-      <Header title="Categorias" isLoading={isLoadingCategories}>
-        <VStack space={2}>
-          <FormControl mb={4}>
-            <FormControl.Label>Nombre de la categoria</FormControl.Label>
-            <Input
-              onChangeText={handleChange("name")}
-              onBlur={handleBlur("name")}
-              value={values.name}
-              InputRightElement={
-                addCategory.isLoading ? (
-                  <Spinner color={"amber.500"} mr={2} />
-                ) : (
-                  <IconButton
-                    onPress={submitForm}
-                    icon={<AddIcon color={"amber.500"} />}
-                  />
-                )
-              }
-            />
-          </FormControl>
+    <Header title="Categorias" isLoading={isLoadingCategories}>
+      <VStack space={2}>
+        <FormControl mb={4}>
+          <FormControl.Label>Nombre de la categoria</FormControl.Label>
+          <Input
+            onChangeText={handleChange("name")}
+            onBlur={handleBlur("name")}
+            value={values.name}
+            InputRightElement={
+              addCategory.isLoading ? (
+                <Spinner color={"amber.500"} mr={2} />
+              ) : (
+                <IconButton
+                  onPress={submitForm}
+                  icon={<AddIcon color={"amber.500"} />}
+                />
+              )
+            }
+          />
+        </FormControl>
 
+        <AnimatePresence>
           {categories &&
             categories.map((category) => (
-              <Swipeable
-                renderRightActions={(progress, dragX) =>
-                  renderRightView(() => {})
-                }
-                // onSwipeableOpen={(direction) => console.log(direction)}
-                rightOpenVale={-100}
+              <AnimatedBox
                 key={category._id}
+                from={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                layout={Layout.springify()}
+                mb={2}
               >
-                <Box
-                  w={"100%"}
-                  py={4}
-                  px={2}
-                  rounded={4}
-                  background={"gray.50"}
-                  borderLeftColor={"amber.500"}
-                  borderLeftWidth={4}
+                <Swipeable
+                  renderRightActions={() =>
+                    renderRightView(
+                      () => deleteCategory.mutate(category._id),
+                      deleteCategory.isLoading
+                    )
+                  }
+                  key={category._id}
                 >
-                  {category.name}
-                </Box>
-              </Swipeable>
+                  <Box
+                    w={"100%"}
+                    py={4}
+                    px={2}
+                    rounded={4}
+                    background={"gray.50"}
+                    borderLeftColor={"amber.500"}
+                    borderLeftWidth={4}
+                  >
+                    {category.name}
+                  </Box>
+                </Swipeable>
+              </AnimatedBox>
             ))}
-          {/* <Box w={"100%"} py={4} px={2} rounded={4} background={"gray.100"}>
+        </AnimatePresence>
+        {/* <Box w={"100%"} py={4} px={2} rounded={4} background={"gray.100"}>
             Hamburguesas
             </Box> */}
-        </VStack>
-      </Header>
-    </SafeAreaView>
+      </VStack>
+    </Header>
   );
 };
 export default Categories;
