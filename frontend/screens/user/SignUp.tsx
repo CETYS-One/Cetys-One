@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import {
   Box,
   Button,
@@ -13,12 +13,49 @@ import {
 } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useMutation } from "react-query";
 import * as Yup from "yup";
 import Header from "../../components/common/Header";
 import { RootStackParams } from "../Pages";
+import axios, { getErrorMessage } from "../../util/axios";
+import Toast from "react-native-toast-message";
+import { AxiosError } from "axios";
 
 const SignUp = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+
+  const handleSignUp = useMutation(
+    async (values: {
+      id: string;
+      name: string;
+      email: string;
+      password: string;
+    }) =>
+      await axios.post("/auth/local/register", {
+        username: values.id,
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      }),
+    {
+      onSuccess: () => {
+        Toast.show({
+          type: "success",
+          text1: "Exito!",
+          text2: "Usuario registrado correctamente",
+        });
+        navigation.navigate("Login");
+      },
+      onError: (error: AxiosError) => {
+        const message = getErrorMessage(error);
+        Toast.show({
+          type: "error",
+          text1: "Erorr!",
+          text2: message ?? "Hubo un error...",
+        });
+      },
+    }
+  );
 
   return (
     <Header title="Registrarse">
@@ -32,7 +69,7 @@ const SignUp = () => {
         <Box h={"600px"} mt={10}>
           <Formik
             initialValues={{ id: "", name: "", email: "", password: "" }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={(values) => handleSignUp.mutate(values)}
             validationSchema={Yup.object({
               id: Yup.string().required("La matricula es requerida."),
               name: Yup.string().required("El nombre es requerida."),
@@ -82,7 +119,6 @@ const SignUp = () => {
                   <FormControl isInvalid={touched.email && !!errors.email}>
                     <FormControl.Label>Correo Electronico *</FormControl.Label>
                     <Input
-                      type="email"
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
                       value={values.email}
@@ -112,6 +148,7 @@ const SignUp = () => {
                     backgroundColor={"amber.500"}
                     mt={10}
                     py={4}
+                    isLoading={handleSignUp.isLoading}
                   >
                     Crear Cuenta
                   </Button>
