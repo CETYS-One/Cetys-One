@@ -1,7 +1,6 @@
 import {
   Box,
   Text,
-  Image,
   Flex,
   Center,
   VStack,
@@ -11,7 +10,7 @@ import {
   ScrollView,
   ChevronLeftIcon,
 } from "native-base";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Description from "../../components/Product/Description";
 import Cantidad from "../../components/Product/Cantidad";
@@ -28,22 +27,13 @@ const Product = () => {
       showsVerticalScrollIndicator={false}
     >
       <Flex w={"100%"}>
-        <TouchableOpacity
-          style={{
-            alignItems: "center",
-            padding: 20,
-          }}
-        >
-          <ChevronLeftIcon color="black" size={5} position={"absolute"} />
-        </TouchableOpacity>
+        <ChevronLeftIcon color="black" size={5} position={"absolute"} />
         <SharedElement id={"imagenProducto"}>
           <Image
-            w={"100%"}
-            h={"400px"}
             source={{
-              uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
+              uri: "https://cdn.colombia.com/gastronomia/2011/08/26/burritos-de-carne-3657.jpg",
             }}
-            alt="hola"
+            style={{ width: "100%", height: 400 }}
           />
         </SharedElement>
       </Flex>
@@ -60,7 +50,6 @@ const Product = () => {
         py={"20px"}
       >
         <VStack space={6} alignItems={"center"}>
-          {/* <Text>hola</Text> */}
           <Description />
           <Cantidad />
           <Comentario />

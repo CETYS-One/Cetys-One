@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, Box, Image, Flex } from "native-base";
-import { Share, TouchableOpacity } from "react-native";
+import { Text, Box, Flex } from "native-base";
+import { Share, TouchableOpacity, Image } from "react-native";
 import { RootStackParams } from "../../screens/Pages";
 import { SharedElement } from "react-navigation-shared-element";
 const Product = () => {
@@ -11,13 +11,10 @@ const Product = () => {
       <TouchableOpacity onPress={() => navigation.navigate("Product")}>
         <SharedElement id={"imagenProducto"}>
           <Image
-            height={"120px"}
-            width={"120px"}
             source={{
-              uri: "https://barradeideas.com/wp-content/uploads/2019/09/fast-food.jpg",
+              uri: "https://cdn.colombia.com/gastronomia/2011/08/26/burritos-de-carne-3657.jpg",
             }}
-            alt="hola"
-            borderRadius={"10px"}
+            style={{ width: "100%", height: 100, borderRadius: 10 }}
           />
         </SharedElement>
 
