@@ -17,7 +17,6 @@ export type IAuthNav = {
   Honey: any;
 };
 
-const Stack = createSharedElementStackNavigator();
 const ShopNavs = () => {
   const { handleStoreChange } = useContext(ShopContext);
 
@@ -29,8 +28,15 @@ const ShopNavs = () => {
       key: "Honey",
       title: "Honey Wellness",
       color: "#fbbf24",
+      isLoading: false,
+      alias: "Honey",
     },
-    { key: "Cafeteria", title: "Cafeteria CETYS", color: "#f59e0b" },
+    {
+      key: "Cafeteria",
+      title: "Cafeteria CETYS",
+      color: "#f59e0b",
+      isLoading: false,
+    },
     { key: "DVolada", title: "D'Volada", color: "#16a34a" },
   ]);
 
@@ -39,9 +45,9 @@ const ShopNavs = () => {
   }, []);
 
   const handleShopChange = async (newIndex: number) => {
-    setIsLoading(true);
-
+    if (isLoading) return;
     setIndex(newIndex);
+    setIsLoading(true);
 
     const key = routes[newIndex].key;
     if (key !== "DVolada" && key !== "Cafeteria" && key !== "Honey") return;

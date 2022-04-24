@@ -8,7 +8,7 @@ import OrderHistory from "../shop/OrderHistory";
 import Product from "../shop/Product";
 import Profile from "../user/Profile";
 import ShopNavs from "./ShopsNav";
-enableScreens(false);
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +18,8 @@ const ShopNav = () => {
   //   const res = await axios.get("/products");
   //   return await res.data;
   // });
+
+  const Stack = createNativeStackNavigator();
   return (
     <>
       <Stack.Navigator

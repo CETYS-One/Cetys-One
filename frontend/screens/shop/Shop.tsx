@@ -1,33 +1,8 @@
-import { Box, HStack, Text } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useEffect, useState } from "react";
-import Header from "../../components/common/Header";
-import {
-  NavigationContainer,
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import axios from "../../util/axios";
-import MainPage from "../../components/shop/MainPage";
-import Product from "./Product";
-import { Image } from "react-native";
 import * as React from "react";
-import {
-  createSharedElementStackNavigator,
-  SharedElement,
-} from "react-navigation-shared-element";
-import { TouchableOpacity } from "react-native";
-import MainSection from "../../components/shop/MainSection";
-import { ShopContext } from "../../context/ShopProvider";
 import { AnimatedBox } from "../../components/common/Animated";
+import Header from "../../components/common/Header";
+import MainSection from "../../components/shop/MainSection";
 import ShopSplash from "./ShopSplash";
-import { AnimatePresence } from "moti";
-//@ts-ignore
-import AnimatedLoader from "react-native-animated-loader";
-import LoadingSplash from "../LoadingSlapsh";
-import { useQuery } from "react-query";
-import { getAxios } from "../../hooks/useAxios";
 
 interface PropTypes {
   isLoading: boolean;
@@ -58,4 +33,4 @@ const Shop = (props: PropTypes) => {
   );
 };
 
-export default Shop;
+export default React.memo(Shop);

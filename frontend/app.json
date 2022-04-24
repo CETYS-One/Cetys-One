@@ -26,6 +26,7 @@
         "backgroundColor": "#ffffff"
       }
     },
+    "jsEngine": "hermes",
     "web": {
       "favicon": "./assets/images/favicon.png"
     },

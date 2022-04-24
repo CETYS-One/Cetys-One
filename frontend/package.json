@@ -24,6 +24,7 @@
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/material-bottom-tabs": "^5.x",
     "@react-navigation/native": "^5.0.9",
+    "@react-navigation/native-stack": "5.x",
     "@react-navigation/stack": "^5.1.1",
     "@types/react-native-drawer": "^2.5.5",
     "axios": "^0.26.1",
