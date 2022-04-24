@@ -61,7 +61,7 @@ export const ShopContext = React.createContext<IShopContext>({
   handleSearch: () => {},
 });
 
-interface ProductsByCategory {
+export interface ProductsByCategory {
   [key: string]: IProduct[];
 }
 
@@ -78,17 +78,8 @@ const ShopProvider = ({ children }: PropTypes) => {
   const { user } = React.useContext(AuthContext);
   const axios = useAxios(user?.jwt);
 
-  const handleStoreChange = async (
-    store: "Honey" | "DVolada" | "Cafeteria"
-  ) => {
-    setIsLoading(true);
-
+  const handleStoreChange = (store: "Honey" | "DVolada" | "Cafeteria") => {
     setStoreData(StoreData[store]);
-    const res = await axios.get<ProductsByCategory>(
-      `/products/byCategories/${store}`
-    );
-    setProducts(res.data);
-    setIsLoading(false);
   };
 
   const setDrawerRef = (ref: Drawer | null) => {

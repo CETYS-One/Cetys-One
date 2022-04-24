@@ -17,7 +17,13 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React, { ReactNode, useContext, useState } from "react";
+import React, {
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ShopContext } from "../../context/ShopProvider";
@@ -46,6 +52,7 @@ const Header = (props: PropTypes) => {
     bgColor = "#f59e0b",
   } = props;
 
+  const inputRef = useRef(null);
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -54,6 +61,11 @@ const Header = (props: PropTypes) => {
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
   };
+
+  useEffect(() => {
+    if (!isSearchbarOpen) return;
+    inputRef.current?.focus();
+  }, [isSearchbarOpen]);
 
   const handleSearch = () => {
     onSearch && onSearch(searchQuery);
@@ -93,9 +105,10 @@ const Header = (props: PropTypes) => {
             <AnimatePresence>
               {isSearchbarOpen && (
                 <MotiView
-                  from={{ translateX: -400 }}
+                  from={{ translateX: -350 }}
                   animate={{ translateX: 0 }}
-                  exit={{ translateX: -400 }}
+                  exit={{ translateX: -350 }}
+                  transition={{ type: "timing", duration: 500 }}
                   style={{
                     position: "absolute",
                     bottom: -40,
@@ -105,6 +118,7 @@ const Header = (props: PropTypes) => {
                 >
                   <FormControl w="100%" mt={2} position={"relative"} zIndex={2}>
                     <WhiteInput
+                      ref={(ref) => (inputRef.current = ref)}
                       onChange={(e) => setSearchQuery(e.nativeEvent.text)}
                       InputRightElement={
                         <Button

@@ -7,6 +7,7 @@ import { SharedElement } from "react-navigation-shared-element";
 import { useContext } from "react";
 import { ShopContext } from "../../context/ShopProvider";
 import { IProduct } from "../../types/strapi";
+import { AnimatedBox } from "../common/Animated";
 
 interface PropTypes extends IProduct {}
 
@@ -23,12 +24,14 @@ const Product = (props: PropTypes) => {
 
   return (
     <>
-      <Box
+      <AnimatedBox
         w={120}
         h={200}
         shadow={"1"}
         bgColor={"gray.50"}
         borderRadius={"10px"}
+        from={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
         <TouchableOpacity
           onPress={() => navigation.navigate("Product", { product: props })}
@@ -61,7 +64,7 @@ const Product = (props: PropTypes) => {
         >
           ${price}
         </Text>
-      </Box>
+      </AnimatedBox>
     </>
   );
 };

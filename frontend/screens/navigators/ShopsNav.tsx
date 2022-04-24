@@ -19,10 +19,10 @@ export type IAuthNav = {
 
 const Stack = createSharedElementStackNavigator();
 const ShopNavs = () => {
-  const { handleStoreChange, isLoading } = useContext(ShopContext);
+  const { handleStoreChange } = useContext(ShopContext);
 
   const [index, setIndex] = useState(0);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [routes] = useState([
     {
@@ -38,8 +38,9 @@ const ShopNavs = () => {
     handleShopChange(0);
   }, []);
 
-  const handleShopChange = (newIndex: number) => {
-    // setIsLoading(true);
+  const handleShopChange = async (newIndex: number) => {
+    setIsLoading(true);
+
     setIndex(newIndex);
 
     const key = routes[newIndex].key;
@@ -47,9 +48,10 @@ const ShopNavs = () => {
 
     // Aqui es donde agarraria datos del servidor
     handleStoreChange(key);
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 1000);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 200);
   };
 
   return (
@@ -65,6 +67,7 @@ const ShopNavs = () => {
                 <Shop
                   isLoading={isLoading}
                   name={routes[0].title}
+                  alias={routes[0].key}
                   color={routes[0].color}
                 />
               );
@@ -73,6 +76,7 @@ const ShopNavs = () => {
                 <Shop
                   isLoading={isLoading}
                   name={routes[1].title}
+                  alias={routes[1].key}
                   color={routes[1].color}
                 />
               );
@@ -81,6 +85,7 @@ const ShopNavs = () => {
                 <Shop
                   isLoading={isLoading}
                   name={routes[2].title}
+                  alias={routes[2].key}
                   color={routes[2].color}
                 />
               );

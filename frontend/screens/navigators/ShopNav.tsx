@@ -23,6 +23,7 @@ const ShopNav = () => {
       <Stack.Navigator
         initialRouteName="Shop"
         screenOptions={{ headerShown: false }}
+        // defaultScreenOptions={{ gestureDirection: "vertical" }}
       >
         <Stack.Screen name="Shop" component={ShopNavs} />
         <Stack.Screen

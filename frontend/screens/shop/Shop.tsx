@@ -26,15 +26,18 @@ import { AnimatePresence } from "moti";
 //@ts-ignore
 import AnimatedLoader from "react-native-animated-loader";
 import LoadingSplash from "../LoadingSlapsh";
+import { useQuery } from "react-query";
+import { getAxios } from "../../hooks/useAxios";
 
 interface PropTypes {
   isLoading: boolean;
   name: string;
   color: string;
+  alias: string;
 }
 
 const Shop = (props: PropTypes) => {
-  const { isLoading, name, color } = props;
+  const { isLoading, name, color, alias } = props;
 
   return (
     <>
