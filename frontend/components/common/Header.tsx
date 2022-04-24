@@ -1,4 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AnimatePresence, MotiView } from "moti";
 import {
@@ -6,9 +7,12 @@ import {
   Button,
   Center,
   ChevronLeftIcon,
+  ChevronRightIcon,
   FormControl,
+  HamburgerIcon,
   HStack,
   KeyboardAvoidingView,
+  Menu,
   Pressable,
   ScrollView,
   SearchIcon,
@@ -18,12 +22,15 @@ import {
   VStack,
 } from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { UserNav } from "../../screens/navigators/UserNavigator";
 import { RootStackParams } from "../../screens/Pages";
 import { AnimatedBox } from "./Animated";
 import WhiteInput from "./WhiteInput";
+import { shadeColor } from "../../util/shadeColor";
+import { ShopContext } from "../../context/ShopProvider";
 
 interface PropTypes {
   title: string;
@@ -49,7 +56,7 @@ const Header = (props: PropTypes) => {
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<DrawerNavigationProp<UserNav>>();
 
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
@@ -58,6 +65,8 @@ const Header = (props: PropTypes) => {
   const handleSearch = () => {
     onSearch && onSearch(searchQuery);
   };
+
+  const { openDrawer, drawerRef } = useContext(ShopContext);
 
   return (
     <SafeAreaView style={{ backgroundColor: bgColor }}>
@@ -68,9 +77,11 @@ const Header = (props: PropTypes) => {
         <Box height={"18%"} style={{ backgroundColor: bgColor }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <ChevronLeftIcon color="white" size={5} />
-              </TouchableOpacity>
+              <HStack>
+                <TouchableOpacity onPress={() => drawerRef?.current?.open()}>
+                  <HamburgerIcon color="white" size={5} />
+                </TouchableOpacity>
+              </HStack>
               <HStack mt={2}>
                 <Text fontWeight={"700"} fontSize={"30px"} color="white">
                   {title}
@@ -99,14 +110,16 @@ const Header = (props: PropTypes) => {
                     left: 0,
                   }}
                 >
-                  <FormControl w="100%" mt={2}>
+                  <FormControl w="100%" mt={2} position={"relative"} zIndex={2}>
                     <WhiteInput
                       onChange={(e) => setSearchQuery(e.nativeEvent.text)}
                       InputRightElement={
                         <Button
                           rounded={"none"}
                           h={"100%"}
-                          colorScheme={"amber"}
+                          style={{
+                            backgroundColor: bgColor,
+                          }}
                           onPress={handleSearch}
                         >
                           Buscar
@@ -126,6 +139,8 @@ const Header = (props: PropTypes) => {
           mt={-4}
           height="85%"
           animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
+          position={"relative"}
+          zIndex={1}
         >
           <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
             {container ? (

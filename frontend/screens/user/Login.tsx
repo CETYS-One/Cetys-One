@@ -12,11 +12,13 @@ import {
 } from "native-base";
 import { TouchableOpacity } from "react-native";
 import * as Yup from "yup";
+import { useAuth } from "../../hooks/useAuth";
 import { RootStackParams } from "../Pages";
 
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
+  const { login, isSigningIn } = useAuth();
   return (
     <Box>
       <Box h="28%" background={"amber.500"}>
@@ -40,7 +42,7 @@ const Login = () => {
           <Box mt={10}>
             <Formik
               initialValues={{ id: "", password: "" }}
-              onSubmit={(values) => console.log(values)}
+              onSubmit={(values) => login(values.id, values.password)}
               validationSchema={Yup.object({
                 id: Yup.string().required("La matricula es requerida."),
                 password: Yup.string().required("La contrasena es requerida"),
@@ -87,6 +89,7 @@ const Login = () => {
                     backgroundColor={"amber.500"}
                     mt={10}
                     py={4}
+                    isLoading={isSigningIn}
                   >
                     Iniciar Sesion
                   </Button>

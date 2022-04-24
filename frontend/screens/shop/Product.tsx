@@ -18,10 +18,13 @@ import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
 import { Ionicons } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element";
-import React from "react";
+import React, { useContext } from "react";
 import { AnimatedVStack } from "../../components/common/Animated";
+import { ShopContext } from "../../context/ShopProvider";
 
 const Product = () => {
+  const { storeData } = useContext(ShopContext);
+
   return (
     <>
       <ScrollView
@@ -68,7 +71,7 @@ const Product = () => {
           <Button
             type="submit"
             borderRadius="10"
-            backgroundColor={"amber.500"}
+            backgroundColor={storeData?.color}
             py={4}
             w={"90%"}
           >

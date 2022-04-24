@@ -1,8 +1,13 @@
 import { Box, HStack, Text } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Header from "../../components/common/Header";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import axios from "../../util/axios";
 import MainPage from "../../components/shop/MainPage";
 import Product from "./Product";
@@ -13,9 +18,26 @@ import {
   SharedElement,
 } from "react-navigation-shared-element";
 import { TouchableOpacity } from "react-native";
+import MainSection from "../../components/shop/MainSection";
+import { ShopContext } from "../../context/ShopProvider";
+import { AnimatedBox } from "../../components/common/Animated";
+import ShopSplash from "./ShopSplash";
+import { AnimatePresence } from "moti";
+//@ts-ignore
+import AnimatedLoader from "react-native-animated-loader";
+import LoadingSplash from "../LoadingSlapsh";
 
-const Shop = () => {
-  const navigation = useNavigation();
+interface PropTypes {
+  isLoading: boolean;
+  name: string;
+  color: string;
+}
+
+const Shop = (props: PropTypes) => {
+  const { isLoading, name, color } = props;
+
+  const { storeData } = useContext(ShopContext);
+
   async function getProduct() {
     const res = await axios.get("/products");
     setProductos(res.data);
@@ -29,7 +51,19 @@ const Shop = () => {
 
   return (
     <>
-      <MainPage />
+      {isLoading ? (
+        <ShopSplash title={name} color={color} />
+      ) : (
+        <AnimatedBox
+          from={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 500, type: "timing" }}
+        >
+          <Header title={name} searchBar container={false} bgColor={color}>
+            <MainSection />
+          </Header>
+        </AnimatedBox>
+      )}
     </>
   );
 };

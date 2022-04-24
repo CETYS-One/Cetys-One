@@ -26,6 +26,11 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider as PaperProvider } from "react-native-paper";
+
+import AuthProvider from "./context/AuthProvider";
+import AuthNav from "./screens/navigators/AuthNavigator";
+import ShopProvider from "./context/ShopProvider";
 
 const nativeTheme = extendTheme({
   fontConfig: {
@@ -116,11 +121,18 @@ export default function App() {
       <SafeAreaProvider>
         <NativeBaseProvider theme={nativeTheme}>
           <QueryClientProvider client={queryClient}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <Pages />
-              <StatusBar />
-              <Toast />
-            </GestureHandlerRootView>
+            <AuthProvider>
+              <ShopProvider>
+                <PaperProvider>
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <AuthNav />
+                    {/* <Pages /> */}
+                    <StatusBar />
+                    <Toast />
+                  </GestureHandlerRootView>
+                </PaperProvider>
+              </ShopProvider>
+            </AuthProvider>
           </QueryClientProvider>
         </NativeBaseProvider>
       </SafeAreaProvider>

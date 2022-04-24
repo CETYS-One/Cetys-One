@@ -17,6 +17,9 @@ import AllPages from "./AllPages";
 import Categories from "./seller/Categories";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { enableScreens } from "react-native-screens";
+import { useEffect } from "react";
+import LoadingSplash from "./LoadingSlapsh";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 enableScreens(false);
 
 export type RootStackParams = {
@@ -35,6 +38,7 @@ export type RootStackParams = {
   AllProduct: any;
   Welcome: any;
   Categories: any;
+  LoadingSplash: any;
 };
 
 const Stack = createSharedElementStackNavigator<RootStackParams>();
@@ -42,12 +46,8 @@ const Stack = createSharedElementStackNavigator<RootStackParams>();
 const Pages = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="AllPages"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
+      <Stack.Navigator initialRouteName="LoadingSplash">
+        <Stack.Screen name="LoadingSplash" component={LoadingSplash} />
         <Stack.Screen name="AllPages" component={AllPages} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -55,13 +55,6 @@ const Pages = () => {
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Shop" component={Shop} />
-        <Stack.Screen
-          name="Product"
-          component={Product}
-          sharedElementsConfig={() => {
-            return ["hola"];
-          }}
-        />
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Orders" component={Orders} />

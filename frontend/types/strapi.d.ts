@@ -1,3 +1,5 @@
+import { IFormControlErrorMessageProps } from "native-base";
+
 export interface UploadFile extends ImageFormat {
   _id: string;
   alternativeText: string;
@@ -33,4 +35,28 @@ export interface ICategories {
   updated_by: string;
   createdAt: string;
   updatedBy: string;
+}
+
+export interface IUserToken {
+  jwt: string;
+  user: IUser;
+}
+
+export interface IUser {
+  _id: string;
+  createdAt: string;
+  email: string;
+  id: string;
+  name: string;
+  role: IRole;
+  username: string;
+  updatedAt: string;
+}
+
+export interface IRole {
+  _id: string;
+  id: string;
+  description: string;
+  name: string;
+  type: "Authenticated" | "Admin" | "Seller";
 }

@@ -9,11 +9,14 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../hooks/useAuth";
 import { RootStackParams } from "../Pages";
 
 const Welcome = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+
   return (
     <SafeAreaView
       style={
@@ -63,6 +66,7 @@ const Welcome = () => {
             Pedir comida en las cafeterias nunca habia sido tan sencillo
           </Text>
           <VStack width={"100%"} space={2} mt={"20"}>
+            {/* <Button onPress={() => getUserData()}>userdata</Button> */}
             <Button
               borderRadius="10"
               backgroundColor={"amber.500"}

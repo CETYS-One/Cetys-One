@@ -1,14 +1,17 @@
 import { Text, Flex, VStack, Box } from "native-base";
+import { useContext } from "react";
 import { SharedElement } from "react-navigation-shared-element";
+import { ShopContext } from "../../context/ShopProvider";
 
 const Description = () => {
+  const { storeData } = useContext(ShopContext);
   return (
     <VStack space={4} width={"100%"}>
       <Box>
         <Text fontSize={"25px"} fontWeight={"bold"}>
           FAMOUS STAR
         </Text>
-        <Text fontSize={"30px"} color={"amber.400"}>
+        <Text fontSize={"30px"} color={storeData?.color}>
           $200
         </Text>
       </Box>

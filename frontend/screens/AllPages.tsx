@@ -5,6 +5,7 @@ import { SafeAreaView, TouchableOpacity } from "react-native";
 import { RootStackParams } from "./Pages";
 
 const pages: string[] = [
+  "LoadingSplash",
   "SignUp",
   "Welcome",
   "Login",
