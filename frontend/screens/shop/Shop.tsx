@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "native-base";
 import * as React from "react";
+import { useContext, useState } from "react";
 import { AnimatedBox } from "../../components/common/Animated";
 import Header from "../../components/common/Header";
 import MainSection from "../../components/shop/MainSection";
+import { ShopContext } from "../../context/ShopProvider";
 import ShopSplash from "./ShopSplash";
 
 interface PropTypes {
@@ -16,7 +18,16 @@ interface PropTypes {
 const Shop = (props: PropTypes) => {
   const { isLoading, name, color, alias } = props;
 
-  const navigate = useNavigation();
+  const { storeData, handleSearch } = useContext(ShopContext);
+
+  const [isLoadingSearch, setIsLoading] = useState(false);
+
+  const handleProductSearch = async (query: string) => {
+    setIsLoading(true);
+    await handleSearch(query);
+    setIsLoading(false);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -27,7 +38,14 @@ const Shop = (props: PropTypes) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 500, type: "timing" }}
         >
-          <Header title={name} searchBar container={false} bgColor={color}>
+          <Header
+            title={name}
+            searchBar
+            container={false}
+            bgColor={color}
+            isLoading={isLoading || isLoadingSearch}
+            onSearch={handleProductSearch}
+          >
             <MainSection />
           </Header>
         </AnimatedBox>

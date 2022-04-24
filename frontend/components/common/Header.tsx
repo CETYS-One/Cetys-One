@@ -73,8 +73,6 @@ const Header = (props: PropTypes) => {
     onSearch && onSearch(searchQuery);
   };
 
-  const { openDrawer, drawerRef } = useContext(ShopContext);
-
   return (
     <SafeAreaView style={{ backgroundColor: bgColor }}>
       <KeyboardAvoidingView
@@ -85,7 +83,7 @@ const Header = (props: PropTypes) => {
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
               <HStack>
-                <TouchableOpacity onPress={() => drawerRef?.current?.open()}>
+                <TouchableOpacity>
                   <HamburgerIcon color="white" size={5} />
                 </TouchableOpacity>
               </HStack>
@@ -107,9 +105,9 @@ const Header = (props: PropTypes) => {
             <AnimatePresence>
               {isSearchbarOpen && (
                 <MotiView
-                  from={{ translateX: -350 }}
+                  from={{ translateX: -480 }}
                   animate={{ translateX: 0 }}
-                  exit={{ translateX: -350 }}
+                  exit={{ translateX: -480 }}
                   transition={{ type: "timing", duration: 500 }}
                   style={{
                     position: "absolute",
@@ -130,6 +128,7 @@ const Header = (props: PropTypes) => {
                             backgroundColor: bgColor,
                           }}
                           onPress={handleSearch}
+                          isLoading={isLoading}
                         >
                           Buscar
                         </Button>
