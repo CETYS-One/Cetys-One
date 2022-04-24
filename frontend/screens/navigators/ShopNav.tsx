@@ -14,10 +14,10 @@ const Stack = createStackNavigator();
 
 const ShopNav = () => {
   const axios = useAxios();
-  const { data: products } = useQuery("products", async () => {
-    const res = await axios.get("/products");
-    return await res.data;
-  });
+  // const { data: products } = useQuery("products", async () => {
+  //   const res = await axios.get("/products");
+  //   return await res.data;
+  // });
   return (
     <>
       <Stack.Navigator

@@ -36,19 +36,6 @@ interface PropTypes {
 const Shop = (props: PropTypes) => {
   const { isLoading, name, color } = props;
 
-  const { storeData } = useContext(ShopContext);
-
-  async function getProduct() {
-    const res = await axios.get("/products");
-    setProductos(res.data);
-  }
-
-  useEffect(() => {
-    getProduct();
-  }, []);
-
-  const [productos, setProductos] = useState([]);
-
   return (
     <>
       {isLoading ? (

@@ -88,7 +88,7 @@ const ShopProvider = ({ children }: PropTypes) => {
       `/products/byCategories/${store}`
     );
     setProducts(res.data);
-    setTimeout(() => setIsLoading(false), 1000);
+    setIsLoading(false);
   };
 
   const setDrawerRef = (ref: Drawer | null) => {

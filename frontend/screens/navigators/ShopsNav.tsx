@@ -19,10 +19,10 @@ export type IAuthNav = {
 
 const Stack = createSharedElementStackNavigator();
 const ShopNavs = () => {
-  const { handleStoreChange } = useContext(ShopContext);
+  const { handleStoreChange, isLoading } = useContext(ShopContext);
 
   const [index, setIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const [routes] = useState([
     {
@@ -39,7 +39,7 @@ const ShopNavs = () => {
   }, []);
 
   const handleShopChange = (newIndex: number) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     setIndex(newIndex);
 
     const key = routes[newIndex].key;
@@ -47,9 +47,9 @@ const ShopNavs = () => {
 
     // Aqui es donde agarraria datos del servidor
     handleStoreChange(key);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 1000);
   };
 
   return (
