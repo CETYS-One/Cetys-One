@@ -32,6 +32,10 @@ import AuthProvider from "./context/AuthProvider";
 import AuthNav from "./screens/navigators/AuthNavigator";
 import ShopProvider from "./context/ShopProvider";
 
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Setting a timer"]);
+
 const nativeTheme = extendTheme({
   fontConfig: {
     Montserrat: {
