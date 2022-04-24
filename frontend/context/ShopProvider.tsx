@@ -72,6 +72,10 @@ const ShopProvider = ({ children }: PropTypes) => {
       value={{
         storeData,
         handleStoreChange,
+<<<<<<< HEAD
+=======
+        handleSearch,
+>>>>>>> 75eeabefc72d5fe3452decbd9eaebe96a18e0bc2
       }}
     >
       {children}

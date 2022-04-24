@@ -94,7 +94,9 @@ const Header = (props: PropTypes) => {
         <Box height={"18%"} style={{ backgroundColor: bgColor }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
-              <HStack>{/* <MenuContent /> */}</HStack>
+              <HStack>
+                <MenuContent />
+              </HStack>
               <HStack mt={2}>
                 <Text fontWeight={"700"} fontSize={"30px"} color="white">
                   {title}

@@ -69,8 +69,13 @@ const Shop = (props: PropTypes) => {
             searchBar
             container={false}
             bgColor={color}
+<<<<<<< HEAD
             // isLoading={isLoading || isLoadingSearch}
             // onSearch={handleProductSearch}
+=======
+            isLoading={isLoading || isLoadingSearch}
+            onSearch={handleProductSearch}
+>>>>>>> 75eeabefc72d5fe3452decbd9eaebe96a18e0bc2
           >
             <MainSection />
           </Header>
