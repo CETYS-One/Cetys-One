@@ -1,30 +1,50 @@
-import { Dimensions } from "react-native";
-import { Box, Center, Spinner } from "native-base";
-import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParams } from "./Pages";
-import { IAuthNav } from "./navigators/AuthNavigator";
+import { Center, Box, Spinner } from "native-base";
+import { useEffect } from "react";
+import { Dimensions } from "react-native";
+import { useAuth } from "../hooks/useAuth";
+import { IAuthNav } from "./navigators/MainNavigator";
+import { AnimatedBox, AnimatedText } from "../components/common/Animated";
+import { LinearGradient } from "expo-linear-gradient";
+import MaskedView from "@react-native-community/masked-view";
 
 const LoadingSplash = () => {
   const dims = Dimensions.get("screen");
-  const { user, loadUserData, isLoadingUserData } = useAuth();
+  const { user, loadUserData, isLoadingUserData } = useAuth({
+    onSuccessLoad: () => navigation.replace("Shop"),
+    onErrorLoad: () => navigation.replace("Welcome"),
+  });
 
   const navigation = useNavigation<StackNavigationProp<IAuthNav>>();
 
   useEffect(() => {
-    loadUserData(true);
+    loadUserData();
   }, []);
 
   return (
-    <Box w={dims.width} h={dims.height} backgroundColor={"gray.300"}>
+    <AnimatedBox
+      w={dims.width}
+      h={dims.height}
+      backgroundColor={"amber.500"}
+      from={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <Center w={"100%"}>
         <Center h={"100%"}>
-          <Spinner color="black" />
+          <AnimatedText
+            fontSize={24}
+            fontWeight={"bold"}
+            from={{ opacity: 0, translateY: 100 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{ type: "spring" }}
+            color={"white"}
+          >
+            CETYS One
+          </AnimatedText>
         </Center>
       </Center>
-    </Box>
+    </AnimatedBox>
   );
 };
 

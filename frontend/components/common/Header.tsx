@@ -18,6 +18,7 @@ import {
   VStack,
 } from "native-base";
 import React, {
+  MutableRefObject,
   ReactNode,
   useContext,
   useEffect,
@@ -27,7 +28,7 @@ import React, {
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ShopContext } from "../../context/ShopProvider";
-import { UserNav } from "../../screens/navigators/UserNavigator";
+import { RootStackParamList } from "../../types";
 import { AnimatedBox } from "./Animated";
 import WhiteInput from "./WhiteInput";
 
@@ -52,11 +53,11 @@ const Header = (props: PropTypes) => {
     bgColor = "#f59e0b",
   } = props;
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<MutableRefObject<any>>(null);
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const navigation = useNavigation<DrawerNavigationProp<UserNav>>();
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
 
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
@@ -64,7 +65,8 @@ const Header = (props: PropTypes) => {
 
   useEffect(() => {
     if (!isSearchbarOpen) return;
-    inputRef.current?.focus();
+
+    (inputRef.current as any).focus();
   }, [isSearchbarOpen]);
 
   const handleSearch = () => {
@@ -118,7 +120,7 @@ const Header = (props: PropTypes) => {
                 >
                   <FormControl w="100%" mt={2} position={"relative"} zIndex={2}>
                     <WhiteInput
-                      ref={(ref) => (inputRef.current = ref)}
+                      handleRef={inputRef}
                       onChange={(e) => setSearchQuery(e.nativeEvent.text)}
                       InputRightElement={
                         <Button

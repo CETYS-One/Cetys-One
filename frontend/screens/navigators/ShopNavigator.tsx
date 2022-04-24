@@ -5,11 +5,8 @@ import {
 } from "@expo/vector-icons";
 import { useContext, useEffect, useState } from "react";
 import { BottomNavigation } from "react-native-paper";
-import { enableScreens } from "react-native-screens";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { ShopContext } from "../../context/ShopProvider";
 import Shop from "../shop/Shop";
-enableScreens(false);
 
 export type IAuthNav = {
   DVolada: any;
@@ -62,6 +59,7 @@ const ShopNavs = () => {
 
   return (
     <>
+      {/* @ts-ignore */}
       <BottomNavigation
         shifting
         navigationState={{ index, routes }}

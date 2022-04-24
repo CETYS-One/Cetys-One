@@ -1,14 +1,4 @@
-import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { extendTheme, NativeBaseProvider } from "native-base";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import Pages from "./screens/Pages";
-import Toast from "react-native-toast-message";
-
-import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
 import {
-  useFonts,
   Montserrat_100Thin,
   Montserrat_100Thin_Italic,
   Montserrat_200ExtraLight,
@@ -23,16 +13,22 @@ import {
   Montserrat_600SemiBold_Italic,
   Montserrat_700Bold,
   Montserrat_700Bold_Italic,
+  useFonts,
 } from "@expo-google-fonts/montserrat";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { StatusBar } from "expo-status-bar";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import { LogBox } from "react-native";
+import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as PaperProvider } from "react-native-paper";
-
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { QueryClient, QueryClientProvider } from "react-query";
 import AuthProvider from "./context/AuthProvider";
-import AuthNav from "./screens/navigators/AuthNavigator";
 import ShopProvider from "./context/ShopProvider";
-
-import { LogBox } from "react-native";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import MainNavigator from "./screens/navigators/MainNavigator";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -129,7 +125,7 @@ export default function App() {
               <ShopProvider>
                 <PaperProvider>
                   <GestureHandlerRootView style={{ flex: 1 }}>
-                    <AuthNav />
+                    <MainNavigator />
                     {/* <Pages /> */}
                     <StatusBar />
                     <Toast />

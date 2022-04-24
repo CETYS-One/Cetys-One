@@ -18,7 +18,9 @@ import { RootStackParams } from "../Pages";
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
-  const { login, isSigningIn } = useAuth();
+  const { login, isSigningIn } = useAuth({
+    onSuccessLogin: () => navigation.navigate("Shop"),
+  });
   return (
     <Box>
       <Box h="28%" background={"amber.500"}>

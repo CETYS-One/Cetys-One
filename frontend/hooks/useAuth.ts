@@ -11,11 +11,20 @@ import { getAxios } from "./useAxios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AxiosError } from "axios";
 import { boolean, string } from "yup";
-import { IAuthNav } from "../screens/navigators/AuthNavigator";
+import { IAuthNav } from "../screens/navigators/MainNavigator";
 
-export const useAuth = () => {
-  const navigation = useNavigation<StackNavigationProp<IAuthNav>>();
-
+interface PropTypes {
+  onSuccessLogin?: () => void;
+  onSuccessLogout?: () => void;
+  onSuccessLoad?: () => void;
+  onErrorLoad?: () => void;
+}
+export const useAuth = ({
+  onSuccessLogin,
+  onSuccessLogout,
+  onSuccessLoad,
+  onErrorLoad,
+}: PropTypes) => {
   const { user, setUserData } = useContext(AuthContext);
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
 
@@ -26,7 +35,7 @@ export const useAuth = () => {
   const logout = async () => {
     await AsyncStorage.removeItem("userJwt");
     setUserData(undefined);
-    navigation.navigate("Welcome");
+    onSuccessLogout && onSuccessLogout();
   };
 
   const handleLogin = useMutation(
@@ -40,13 +49,13 @@ export const useAuth = () => {
       onSuccess: async (data) => {
         await AsyncStorage.setItem("userJwt", data.jwt);
         setUserData(data);
-        navigation.navigate("UserNav", { screen: "ShopNav" });
+        onSuccessLogin && onSuccessLogin();
       },
     }
   );
 
   const handleUserData = useMutation(
-    async ({ token, navigate }: { token: string; navigate: boolean }) => {
+    async (token: string) => {
       const res = await getAxios(token).get<IUser>("users/me");
       return { jwt: token, user: res.data };
     },
@@ -54,25 +63,24 @@ export const useAuth = () => {
       onSuccess: (data, vars) => {
         setUserData(data);
         setIsLoadingUserData(false);
-        if (vars.navigate) {
-          navigation.navigate("UserNav", { screen: "ShopNav" });
-        }
+        onSuccessLoad && onSuccessLoad();
       },
       onError: (error: AxiosError) => {
         setIsLoadingUserData(false);
+        onErrorLoad && onErrorLoad();
       },
     }
   );
 
-  const loadUserData = async (navigate = false) => {
+  const loadUserData = async () => {
     setIsLoadingUserData(true);
     const jwt = await AsyncStorage.getItem("userJwt");
     if (!jwt) {
       setIsLoadingUserData(false);
-      navigation.navigate("Welcome");
+      onErrorLoad && onErrorLoad();
       return;
     }
-    handleUserData.mutate({ token: jwt, navigate });
+    handleUserData.mutate(jwt);
   };
 
   return {

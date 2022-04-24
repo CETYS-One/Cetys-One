@@ -1,3 +1,5 @@
+import { useNavigation } from "@react-navigation/native";
+import { Button } from "native-base";
 import * as React from "react";
 import { AnimatedBox } from "../../components/common/Animated";
 import Header from "../../components/common/Header";
@@ -14,6 +16,7 @@ interface PropTypes {
 const Shop = (props: PropTypes) => {
   const { isLoading, name, color, alias } = props;
 
+  const navigate = useNavigation();
   return (
     <>
       {isLoading ? (

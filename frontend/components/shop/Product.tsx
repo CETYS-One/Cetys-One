@@ -36,21 +36,19 @@ const Product = (props: PropTypes) => {
         <TouchableOpacity
           onPress={() => navigation.navigate("Product", { product: props })}
         >
-          <SharedElement id={id}>
-            <Image
-              source={{
-                uri: photos[0]
-                  ? photos[0].url
-                  : "https://www.takeoutlist.com/assets/images/food_default.png",
-              }}
-              style={{
-                aspectRatio: 1 / 1,
-                width: 120,
-                borderRadius: 10,
-              }}
-              resizeMode="cover"
-            />
-          </SharedElement>
+          <Image
+            source={{
+              uri: photos[0]
+                ? photos[0].url
+                : "https://www.takeoutlist.com/assets/images/food_default.png",
+            }}
+            style={{
+              aspectRatio: 1 / 1,
+              width: 120,
+              borderRadius: 10,
+            }}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
         <VStack w={"100%"} px={"8px"} py={2}>
           <Text>{truncate(name, 20)}</Text>
