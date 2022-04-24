@@ -1,7 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Center, Box, Spinner } from "native-base";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { useAuth } from "../hooks/useAuth";
 import { IAuthNav } from "./navigators/MainNavigator";
@@ -17,10 +17,11 @@ const LoadingSplash = () => {
 
   const navigation = useNavigation<StackNavigationProp<IAuthNav>>();
 
-  useEffect(() => {
-    loadUserData();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      loadUserData();
+    }, [])
+  );
   return (
     <AnimatedBox
       w={dims.width}

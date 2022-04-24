@@ -19,7 +19,7 @@ const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const { login, isSigningIn } = useAuth({
-    onSuccessLogin: () => navigation.navigate("Shop"),
+    onSuccessLogin: () => navigation.replace("Shop"),
   });
   return (
     <Box>

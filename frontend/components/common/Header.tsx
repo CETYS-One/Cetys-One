@@ -133,6 +133,7 @@ const Header = (props: PropTypes) => {
                       <WhiteInput
                         w="80%"
                         // borderRightRadius={0}
+                        value={searchQuery}
                         rounded={0}
                         handleRef={inputRef}
                         onChange={(e) => setSearchQuery(e.nativeEvent.text)}

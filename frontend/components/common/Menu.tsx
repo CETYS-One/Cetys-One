@@ -12,7 +12,7 @@ const MenuContent = () => {
   const navigation = useNavigation();
 
   const { logout, user } = useAuth({
-    onSuccessLogout: () => navigation.navigate("Welcome"),
+    onSuccessLogout: () => navigation.replace("Welcome"),
   });
 
   return (
