@@ -11,7 +11,9 @@ import { useAuth } from "../../hooks/useAuth";
 const MenuContent = () => {
   const navigation = useNavigation();
 
-  const { logout, user } = useAuth({});
+  const { logout, user } = useAuth({
+    onSuccessLogout: () => navigation.navigate("Welcome"),
+  });
 
   return (
     <Menu

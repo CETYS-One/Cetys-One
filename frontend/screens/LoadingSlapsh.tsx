@@ -6,7 +6,6 @@ import { Dimensions } from "react-native";
 import { useAuth } from "../hooks/useAuth";
 import { IAuthNav } from "./navigators/MainNavigator";
 import { AnimatedBox, AnimatedText } from "../components/common/Animated";
-import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-community/masked-view";
 
 const LoadingSplash = () => {
