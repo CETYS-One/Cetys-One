@@ -8,7 +8,9 @@ import {
   FormControl,
   HamburgerIcon,
   HStack,
+  Icon,
   KeyboardAvoidingView,
+  Menu,
   Pressable,
   ScrollView,
   SearchIcon,
@@ -31,6 +33,14 @@ import { ShopContext } from "../../context/ShopProvider";
 import { RootStackParamList } from "../../types";
 import { AnimatedBox } from "./Animated";
 import WhiteInput from "./WhiteInput";
+import {
+  Entypo,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import MenuUser from "./Menu";
+import MenuContent from "./Menu";
 
 interface PropTypes {
   title: string;
@@ -40,6 +50,7 @@ interface PropTypes {
   isLoading?: boolean;
   bgColor?: string;
   onSearch?: (value: string) => void;
+  menuContent?: ReactNode;
 }
 
 const Header = (props: PropTypes) => {
@@ -51,6 +62,7 @@ const Header = (props: PropTypes) => {
     isLoading = false,
     onSearch,
     bgColor = "#f59e0b",
+    menuContent = <></>,
   } = props;
 
   const inputRef = useRef<MutableRefObject<any>>(null);
@@ -82,11 +94,7 @@ const Header = (props: PropTypes) => {
         <Box height={"18%"} style={{ backgroundColor: bgColor }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
-              <HStack>
-                <TouchableOpacity>
-                  <HamburgerIcon color="white" size={5} />
-                </TouchableOpacity>
-              </HStack>
+              <HStack>{/* <MenuContent /> */}</HStack>
               <HStack mt={2}>
                 <Text fontWeight={"700"} fontSize={"30px"} color="white">
                   {title}

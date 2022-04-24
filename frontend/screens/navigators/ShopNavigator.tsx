@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { BottomNavigation } from "react-native-paper";
 import { ShopContext } from "../../context/ShopProvider";
 import Shop from "../shop/Shop";
+import { Text } from "native-base";
 
 export type IAuthNav = {
   DVolada: any;
@@ -68,6 +69,7 @@ const ShopNavs = () => {
           switch (route.key) {
             case "Honey":
               return (
+                // <Text>{routes[0].title}</Text>
                 <Shop
                   isLoading={isLoading}
                   name={routes[0].title}
@@ -77,6 +79,7 @@ const ShopNavs = () => {
               );
             case "Cafeteria":
               return (
+                // <Text>{routes[1].title}</Text>
                 <Shop
                   isLoading={isLoading}
                   name={routes[1].title}
@@ -86,6 +89,7 @@ const ShopNavs = () => {
               );
             case "DVolada":
               return (
+                // <Text>{routes[2].title}</Text>
                 <Shop
                   isLoading={isLoading}
                   name={routes[2].title}

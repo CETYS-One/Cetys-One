@@ -5,6 +5,7 @@ import {
   Entypo,
   FontAwesome5,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import DrawerButton from "./DrawerButton";
 import { useAuth } from "../../hooks/useAuth";

@@ -1,16 +1,19 @@
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useAuth } from "../../hooks/useAuth";
 import LoadingSplash from "../LoadingSlapsh";
+import AllProducts from "../seller/AllProducts";
+import Orders from "../seller/Orders";
+import ProductEdit from "../seller/ProductEdit";
+import Statistics from "../seller/Statistics";
+import Cart from "../shop/Cart";
+import OrderHistory from "../shop/OrderHistory";
+import Product from "../shop/Product";
 import Login from "../user/Login";
+import Profile from "../user/Profile";
 import SignUp from "../user/SignUp";
 import Welcome from "../user/Welcome";
-
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
-import Cart from "../shop/Cart";
-import Profile from "../user/Profile";
-import OrderHistory from "../shop/OrderHistory";
 import ShopNavigator from "./ShopNavigator";
-import { useAuth } from "../../hooks/useAuth";
-import Product from "../shop/Product";
 
 export type IAuthNav = {
   Splash: any;
@@ -22,9 +25,14 @@ export type IAuthNav = {
   Profile: any;
   Product: any;
   Shop: any;
+  AllProducts: any;
+  Categories: any;
+  Orders: any;
+  ProductManagement: any;
+  Statistics: any;
 };
 
-const Stack = createNativeStackNavigator<IAuthNav>();
+const Stack = createStackNavigator<IAuthNav>();
 
 const MainNavigator = () => {
   const { user } = useAuth({});
@@ -49,6 +57,12 @@ const MainNavigator = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Shop" component={ShopNavigator} />
             <Stack.Screen name="Product" component={Product} />
+            {/* Seller */}
+            <Stack.Screen name="AllProducts" component={AllProducts} />
+            {/* <Stack.Screen name="Categories" component={Categories} /> */}
+            <Stack.Screen name="Orders" component={Orders} />
+            <Stack.Screen name="ProductManagement" component={ProductEdit} />
+            <Stack.Screen name="Statistics" component={Statistics} />
           </>
         )}
       </Stack.Navigator>

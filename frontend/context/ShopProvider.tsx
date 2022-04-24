@@ -15,7 +15,6 @@ type Stores = "Honey" | "DVolada" | "Cafeteria";
 interface IShopContext {
   storeData?: IStoreData;
   handleStoreChange: (store: Stores) => void;
-  handleSearch: (query: string) => Promise<ProductsByCategory>;
 }
 
 interface PropTypes {
@@ -49,9 +48,6 @@ const StoreData = {
 export const ShopContext = React.createContext<IShopContext>({
   storeData: StoreData["Cafeteria"],
   handleStoreChange: () => {},
-  handleSearch: async () => {
-    return new Promise(() => {});
-  },
 });
 
 export interface ProductsByCategory {
@@ -71,27 +67,11 @@ const ShopProvider = ({ children }: PropTypes) => {
     setStoreData(StoreData[store]);
   };
 
-  const handleSearch = async (query: string) => {
-    const filters = stringify({
-      _where: {
-        _or: [{ name_contains: query }, { description_contains: query }],
-      },
-    });
-
-    return await queryClient.fetchQuery(storeData.alias, async () => {
-      const res = await axios.get<ProductsByCategory>(
-        `products/byCategories/${storeData.alias}?${filters}`
-      );
-      return res.data;
-    });
-  };
-
   return (
     <ShopContext.Provider
       value={{
         storeData,
         handleStoreChange,
-        handleSearch,
       }}
     >
       {children}

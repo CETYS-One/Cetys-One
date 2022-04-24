@@ -21,7 +21,6 @@ import axios from "../../util/axios";
 import { AnimatedBox, AnimatedText } from "../../components/common/Animated";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AnimatePresence } from "moti";
-import { Layout } from "react-native-reanimated";
 
 const Categories = () => {
   const { values, handleChange, handleBlur, resetForm, submitForm } = useFormik(
@@ -140,7 +139,6 @@ const Categories = () => {
                 from={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                layout={Layout.springify()}
                 mb={2}
               >
                 <Swipeable
