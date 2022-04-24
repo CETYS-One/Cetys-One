@@ -71,7 +71,7 @@ const Welcome = () => {
               borderRadius="10"
               backgroundColor={"amber.500"}
               py={4}
-              onPress={() => navigation.navigate("SignUp")}
+              onPress={() => navigation.navigate("Signup")}
             >
               Registrarte
             </Button>

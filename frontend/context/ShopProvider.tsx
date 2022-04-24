@@ -17,6 +17,7 @@ interface IShopContext {
   openDrawer: () => void;
   closeDrawer: () => void;
   products: ProductsByCategory | undefined;
+  handleSearch: (query: string) => void;
 }
 
 interface PropTypes {
@@ -57,6 +58,7 @@ export const ShopContext = React.createContext<IShopContext>({
   openDrawer: () => {},
   closeDrawer: () => {},
   products: {},
+  handleSearch: () => {},
 });
 
 interface ProductsByCategory {
@@ -102,6 +104,15 @@ const ShopProvider = ({ children }: PropTypes) => {
     setOpenDrawer(false);
   };
 
+  const handleSearch = async (
+    store: "Honey" | "DVolada" | "Cafeteria",
+    query: string
+  ) => {
+    const res = await axios.get<ProductsByCategory>(
+      `/products/byCategories/${store}`
+    );
+  };
+
   return (
     <ShopContext.Provider
       value={{
@@ -114,6 +125,7 @@ const ShopProvider = ({ children }: PropTypes) => {
         closeDrawer,
         isDrawerOpen,
         products,
+        handleSearch,
       }}
     >
       {children}

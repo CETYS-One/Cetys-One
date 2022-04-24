@@ -131,7 +131,7 @@ const Header = (props: PropTypes) => {
           borderTopRadius={20}
           mt={-4}
           height="85%"
-          animate={{ translateY: isSearchbarOpen ? 40 : 0 }}
+          animate={{ translateY: isSearchbarOpen ? 50 : 0 }}
           position={"relative"}
           zIndex={1}
         >

@@ -35,6 +35,7 @@ export interface IProduct {
   photos: UploadFile[];
   price: number;
   updatedAt: string;
+  description: string;
   category: ICategories;
   from: "DVolada" | "Honey" | "Cafeteria";
 }

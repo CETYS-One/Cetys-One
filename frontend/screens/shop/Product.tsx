@@ -31,7 +31,7 @@ const Product = () => {
     useRoute<RouteProp<{ Detail: { product: IProduct } }, "Detail">>();
 
   const { product } = route.params;
-  const { name, photos, price, from, category, id } = product;
+  const { name, photos, price, description, category, id } = product;
 
   return (
     <>
@@ -41,7 +41,13 @@ const Product = () => {
         showsVerticalScrollIndicator={false}
       >
         <Flex w={"100%"}>
-          <ChevronLeftIcon color="black" size={5} position={"absolute"} />
+          <ChevronLeftIcon
+            color="black"
+            size={5}
+            position={"absolute"}
+            top={"60px"}
+            left={5}
+          />
           <SharedElement id={id}>
             <Image
               source={{
@@ -63,6 +69,7 @@ const Product = () => {
           alignItems={"center"}
           w={"100%"}
           justifyContent={"space-between"}
+          alignContent={"flex-start"}
           space={10}
           paddingTop={"28px"}
           py={"20px"}
@@ -73,13 +80,15 @@ const Product = () => {
             duration: 1000,
           }}
         >
-          <VStack space={6} alignItems={"center"}>
+          <VStack space={6} alignItems={"flex-start"} w={"90%"}>
             <Description
               name={name}
               price={price}
-              description={""}
+              description={description}
               category={category.name}
             />
+          </VStack>
+          <VStack w={"90%"} space={4}>
             <Cantidad />
             <Comentario />
           </VStack>

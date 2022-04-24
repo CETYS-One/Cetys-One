@@ -7,7 +7,7 @@ const Comentario = () => {
       <TextArea
         placeholder="Agrega un comentario"
         h={"70px"}
-        w={"300px"}
+        w={"100%"}
         bgColor={"white"}
       ></TextArea>
     </VStack>
