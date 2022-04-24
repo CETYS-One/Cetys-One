@@ -2,7 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useState } from "react";
 import Drawer from "react-native-drawer";
-import { IUserToken } from "../types/strapi";
+import { useAuth } from "../hooks/useAuth";
+import { getAxios, useAxios } from "../hooks/useAxios";
+import { IProduct, IUserToken } from "../types/strapi";
+import { AuthContext } from "./AuthProvider";
 
 interface IShopContext {
   storeData?: IStoreData;
@@ -13,6 +16,7 @@ interface IShopContext {
   isDrawerOpen: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
+  products: ProductsByCategory | undefined;
 }
 
 interface PropTypes {
@@ -52,7 +56,12 @@ export const ShopContext = React.createContext<IShopContext>({
   isDrawerOpen: false,
   openDrawer: () => {},
   closeDrawer: () => {},
+  products: {},
 });
+
+interface ProductsByCategory {
+  [key: string]: IProduct[];
+}
 
 const ShopProvider = ({ children }: PropTypes) => {
   const [storeData, setStoreData] = useState<IStoreData>(
@@ -60,11 +69,23 @@ const ShopProvider = ({ children }: PropTypes) => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isDrawerOpen, setOpenDrawer] = useState(false);
+  const [products, setProducts] = useState<ProductsByCategory>();
+
   const drawerRef = React.useRef<Drawer>(null);
 
-  const handleStoreChange = (store: "Honey" | "DVolada" | "Cafeteria") => {
+  const { user } = React.useContext(AuthContext);
+  const axios = useAxios(user?.jwt);
+
+  const handleStoreChange = async (
+    store: "Honey" | "DVolada" | "Cafeteria"
+  ) => {
     setIsLoading(true);
+
     setStoreData(StoreData[store]);
+    const res = await axios.get<ProductsByCategory>(
+      `/products/byCategories/${store}`
+    );
+    setProducts(res.data);
     setTimeout(() => setIsLoading(false), 1000);
   };
 
@@ -92,6 +113,7 @@ const ShopProvider = ({ children }: PropTypes) => {
         openDrawer,
         closeDrawer,
         isDrawerOpen,
+        products,
       }}
     >
       {children}

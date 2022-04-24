@@ -1,28 +1,15 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoadingSplash from "../LoadingSlapsh";
-import Login from "../user/Login";
-import SignUp from "../user/SignUp";
-import Welcome from "../user/Welcome";
-import UserNav from "./UserNavigator";
-import { Button } from "native-base";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import {
+  FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
-  FontAwesome5,
 } from "@expo/vector-icons";
-import Shop from "../shop/Shop";
-import { useContext, useState } from "react";
-import { ShopContext } from "../../context/ShopProvider";
-import ShopNav from "./ShopNav";
+import { useContext, useEffect, useState } from "react";
 import { BottomNavigation } from "react-native-paper";
-enableScreens(false);
-//@ts-ignore
-import AnimatedLoader from "react-native-animated-loader";
 import { enableScreens } from "react-native-screens";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import Product from "../shop/Product";
+import { ShopContext } from "../../context/ShopProvider";
+import Shop from "../shop/Shop";
+enableScreens(false);
 
 export type IAuthNav = {
   DVolada: any;
@@ -46,6 +33,10 @@ const ShopNavs = () => {
     { key: "Cafeteria", title: "Cafeteria CETYS", color: "#f59e0b" },
     { key: "DVolada", title: "D'Volada", color: "#16a34a" },
   ]);
+
+  useEffect(() => {
+    handleShopChange(0);
+  }, []);
 
   const handleShopChange = (newIndex: number) => {
     setIsLoading(true);

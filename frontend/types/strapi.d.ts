@@ -27,6 +27,17 @@ export interface ImageFormat {
   size: number;
   url: string;
 }
+export interface IProduct {
+  _id: string;
+  createdAt: string;
+  id: string;
+  name: string;
+  photos: UploadFile[];
+  price: number;
+  updatedAt: string;
+  category: ICategories;
+  from: "DVolada" | "Honey" | "Cafeteria";
+}
 
 export interface ICategories {
   _id: string;

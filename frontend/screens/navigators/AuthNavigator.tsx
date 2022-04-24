@@ -1,11 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import LoadingSplash from "../LoadingSlapsh";
 import Login from "../user/Login";
 import SignUp from "../user/SignUp";
 import Welcome from "../user/Welcome";
 import UserNav from "./UserNavigator";
-import { Button } from "native-base";
 
 export type IAuthNav = {
   Splash: any;

@@ -1,41 +1,67 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, Box, Flex, AspectRatio } from "native-base";
+import { Text, Box, Flex, AspectRatio, Spacer, VStack } from "native-base";
 import { Share, TouchableOpacity, Image } from "react-native";
 import { RootStackParams } from "../../screens/Pages";
 import { SharedElement } from "react-navigation-shared-element";
 import { useContext } from "react";
 import { ShopContext } from "../../context/ShopProvider";
-const Product = () => {
+import { IProduct } from "../../types/strapi";
+
+interface PropTypes extends IProduct {}
+
+function truncate(str: string, n: number) {
+  return str.length > n ? str.slice(0, n - 1) + "..." : str;
+}
+
+const Product = (props: PropTypes) => {
+  const { name, price, photos, id } = props;
+
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const { storeData } = useContext(ShopContext);
 
   return (
     <>
-      <Flex shadow={"1"} bgColor={"gray.50"} borderRadius={"10px"}>
-        <TouchableOpacity onPress={() => navigation.navigate("Product")}>
-          <SharedElement id={"hola"}>
+      <Box
+        w={120}
+        h={200}
+        shadow={"1"}
+        bgColor={"gray.50"}
+        borderRadius={"10px"}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Product", { product: props })}
+        >
+          <SharedElement id={id}>
             <Image
               source={{
-                uri: "https://cdn.colombia.com/gastronomia/2011/08/26/burritos-de-carne-3657.jpg",
+                uri: photos[0]
+                  ? photos[0].url
+                  : "https://www.takeoutlist.com/assets/images/food_default.png",
               }}
               style={{
                 aspectRatio: 1 / 1,
-                width: "100%",
+                width: 120,
                 borderRadius: 10,
               }}
               resizeMode="cover"
             />
           </SharedElement>
         </TouchableOpacity>
-        <Flex w={"100%"} px={"8px"} py={2}>
-          <Text>Famous Star</Text>
-          <Text color={storeData?.color} fontWeight={"bold"}>
-            $200
-          </Text>
-        </Flex>
-      </Flex>
+        <VStack w={"100%"} px={"8px"} py={2}>
+          <Text>{truncate(name, 20)}</Text>
+        </VStack>
+        <Text
+          color={storeData?.color}
+          fontWeight={"bold"}
+          position={"absolute"}
+          bottom={1}
+          left={2}
+        >
+          ${price}
+        </Text>
+      </Box>
     </>
   );
 };

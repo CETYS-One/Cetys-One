@@ -10,6 +10,22 @@
     },
     {
       "method": "GET",
+      "path": "/products/:shop",
+      "handler": "product.findShop",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/products/byCategories/:shop",
+      "handler": "product.findShopByCategories",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/products/count",
       "handler": "product.count",
       "config": {

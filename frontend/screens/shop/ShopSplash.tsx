@@ -1,12 +1,6 @@
+import { Center } from "native-base";
 import { Dimensions } from "react-native";
-import { Box, Center, Text } from "native-base";
-import { useContext, useEffect } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { ShopContext } from "../../context/ShopProvider";
 import { AnimatedBox, AnimatedText } from "../../components/common/Animated";
-//@ts-ignore
-import AnimatedLoader from "react-native-animated-loader";
 
 interface PropTypes {
   title: string;

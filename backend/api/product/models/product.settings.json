@@ -35,6 +35,14 @@
     },
     "category": {
       "model": "category"
+    },
+    "from": {
+      "type": "enumeration",
+      "enum": [
+        "DVolada",
+        "Cafeteria",
+        "Honey"
+      ]
     }
   }
 }

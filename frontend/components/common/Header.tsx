@@ -1,18 +1,14 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import { AnimatePresence, MotiView } from "moti";
 import {
   Box,
   Button,
   Center,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   FormControl,
   HamburgerIcon,
   HStack,
   KeyboardAvoidingView,
-  Menu,
   Pressable,
   ScrollView,
   SearchIcon,
@@ -21,16 +17,13 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { ColorType } from "native-base/lib/typescript/components/types";
 import React, { ReactNode, useContext, useState } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ShopContext } from "../../context/ShopProvider";
 import { UserNav } from "../../screens/navigators/UserNavigator";
-import { RootStackParams } from "../../screens/Pages";
 import { AnimatedBox } from "./Animated";
 import WhiteInput from "./WhiteInput";
-import { shadeColor } from "../../util/shadeColor";
-import { ShopContext } from "../../context/ShopProvider";
 
 interface PropTypes {
   title: string;

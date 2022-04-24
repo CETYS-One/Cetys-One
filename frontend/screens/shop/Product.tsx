@@ -21,9 +21,17 @@ import { SharedElement } from "react-navigation-shared-element";
 import React, { useContext } from "react";
 import { AnimatedVStack } from "../../components/common/Animated";
 import { ShopContext } from "../../context/ShopProvider";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { IProduct } from "../../types/strapi";
 
 const Product = () => {
   const { storeData } = useContext(ShopContext);
+
+  const route =
+    useRoute<RouteProp<{ Detail: { product: IProduct } }, "Detail">>();
+
+  const { product } = route.params;
+  const { name, photos, price, from, category, id } = product;
 
   return (
     <>
@@ -34,10 +42,12 @@ const Product = () => {
       >
         <Flex w={"100%"}>
           <ChevronLeftIcon color="black" size={5} position={"absolute"} />
-          <SharedElement id={"hola"}>
+          <SharedElement id={id}>
             <Image
               source={{
-                uri: "https://cdn.colombia.com/gastronomia/2011/08/26/burritos-de-carne-3657.jpg",
+                uri: photos[0]
+                  ? photos[0].url
+                  : "https://www.takeoutlist.com/assets/images/food_default.png",
               }}
               style={{ height: 400 }}
               resizeMode="cover"
@@ -46,6 +56,7 @@ const Product = () => {
         </Flex>
 
         <AnimatedVStack
+          shadow={8}
           borderRadius={"30px"}
           mt={"-30px"}
           bgColor={"white"}
@@ -63,7 +74,12 @@ const Product = () => {
           }}
         >
           <VStack space={6} alignItems={"center"}>
-            <Description />
+            <Description
+              name={name}
+              price={price}
+              description={""}
+              category={category.name}
+            />
             <Cantidad />
             <Comentario />
           </VStack>

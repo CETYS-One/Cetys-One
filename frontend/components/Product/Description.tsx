@@ -1,24 +1,31 @@
-import { Text, Flex, VStack, Box } from "native-base";
+import { Text, Flex, VStack, Box, HStack, Badge, Spacer } from "native-base";
 import { useContext } from "react";
 import { SharedElement } from "react-navigation-shared-element";
 import { ShopContext } from "../../context/ShopProvider";
 
-const Description = () => {
+interface PropTypes {
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+}
+const Description = ({ name, price, description, category }: PropTypes) => {
   const { storeData } = useContext(ShopContext);
   return (
     <VStack space={4} width={"100%"}>
       <Box>
         <Text fontSize={"25px"} fontWeight={"bold"}>
-          FAMOUS STAR
+          {name}
         </Text>
-        <Text fontSize={"30px"} color={storeData?.color}>
-          $200
-        </Text>
+        <HStack mt={2}>
+          <Text fontSize={"30px"} color={storeData?.color}>
+            ${price}
+          </Text>
+          <Spacer />
+          <Badge colorScheme={"success"}>{category}</Badge>
+        </HStack>
       </Box>
-      <Text fontSize={"17px"}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate
-        asperiores, commodi vel voluptatum praesentium dignissimos.
-      </Text>
+      <Text fontSize={"17px"}>{description}</Text>
     </VStack>
   );
 };

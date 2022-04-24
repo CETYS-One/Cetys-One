@@ -8,15 +8,22 @@ import {
   ScrollView,
   Button,
 } from "native-base";
+import { useContext } from "react";
+import { ShopContext } from "../../context/ShopProvider";
+import { IProduct } from "../../types/strapi";
 import Product from "./Product";
 
-const Section = () => {
+interface PropTypes {
+  products: IProduct[];
+}
+const Section = (props: PropTypes) => {
+  const { products } = props;
   return (
     <Box>
       <VStack>
         <Box pl={"10px"}>
           <Text fontSize={"20px"} fontWeight={"bold"}>
-            BURRITOS
+            {products[0].category.name}
           </Text>
         </Box>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -28,7 +35,10 @@ const Section = () => {
             paddingBottom={"10px"}
             paddingLeft={"8px"}
           >
-            <Product />
+            {products &&
+              products.map((product) => (
+                <Product key={product.id} {...product} />
+              ))}
           </HStack>
         </ScrollView>
       </VStack>

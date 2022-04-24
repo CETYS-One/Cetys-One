@@ -1,12 +1,10 @@
 import { enableScreens } from "react-native-screens";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import Product from "../shop/Product";
-import ShopSplash from "../shop/ShopSplash";
-import Shop from "../shop/Shop";
-import ShopNavs from "./ShopsNav";
-import OrderHistory from "../shop/OrderHistory";
 import Cart from "../shop/Cart";
+import OrderHistory from "../shop/OrderHistory";
+import Product from "../shop/Product";
 import Profile from "../user/Profile";
+import ShopNavs from "./ShopsNav";
 enableScreens(false);
 
 const Stack = createSharedElementStackNavigator();
@@ -22,7 +20,7 @@ const ShopNav = () => {
         <Stack.Screen
           name="Product"
           component={Product}
-          sharedElementsConfig={() => ["hola"]}
+          sharedElementsConfig={(route) => [route.params.product.id]}
         />
         <Stack.Screen name="History" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />
