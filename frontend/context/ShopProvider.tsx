@@ -1,23 +1,21 @@
 import { useNavigation } from "@react-navigation/native";
+import { QuestionOutlineIcon } from "native-base";
 import * as React from "react";
 import { useState } from "react";
 import Drawer from "react-native-drawer";
+import { useQueryClient } from "react-query";
 import { useAuth } from "../hooks/useAuth";
 import { getAxios, useAxios } from "../hooks/useAxios";
 import { IProduct, IUserToken } from "../types/strapi";
 import { AuthContext } from "./AuthProvider";
+import { stringify } from "qs";
+
+type Stores = "Honey" | "DVolada" | "Cafeteria";
 
 interface IShopContext {
   storeData?: IStoreData;
-  handleStoreChange: (store: "Honey" | "DVolada" | "Cafeteria") => void;
-  isLoading: boolean;
-  setDrawerRef: (ref: Drawer | null) => void;
-  drawerRef?: React.RefObject<Drawer>;
-  isDrawerOpen: boolean;
-  openDrawer: () => void;
-  closeDrawer: () => void;
-  products: ProductsByCategory | undefined;
-  handleSearch: (query: string) => void;
+  handleStoreChange: (store: Stores) => void;
+  handleSearch: (query: string) => Promise<ProductsByCategory>;
 }
 
 interface PropTypes {
@@ -51,14 +49,9 @@ const StoreData = {
 export const ShopContext = React.createContext<IShopContext>({
   storeData: StoreData["Cafeteria"],
   handleStoreChange: () => {},
-  isLoading: false,
-  setDrawerRef: () => {},
-  drawerRef: undefined,
-  isDrawerOpen: false,
-  openDrawer: () => {},
-  closeDrawer: () => {},
-  products: {},
-  handleSearch: () => {},
+  handleSearch: async () => {
+    return new Promise(() => {});
+  },
 });
 
 export interface ProductsByCategory {
@@ -69,39 +62,28 @@ const ShopProvider = ({ children }: PropTypes) => {
   const [storeData, setStoreData] = useState<IStoreData>(
     StoreData["Cafeteria"]
   );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDrawerOpen, setOpenDrawer] = useState(false);
-  const [products, setProducts] = useState<ProductsByCategory>();
-
-  const drawerRef = React.useRef<Drawer>(null);
 
   const { user } = React.useContext(AuthContext);
   const axios = useAxios(user?.jwt);
+  const queryClient = useQueryClient();
 
-  const handleStoreChange = (store: "Honey" | "DVolada" | "Cafeteria") => {
+  const handleStoreChange = (store: Stores) => {
     setStoreData(StoreData[store]);
   };
 
-  const setDrawerRef = (ref: Drawer | null) => {
-    //@ts-ignore
-    drawerRef.current = ref;
-  };
+  const handleSearch = async (query: string) => {
+    const filters = stringify({
+      _where: {
+        _or: [{ name_contains: query }, { description_contains: query }],
+      },
+    });
 
-  const openDrawer = () => {
-    setOpenDrawer(true);
-  };
-
-  const closeDrawer = () => {
-    setOpenDrawer(false);
-  };
-
-  const handleSearch = async (
-    store: "Honey" | "DVolada" | "Cafeteria",
-    query: string
-  ) => {
-    const res = await axios.get<ProductsByCategory>(
-      `/products/byCategories/${store}`
-    );
+    return await queryClient.fetchQuery(storeData.alias, async () => {
+      const res = await axios.get<ProductsByCategory>(
+        `products/byCategories/${storeData.alias}?${filters}`
+      );
+      return res.data;
+    });
   };
 
   return (
@@ -109,13 +91,6 @@ const ShopProvider = ({ children }: PropTypes) => {
       value={{
         storeData,
         handleStoreChange,
-        isLoading,
-        setDrawerRef,
-        drawerRef,
-        openDrawer,
-        closeDrawer,
-        isDrawerOpen,
-        products,
         handleSearch,
       }}
     >
