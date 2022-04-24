@@ -23,20 +23,23 @@ const Shop = (props: PropTypes) => {
 
   const axios = useAxios();
   const queryClient = useQueryClient();
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
-  const handleProductSearch = (query: string) => {
+  const handleProductSearch = async (query: string) => {
+    setIsLoadingSearch(true);
     const filters = stringify({
       _where: {
         _or: [{ name_contains: query }, { description_contains: query }],
       },
     });
 
-    queryClient.fetchQuery(alias, async () => {
+    await queryClient.fetchQuery(alias, async () => {
       const res = await axios.get<ProductsByCategory>(
         `products/byCategories/${alias}?${filters}`
       );
       return res.data;
     });
+    setIsLoadingSearch(false);
   };
 
   return (
@@ -50,6 +53,7 @@ const Shop = (props: PropTypes) => {
           container={false}
           bgColor={color}
           onSearch={handleProductSearch}
+          isLoadingSearch={isLoadingSearch}
         >
           <MainSection />
         </Header>
@@ -69,13 +73,8 @@ const Shop = (props: PropTypes) => {
             searchBar
             container={false}
             bgColor={color}
-<<<<<<< HEAD
-            // isLoading={isLoading || isLoadingSearch}
-            // onSearch={handleProductSearch}
-=======
             isLoading={isLoading || isLoadingSearch}
             onSearch={handleProductSearch}
->>>>>>> 75eeabefc72d5fe3452decbd9eaebe96a18e0bc2
           >
             <MainSection />
           </Header>

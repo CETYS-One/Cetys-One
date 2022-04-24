@@ -49,6 +49,7 @@ interface PropTypes {
   container?: boolean;
   isLoading?: boolean;
   bgColor?: string;
+  isLoadingSearch?: boolean;
   onSearch?: (value: string) => void;
   menuContent?: ReactNode;
 }
@@ -60,6 +61,7 @@ const Header = (props: PropTypes) => {
     searchBar = false,
     container = true,
     isLoading = false,
+    isLoadingSearch = false,
     onSearch,
     bgColor = "#f59e0b",
     menuContent = <></>,
@@ -138,7 +140,7 @@ const Header = (props: PropTypes) => {
                             backgroundColor: bgColor,
                           }}
                           onPress={handleSearch}
-                          isLoading={isLoading}
+                          isLoading={isLoadingSearch}
                         >
                           Buscar
                         </Button>
