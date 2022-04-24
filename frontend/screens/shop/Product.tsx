@@ -31,7 +31,7 @@ const Product = () => {
     useRoute<RouteProp<{ Detail: { product: IProduct } }, "Detail">>();
 
   const { product } = route.params;
-  const { name, photos, price, description, category, id } = product;
+  const { name, photos, price, description, category, id, from } = product;
 
   return (
     <>
@@ -73,15 +73,16 @@ const Product = () => {
           space={10}
           paddingTop={"28px"}
           py={"20px"}
-          from={{ opacity: 0, translateY: 500 }}
+          from={{ opacity: 0, translateY: 100 }}
           animate={{ opacity: 1, translateY: 0 }}
           transition={{
-            type: "timing",
-            duration: 1000,
+            type: "spring",
+            // duration: 500,
           }}
         >
           <VStack space={6} alignItems={"flex-start"} w={"90%"}>
             <Description
+              from={from}
               name={name}
               price={price}
               description={description}

@@ -8,8 +8,15 @@ interface PropTypes {
   price: number;
   description: string;
   category: string;
+  from: "DVolada" | "Cafeteria" | "Honey";
 }
-const Description = ({ name, price, description, category }: PropTypes) => {
+const Description = ({
+  name,
+  price,
+  description,
+  category,
+  from,
+}: PropTypes) => {
   const { storeData } = useContext(ShopContext);
   return (
     <VStack space={4} width={"100%"}>
@@ -22,7 +29,9 @@ const Description = ({ name, price, description, category }: PropTypes) => {
             ${price}
           </Text>
           <Spacer />
-          <Badge colorScheme={"success"}>{category}</Badge>
+          <Badge colorScheme={from === "DVolada" ? "success" : "warning"}>
+            {category}
+          </Badge>
         </HStack>
       </Box>
       <Text fontSize={"17px"}>{description}</Text>
