@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "categories",
   "info": {
-    "name": "Category"
+    "name": "Category",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -13,6 +14,14 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "from": {
+      "type": "enumeration",
+      "enum": [
+        "DVolada",
+        "Honey",
+        "Cafeteria"
+      ]
     }
   }
 }

@@ -27,8 +27,9 @@ import * as Yup from "yup";
 import Header from "../../components/common/Header";
 import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
 import { ShopContext } from "../../context/ShopProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { useAxios } from "../../hooks/useAxios";
 import { ICategories, IProduct, UploadFile } from "../../types/strapi";
-import axios from "../../util/axios";
 import { uploadPhoto } from "../../util/uploadPhoto";
 import { RootStackParams } from "../Pages";
 
@@ -50,12 +51,14 @@ const ProductEdit = () => {
 
   const product = route.params?.product;
 
+  const { user } = useAuth({});
+  const axios = useAxios(user?.jwt);
   const { storeData } = useContext(ShopContext);
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery(
     "categories",
     async () => {
-      const res = await axios.get<ICategories[]>("/categories");
+      const res = await axios.get<ICategories[]>("/categories/me");
       return res.data;
     }
   );
@@ -323,7 +326,7 @@ const ProductEdit = () => {
                     py={4}
                     isLoading={isSubmitting}
                   >
-                    Crear Producto
+                    {product ? "Editar Producto" : "Crear Producto"}
                   </Button>
                 </TouchableOpacity>
               </ScrollView>

@@ -47,17 +47,30 @@ const MainSection = () => {
       ) : (
         <>
           {user?.user.role.type === "seller" && (
-            <TouchableOpacity>
-              <Button
-                onPress={() => navigation.navigate("ProductManagement")}
-                backgroundColor={storeData?.color}
-                w={"95%"}
-                m={"auto"}
-                mb={4}
-              >
-                Crear Nuevo Producto
-              </Button>
-            </TouchableOpacity>
+            <VStack>
+              <TouchableOpacity>
+                <Button
+                  onPress={() => navigation.navigate("ProductManagement")}
+                  backgroundColor={storeData?.color}
+                  w={"95%"}
+                  m={"auto"}
+                  mb={4}
+                >
+                  Crear Nuevo Producto
+                </Button>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Button
+                  onPress={() => navigation.navigate("Categories")}
+                  backgroundColor={storeData?.color}
+                  w={"95%"}
+                  m={"auto"}
+                  mb={4}
+                >
+                  Administrar Categorias
+                </Button>
+              </TouchableOpacity>
+            </VStack>
           )}
           {products &&
             Object.keys(products).map((key) => (
