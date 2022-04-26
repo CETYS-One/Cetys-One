@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useAuth } from "../../hooks/useAuth";
 import LoadingSplash from "../LoadingSlapsh";
 import AllProducts from "../seller/AllProducts";
+import Categories from "../seller/Categories";
 import Orders from "../seller/Orders";
 import ProductEdit from "../seller/ProductEdit";
 import Statistics from "../seller/Statistics";
@@ -54,7 +55,7 @@ const MainNavigator = () => {
         <Stack.Screen name="Product" component={Product} />
         {/* Seller */}
         <Stack.Screen name="AllProducts" component={AllProducts} />
-        {/* <Stack.Screen name="Categories" component={Categories} /> */}
+        <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Orders" component={Orders} />
         <Stack.Screen name="ProductManagement" component={ProductEdit} />
         <Stack.Screen name="Statistics" component={Statistics} />

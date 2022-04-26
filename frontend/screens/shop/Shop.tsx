@@ -58,28 +58,6 @@ const Shop = (props: PropTypes) => {
           <MainSection />
         </Header>
       )}
-      {/* <Button mt={"200px"}>{name} a</Button> */}
-
-      {/* {isLoading ? (
-        <ShopSplash title={name} color={color} />
-      ) : (
-        <AnimatedBox
-          from={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 500, type: "timing" }}
-        >
-          <Header
-            title={name}
-            searchBar
-            container={false}
-            bgColor={color}
-            isLoading={isLoading || isLoadingSearch}
-            onSearch={handleProductSearch}
-          >
-            <MainSection />
-          </Header>
-        </AnimatedBox>
-      )} */}
     </>
   );
 };

@@ -54,6 +54,7 @@ export interface IUserToken {
   user: IUser;
 }
 
+export type Stores = "Honey" | "DVolada" | "Cafeteria";
 export interface IUser {
   _id: string;
   createdAt: string;
@@ -63,6 +64,7 @@ export interface IUser {
   role: IRole;
   username: string;
   updatedAt: string;
+  cafeteria?: Stores;
 }
 
 export interface IRole {
@@ -70,5 +72,5 @@ export interface IRole {
   id: string;
   description: string;
   name: string;
-  type: "Authenticated" | "Admin" | "Seller";
+  type: "authenticated" | "admin" | "seller";
 }

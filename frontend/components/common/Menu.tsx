@@ -78,12 +78,12 @@ const MenuContent = () => {
             <Text>Mis Ordenes</Text>
           </HStack>
         </Menu.Item>
-        {/* <Menu.Item onPress={() => navigation.navigate("Categories")}>
+        <Menu.Item onPress={() => navigation.navigate("Categories")}>
           <HStack space={2}>
             <FontAwesome5 name="history" size={18} color={"black"} />
             <Text>Categorias</Text>
           </HStack>
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item onPress={() => navigation.navigate("AllProducts")}>
           <HStack space={2}>
             <Entypo name="shopping-cart" size={24} color="black" />

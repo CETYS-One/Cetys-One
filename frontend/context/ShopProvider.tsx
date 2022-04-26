@@ -6,11 +6,9 @@ import Drawer from "react-native-drawer";
 import { useQueryClient } from "react-query";
 import { useAuth } from "../hooks/useAuth";
 import { getAxios, useAxios } from "../hooks/useAxios";
-import { IProduct, IUserToken } from "../types/strapi";
+import { IProduct, IUserToken, Stores } from "../types/strapi";
 import { AuthContext } from "./AuthProvider";
 import { stringify } from "qs";
-
-type Stores = "Honey" | "DVolada" | "Cafeteria";
 
 interface IShopContext {
   storeData?: IStoreData;

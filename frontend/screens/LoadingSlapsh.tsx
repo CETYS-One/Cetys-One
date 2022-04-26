@@ -1,17 +1,25 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Center, Box, Spinner } from "native-base";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { useAuth } from "../hooks/useAuth";
 import { IAuthNav } from "./navigators/MainNavigator";
 import { AnimatedBox, AnimatedText } from "../components/common/Animated";
 import MaskedView from "@react-native-community/masked-view";
+import { ShopContext } from "../context/ShopProvider";
 
 const LoadingSplash = () => {
   const dims = Dimensions.get("screen");
+
+  const { handleStoreChange } = useContext(ShopContext);
+
   const { user, loadUserData, isLoadingUserData } = useAuth({
     onSuccessLoad: () => navigation.replace("Shop"),
+    onSuccessLoadSeller: (store) => {
+      handleStoreChange(store);
+      navigation.replace("AllProducts");
+    },
     onErrorLoad: () => navigation.replace("Welcome"),
   });
 

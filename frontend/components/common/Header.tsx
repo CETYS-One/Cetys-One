@@ -73,6 +73,8 @@ const Header = (props: PropTypes) => {
 
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
 
+  const { storeData } = useContext(ShopContext);
+
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
   };
@@ -88,12 +90,12 @@ const Header = (props: PropTypes) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: bgColor }}>
+    <SafeAreaView style={{ backgroundColor: storeData?.color }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         enabled={false}
       >
-        <Box height={"18%"} style={{ backgroundColor: bgColor }}>
+        <Box height={"18%"} style={{ backgroundColor: storeData?.color }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
               <HStack>

@@ -1,4 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
+import {
+  RouteProp,
+  TabRouter,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import * as ImagePicker from "expo-image-picker";
 import { Formik } from "formik";
@@ -13,15 +18,16 @@ import {
   Text,
   TextArea,
 } from "native-base";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import * as Yup from "yup";
 import Header from "../../components/common/Header";
 import ImageThumbnail from "../../components/ProductEdit/ImageThumbnail";
-import { ICategories, UploadFile } from "../../types/strapi";
+import { ShopContext } from "../../context/ShopProvider";
+import { ICategories, IProduct, UploadFile } from "../../types/strapi";
 import axios from "../../util/axios";
 import { uploadPhoto } from "../../util/uploadPhoto";
 import { RootStackParams } from "../Pages";
@@ -31,19 +37,20 @@ interface FormTypes {
   description: string;
   price: number;
   images: ImagePicker.ImageInfo[];
+  uploadedImages: UploadFile[];
   categories: string;
 }
 
-const formInitialValues: FormTypes = {
-  name: "",
-  description: "",
-  price: 0,
-  images: [],
-  categories: "",
-};
-
 const ProductEdit = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+  const queryClient = useQueryClient();
+
+  const route =
+    useRoute<RouteProp<{ Detail: { product: IProduct } }, "Detail">>();
+
+  const product = route.params?.product;
+
+  const { storeData } = useContext(ShopContext);
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery(
     "categories",
@@ -52,6 +59,15 @@ const ProductEdit = () => {
       return res.data;
     }
   );
+
+  const formInitialValues: FormTypes = {
+    name: product ? product.name : "",
+    description: product ? product.description : "",
+    price: product ? product.price : 0,
+    uploadedImages: product ? product.photos : [],
+    images: [],
+    categories: product ? product.category._id : "",
+  };
 
   const [photosUploaded, setPhotosUploaded] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,13 +109,28 @@ const ProductEdit = () => {
     }
 
     try {
-      const res = await axios.post("/products", {
-        name: values.name,
-        description: values.description,
-        price: values.price,
-        photos: files?.map((f) => f._id),
-      });
-      console.log(res.data);
+      if (product) {
+        const res = await axios.put(`/products/${product._id}`, {
+          name: values.name,
+          description: values.description,
+          price: values.price,
+          category: values.categories,
+          from: storeData?.alias,
+          photos: [
+            ...values.uploadedImages.map((f) => f._id),
+            ...files?.map((f) => f._id),
+          ],
+        });
+      } else {
+        const res = await axios.post("/products", {
+          name: values.name,
+          description: values.description,
+          price: values.price,
+          category: values.categories,
+          from: storeData?.alias,
+          photos: files?.map((f) => f._id),
+        });
+      }
     } catch (error) {
       Toast.show({
         type: "error",
@@ -115,11 +146,16 @@ const ProductEdit = () => {
       text1: "Exito!",
       text2: "Producto subido correctamente",
     });
+    queryClient.invalidateQueries(storeData?.alias);
+    navigation.navigate("AllProducts");
     setIsSubmitting(false);
   };
 
   return (
-    <Header title="Agregar Producto" isLoading={isLoadingCategories}>
+    <Header
+      title={product ? "Editar Producto" : "Agregar Producto"}
+      isLoading={isLoadingCategories}
+    >
       <Text fontWeight={"700"} fontSize={"23px"}>
         Manos a la obra!
       </Text>
@@ -127,7 +163,7 @@ const ProductEdit = () => {
         Haz las modificaciones que sean necesarias, nosotros nos encargaremos
         del resto
       </Text>
-      <Box h={"700px"} mt={10}>
+      <Box h={"800px"} mt={10}>
         <Formik
           initialValues={formInitialValues}
           onSubmit={handleSubmit}
@@ -217,6 +253,33 @@ const ProductEdit = () => {
                     {errors.categories}
                   </FormControl.ErrorMessage>
                 </FormControl>
+                {product && product.photos.length > 0 && (
+                  <FormControl>
+                    <FormControl.Label>Imagenes Subidas</FormControl.Label>
+                    <ScrollView
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                    >
+                      <HStack space={4}>
+                        {values.uploadedImages.map((image) => (
+                          <ImageThumbnail
+                            key={image._id}
+                            src={image.url}
+                            onImageUpload={() => {}}
+                            deleteImage={(deletedId) =>
+                              setFieldValue(
+                                "uploadedImages",
+                                values.uploadedImages.filter(
+                                  (image) => image.url !== deletedId
+                                )
+                              )
+                            }
+                          />
+                        ))}
+                      </HStack>
+                    </ScrollView>
+                  </FormControl>
+                )}
                 <FormControl>
                   <FormControl.Label>Imagenes</FormControl.Label>
                   <ScrollView
@@ -255,7 +318,7 @@ const ProductEdit = () => {
                     type="submit"
                     onPress={() => handleSubmit()}
                     borderRadius="10"
-                    backgroundColor={"amber.500"}
+                    backgroundColor={storeData?.color}
                     mt={10}
                     py={4}
                     isLoading={isSubmitting}
