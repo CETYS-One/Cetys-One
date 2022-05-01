@@ -13,10 +13,10 @@ import { stringify } from "qs";
 interface IShopContext {
   storeData?: IStoreData;
   handleStoreChange: (store: Stores) => void;
-  shoppingCart?: IShoppingCart;
-  addShoppingCartItem?: (store: Stores, newItem: IShoppingProduct) => void;
-  removeShoppingCartItem?: (store: Stores, id: string) => void;
-  editShoppingCartItem?: (
+  shoppingCart: IShoppingCart;
+  addShoppingCartItem: (store: Stores, newItem: IShoppingProduct) => void;
+  removeShoppingCartItem: (store: Stores, id: string) => void;
+  editShoppingCartItem: (
     store: Stores,
     id: string,
     item: IShoppingProduct
@@ -41,7 +41,7 @@ export interface IShoppingProduct {
   id: string;
   product: IProduct;
   quantity: number;
-  descrpition: string;
+  description: string;
   hour: string;
 }
 
@@ -66,6 +66,10 @@ const StoreData = {
 export const ShopContext = React.createContext<IShopContext>({
   storeData: StoreData["Cafeteria"],
   handleStoreChange: () => {},
+  addShoppingCartItem: () => {},
+  removeShoppingCartItem: () => {},
+  editShoppingCartItem: () => {},
+  shoppingCart: { Cafeteria: [], DVolada: [], Honey: [] },
 });
 
 export interface ProductsByCategory {
