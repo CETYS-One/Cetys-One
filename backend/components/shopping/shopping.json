@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_shopping_shoppings",
+  "info": {
+    "name": "Shopping",
+    "icon": "store"
+  },
+  "options": {},
+  "attributes": {
+    "product": {
+      "model": "product"
+    },
+    "description": {
+      "type": "text"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "hour": {
+      "type": "string"
+    }
+  }
+}

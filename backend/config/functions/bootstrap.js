@@ -1,4 +1,5 @@
 "use strict";
+const socket = require("../../helpers/socket");
 
 /**
  * An asynchronous bootstrap function that runs before
@@ -10,4 +11,12 @@
  * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#bootstrap
  */
 
-module.exports = () => {};
+module.exports = () => {
+  let io = socket.connect(strapi.server);
+
+  io.on("connection", (socket) => {
+    socket.on("hola", (data) => {
+      console.log("RECIBIDO", data);
+    });
+  });
+};

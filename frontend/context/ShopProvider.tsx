@@ -21,6 +21,7 @@ interface IShopContext {
     id: string,
     item: IShoppingProduct
   ) => void;
+  removeStore: (store: Stores) => void;
 }
 
 interface PropTypes {
@@ -70,6 +71,7 @@ export const ShopContext = React.createContext<IShopContext>({
   removeShoppingCartItem: () => {},
   editShoppingCartItem: () => {},
   shoppingCart: { Cafeteria: [], DVolada: [], Honey: [] },
+  removeStore: () => {},
 });
 
 export interface ProductsByCategory {
@@ -108,6 +110,12 @@ const ShopProvider = ({ children }: PropTypes) => {
     });
   };
 
+  const removeStore = (store: Stores) => {
+    setShoppingCart((shoppingCart) => {
+      return { ...shoppingCart, [store]: [] };
+    });
+  };
+
   const editShoppingCartItem = (
     store: Stores,
     id: string,
@@ -133,6 +141,7 @@ const ShopProvider = ({ children }: PropTypes) => {
         addShoppingCartItem,
         removeShoppingCartItem,
         editShoppingCartItem,
+        removeStore,
       }}
     >
       {children}

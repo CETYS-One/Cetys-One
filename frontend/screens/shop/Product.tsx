@@ -1,32 +1,18 @@
-import {
-  Box,
-  Text,
-  Flex,
-  Center,
-  VStack,
-  HStack,
-  TextArea,
-  Button,
-  ScrollView,
-  ChevronLeftIcon,
-  AspectRatio,
-} from "native-base";
-import { TouchableOpacity, Image } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Description from "../../components/Product/Description";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { Formik } from "formik";
+import { Button, ChevronLeftIcon, Flex, ScrollView, VStack } from "native-base";
+import React, { useContext, useState } from "react";
+import { Image } from "react-native";
+import uuid from "react-native-uuid";
+import { SharedElement } from "react-navigation-shared-element";
+import { AnimatedVStack } from "../../components/common/Animated";
 import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
-import { Ionicons } from "@expo/vector-icons";
-import { SharedElement } from "react-navigation-shared-element";
-import React, { useContext, useState } from "react";
-import { AnimatedVStack } from "../../components/common/Animated";
-import { ShopContext } from "../../context/ShopProvider";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { IProduct } from "../../types/strapi";
-import { Formik, useFormik } from "formik";
-import uuid from "react-native-uuid";
-import ProductEdit from "../seller/ProductEdit";
+import Description from "../../components/Product/Description";
 import Hora from "../../components/Product/Hora";
+import { ShopContext } from "../../context/ShopProvider";
+import { IProduct } from "../../types/strapi";
+import ObjectID from "bson-objectid";
 
 const Product = () => {
   const { storeData, addShoppingCartItem } = useContext(ShopContext);
@@ -55,7 +41,7 @@ const Product = () => {
       quantity: values.quantity,
       description: values.description,
       hour: "",
-      id: uuid.v4() as string,
+      id: new ObjectID().str,
     });
 
     navigation.goBack();

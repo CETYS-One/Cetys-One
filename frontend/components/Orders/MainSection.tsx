@@ -8,7 +8,10 @@ import {
   Image,
   ScrollView,
   Center,
+  Pressable,
 } from "native-base";
+import { useState } from "react";
+import ProductCard from "../common/ProductCard";
 import Order from "./Order";
 const MainSection = () => {
   return (

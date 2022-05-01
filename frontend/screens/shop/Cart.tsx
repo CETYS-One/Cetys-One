@@ -1,35 +1,30 @@
-import {
-  Box,
-  HStack,
-  Image,
-  Text,
-  VStack,
-  Center,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  Button,
-} from "native-base";
+import { Box, Button, Text, VStack } from "native-base";
 import { useContext, useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/common/Header";
-import { ShopContext } from "../../context/ShopProvider";
-import { Stores } from "../../types/strapi";
+import { Alert, TouchableOpacity } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import { TouchableOpacity } from "react-native";
+import Toast from "react-native-toast-message";
+import { useMutation } from "react-query";
 import { AnimatedBox } from "../../components/common/Animated";
-import { AnimatePresence } from "moti";
+import Header from "../../components/common/Header";
 import ProductCard from "../../components/common/ProductCard";
+import { IShoppingProduct, ShopContext } from "../../context/ShopProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { useAxios } from "../../hooks/useAxios";
+import { Stores } from "../../types/strapi";
 
 const Cart = () => {
   const {
     shoppingCart,
     editShoppingCartItem,
     removeShoppingCartItem,
+    removeStore,
     storeData,
   } = useContext(ShopContext);
 
   const swipeRef = useRef<{ [key: string]: Swipeable | null }>({});
   const lastOpen = useRef("");
+  const { user } = useAuth({});
+  const axios = useAxios(user?.jwt);
 
   const truncate = (str: string, max: number) => {
     if (str.length > max) {
@@ -61,11 +56,44 @@ const Cart = () => {
     </Box>
   );
 
+  const submitConfimation = (shop: Stores) => {
+    Alert.alert("Realizar Pedido", "¿Estas seguro de realizar el pedido?", [
+      {
+        text: "Si",
+        onPress: () =>
+          handleSubmit.mutate({ orders: shoppingCart[shop], shop }),
+      },
+      { text: "No" },
+    ]);
+  };
+
+  const handleSubmit = useMutation(
+    async ({ orders, shop }: { orders: IShoppingProduct[]; shop: Stores }) => {
+      await axios.post("/orders", {
+        status: "pending",
+        items: orders,
+        from: user?.user._id,
+        to: shop,
+      });
+      return { orders, shop };
+    },
+    {
+      onSuccess: ({ orders, shop }) => {
+        removeStore(shop);
+        Toast.show({
+          text1: "Exito!",
+          text2: "Pedido realizado",
+          type: "success",
+        });
+      },
+    }
+  );
+
   return (
     <Header title="Carrito">
       {shoppingCart &&
         (Object.keys(shoppingCart) as Array<Stores>).map((shop) => (
-          <>
+          <Box key={shop}>
             {shoppingCart[shop].length > 0 && (
               <Box key={shop} mb={10}>
                 <VStack space={3}>
@@ -101,8 +129,11 @@ const Cart = () => {
                         }
                       >
                         <ProductCard
-                          name={`${item.quantity}x ${item.product.name}`}
-                          description={item.description}
+                          name={truncate(
+                            `${item.quantity}x ${item.product.name}`,
+                            23
+                          )}
+                          description={truncate(item.description, 30)}
                           id={item.id}
                           photo={
                             item.product.photos[0]
@@ -122,11 +153,17 @@ const Cart = () => {
                       0
                     )}
                   </Text>
-                  <Button bgColor={storeData?.color}>Realizar Pedido</Button>
+                  <Button
+                    bgColor={storeData?.color}
+                    isLoading={handleSubmit.isLoading}
+                    onPress={() => submitConfimation(shop)}
+                  >
+                    Realizar Pedido
+                  </Button>
                 </VStack>
               </Box>
             )}
-          </>
+          </Box>
         ))}
     </Header>
   );

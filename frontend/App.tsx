@@ -17,6 +17,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { StatusBar } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
+import { useEffect } from "react";
 import { LogBox } from "react-native";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -29,8 +30,10 @@ import ShopProvider from "./context/ShopProvider";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import MainNavigator from "./screens/navigators/MainNavigator";
+import { IOrder } from "./types/strapi";
+import { socket } from "./util/socket";
 
-LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs(["Setting a timer", "Animated: `useNativeDriver`"]);
 
 const nativeTheme = extendTheme({
   fontConfig: {
