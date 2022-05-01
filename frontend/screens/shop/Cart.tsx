@@ -7,6 +7,7 @@ import {
   Center,
   ChevronRightIcon,
   ChevronLeftIcon,
+  Button,
 } from "native-base";
 import { useContext, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,7 +66,7 @@ const Cart = () => {
         (Object.keys(shoppingCart) as Array<Stores>).map((shop) => (
           <>
             {shoppingCart[shop].length > 0 && (
-              <Box key={shop}>
+              <Box key={shop} mb={10}>
                 <VStack space={3}>
                   <Text
                     fontSize={"xl"}
@@ -109,7 +110,11 @@ const Cart = () => {
                           <HStack position={"relative"} w="100%">
                             <Center w="30%" h={100} background={"amber.100"}>
                               <Image
-                                source={{ uri: item.product.photos[0].url }}
+                                source={{
+                                  uri: item.product.photos[0]
+                                    ? item.product.photos[0].url
+                                    : "https://www.takeoutlist.com/assets/images/food_default.png",
+                                }}
                                 borderLeftRadius={4}
                                 resizeMode={"cover"}
                                 w="100%"
@@ -135,7 +140,9 @@ const Cart = () => {
                                 alignItems={"center"}
                                 justifyContent={"space-between"}
                               >
-                                <Text>${item.product.price}</Text>
+                                <Text>
+                                  ${item.product.price * item.quantity}
+                                </Text>
                                 <ChevronLeftIcon />
                               </HStack>
                             </VStack>
@@ -144,6 +151,14 @@ const Cart = () => {
                       </Swipeable>
                     </AnimatedBox>
                   ))}
+                  <Text ml={"auto"} fontWeight={"bold"} fontSize={"xl"}>
+                    $
+                    {shoppingCart[shop].reduce(
+                      (acc, item) => acc + item.product.price * item.quantity,
+                      0
+                    )}
+                  </Text>
+                  <Button bgColor={storeData?.color}>Realizar Pedido</Button>
                 </VStack>
               </Box>
             )}
