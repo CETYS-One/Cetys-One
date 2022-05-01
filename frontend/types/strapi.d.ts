@@ -1,4 +1,5 @@
 import { IFormControlErrorMessageProps } from "native-base";
+import { IShoppingProduct } from "../context/ShopProvider";
 
 export interface UploadFile extends ImageFormat {
   _id: string;
@@ -73,4 +74,11 @@ export interface IRole {
   description: string;
   name: string;
   type: "authenticated" | "admin" | "seller";
+}
+
+export interface IOrder {
+  status: "pending" | "rejected" | "done";
+  from: IUser;
+  items: IShoppingProduct[];
+  to: Stores;
 }

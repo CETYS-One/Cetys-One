@@ -13,6 +13,7 @@ import { useAxios } from "../../hooks/useAxios";
 import ShopSplash from "./ShopSplash";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { Stores } from "../../types/strapi";
+import { socket } from "../../util/socket";
 
 interface PropTypes {
   isLoading: boolean;
@@ -87,6 +88,13 @@ const Shop = (props: PropTypes) => {
               buttonColor={color}
               title="Ver Carrito"
               onPress={() => navigation.navigate("Cart")}
+            >
+              <AntDesign name="shoppingcart" size={24} color="white" />
+            </ActionButton.Item>
+            <ActionButton.Item
+              buttonColor={color}
+              title="Socket"
+              onPress={() => socket.emit("hola", { message: "hola" })}
             >
               <AntDesign name="shoppingcart" size={24} color="white" />
             </ActionButton.Item>
