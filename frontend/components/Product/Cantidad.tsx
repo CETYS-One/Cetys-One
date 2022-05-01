@@ -9,19 +9,20 @@ import {
   TextArea,
   Button,
 } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const Cantidad = () => {
-  const [quantity, setQuantity] = useState(1);
+interface PropTypes {
+  onChange: (value: number) => void;
+  value: number;
+}
 
+const Cantidad = ({ onChange, value }: PropTypes) => {
   function addOne() {
-    setQuantity(quantity + 1);
+    onChange(value + 1);
   }
 
   function reduceOne() {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+    onChange(Math.max(1, value - 1));
   }
 
   return (
@@ -38,11 +39,11 @@ const Cantidad = () => {
           borderWidth={"1px"}
           borderColor={"gray.300"}
         >
-          <Text fontWeight={"bold"} adjustsFontSizeToFit>
+          <Text fontWeight={"bold"} fontSize={10}>
             -
           </Text>
         </Button>
-        <Text>{quantity}</Text>
+        <Text>{value}</Text>
         <Button
           bgColor={"white"}
           color={"black"}
@@ -53,7 +54,7 @@ const Cantidad = () => {
           borderColor={"gray.300"}
           onPress={addOne}
         >
-          <Text fontWeight={"bold"} adjustsFontSizeToFit textAlign={"center"}>
+          <Text fontWeight={"bold"} fontSize={10} textAlign={"center"}>
             +
           </Text>
         </Button>

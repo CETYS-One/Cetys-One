@@ -18,20 +18,48 @@ import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
 import { Ionicons } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AnimatedVStack } from "../../components/common/Animated";
 import { ShopContext } from "../../context/ShopProvider";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IProduct } from "../../types/strapi";
+import { Formik, useFormik } from "formik";
+import uuid from "react-native-uuid";
+import ProductEdit from "../seller/ProductEdit";
+import Hora from "../../components/Product/Hora";
 
 const Product = () => {
-  const { storeData } = useContext(ShopContext);
+  const { storeData, addShoppingCartItem } = useContext(ShopContext);
 
+  const navigation = useNavigation();
   const route =
     useRoute<RouteProp<{ Detail: { product: IProduct } }, "Detail">>();
 
   const { product } = route.params;
   const { name, photos, price, description, category, id, from } = product;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const submitForm = (values: { quantity: number; description: string }) => {
+    setIsLoading(true);
+    if (!storeData) return;
+    if (
+      storeData.alias !== "DVolada" &&
+      storeData.alias !== "Cafeteria" &&
+      storeData.alias !== "Honey"
+    )
+      return;
+
+    addShoppingCartItem(storeData.alias, {
+      product,
+      quantity: values.quantity,
+      description: values.description,
+      hour: "",
+      id: uuid.v4() as string,
+    });
+
+    navigation.goBack();
+  };
 
   return (
     <>
@@ -80,29 +108,51 @@ const Product = () => {
             // duration: 500,
           }}
         >
-          <VStack space={6} alignItems={"flex-start"} w={"90%"}>
-            <Description
-              from={from}
-              name={name}
-              price={price}
-              description={description}
-              category={category.name}
-            />
-          </VStack>
-          <VStack w={"90%"} space={4}>
-            <Cantidad />
-            <Comentario />
-          </VStack>
-
-          <Button
-            type="submit"
-            borderRadius="10"
-            backgroundColor={storeData?.color}
-            py={4}
-            w={"90%"}
+          <Formik
+            initialValues={{ quantity: 1, description: "", hour: "" }}
+            onSubmit={submitForm}
+            validateOnChange={false}
           >
-            Agregar a carro
-          </Button>
+            {({ values, setFieldValue, handleSubmit }) => (
+              <VStack space={10} w="100%" alignItems={"center"}>
+                <VStack space={6} alignItems={"flex-start"} w={"90%"}>
+                  <Description
+                    from={from}
+                    name={name}
+                    price={price}
+                    description={description}
+                    category={category.name}
+                  />
+                </VStack>
+                <VStack w={"90%"} space={4}>
+                  <Cantidad
+                    onChange={(value) => setFieldValue("quantity", value)}
+                    value={values.quantity}
+                  />
+                  <Comentario
+                    onChange={(value) => setFieldValue("description", value)}
+                    value={values.description}
+                  />
+                  <Hora
+                    value={values.hour}
+                    onChange={(value) => setFieldValue("hour", value)}
+                  />
+                </VStack>
+
+                <Button
+                  type="submit"
+                  borderRadius="10"
+                  backgroundColor={storeData?.color}
+                  py={4}
+                  w={"90%"}
+                  onPress={() => handleSubmit()}
+                  isLoading={isLoading}
+                >
+                  Agregar al carrito
+                </Button>
+              </VStack>
+            )}
+          </Formik>
         </AnimatedVStack>
       </ScrollView>
     </>

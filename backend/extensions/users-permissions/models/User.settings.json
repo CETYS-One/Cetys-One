@@ -61,6 +61,14 @@
     },
     "name": {
       "type": "string"
+    },
+    "cafeteria": {
+      "type": "enumeration",
+      "enum": [
+        "Honey",
+        "DVolada",
+        "Cafeteria"
+      ]
     }
   }
 }

@@ -5,7 +5,7 @@ import * as Keychain from "react-native-keychain";
 import { useMutation, useQuery } from "react-query";
 import { AuthContext } from "../context/AuthProvider";
 import { RootStackParams } from "../screens/Pages";
-import { IUser, IUserToken } from "../types/strapi";
+import { IUser, IUserToken, Stores } from "../types/strapi";
 import axios, { getErrorMessage } from "../util/axios";
 import { getAxios } from "./useAxios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,8 +15,10 @@ import { IAuthNav } from "../screens/navigators/MainNavigator";
 
 interface PropTypes {
   onSuccessLogin?: () => void;
+  onSuccessLoginSeller?: (store: Stores) => void;
   onSuccessLogout?: () => void;
   onSuccessLoad?: () => void;
+  onSuccessLoadSeller?: (store: Stores) => void;
   onErrorLoad?: () => void;
 }
 export const useAuth = ({
@@ -24,6 +26,8 @@ export const useAuth = ({
   onSuccessLogout,
   onSuccessLoad,
   onErrorLoad,
+  onSuccessLoadSeller,
+  onSuccessLoginSeller,
 }: PropTypes) => {
   const { user, setUserData } = useContext(AuthContext);
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
@@ -49,6 +53,10 @@ export const useAuth = ({
       onSuccess: async (data) => {
         await AsyncStorage.setItem("userJwt", data.jwt);
         setUserData(data);
+        if (data.user.role.type === "seller" && data.user.cafeteria) {
+          onSuccessLoginSeller && onSuccessLoginSeller(data.user.cafeteria);
+          return;
+        }
         onSuccessLogin && onSuccessLogin();
       },
     }
@@ -63,6 +71,10 @@ export const useAuth = ({
       onSuccess: (data, vars) => {
         setUserData(data);
         setIsLoadingUserData(false);
+        if (data.user.role.type === "seller" && data.user.cafeteria) {
+          onSuccessLoadSeller && onSuccessLoadSeller(data.user.cafeteria);
+          return;
+        }
         onSuccessLoad && onSuccessLoad();
       },
       onError: (error: AxiosError) => {

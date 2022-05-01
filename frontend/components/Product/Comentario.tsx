@@ -1,10 +1,17 @@
 import { Text, TextArea, Flex, Center, VStack } from "native-base";
 
-const Comentario = () => {
+interface PropTypes {
+  onChange: (value: string) => void;
+  value: string;
+}
+
+const Comentario = ({ onChange, value }: PropTypes) => {
   return (
     <VStack space={"2"} alignItems={"center"}>
       <Text fontSize={"20px"}>Comentario</Text>
       <TextArea
+        value={value}
+        onChange={(e) => onChange(e.nativeEvent.text)}
         placeholder="Agrega un comentario"
         h={"70px"}
         w={"100%"}

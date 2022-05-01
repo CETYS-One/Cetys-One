@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import config from "../config.json";
-
-export const baseURL =
-  process.env.NODE_ENV === "production" ? config.baseUrl : config.baseUrl;
+import { baseURL } from "../util/axios";
 
 export const useAxios = (token?: string) => {
   const axiosInstance = useRef(axios.create({ baseURL }));

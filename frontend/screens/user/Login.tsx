@@ -10,16 +10,23 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { useContext } from "react";
 import { TouchableOpacity } from "react-native";
 import * as Yup from "yup";
+import { ShopContext } from "../../context/ShopProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { RootStackParams } from "../Pages";
 
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
+  const { handleStoreChange } = useContext(ShopContext);
   const { login, isSigningIn } = useAuth({
-    onSuccessLogin: () => navigation.navigate("Shop"),
+    onSuccessLogin: () => navigation.replace("Shop"),
+    onSuccessLoginSeller: (store) => {
+      handleStoreChange(store);
+      navigation.replace("AllProducts");
+    },
   });
   return (
     <Box>

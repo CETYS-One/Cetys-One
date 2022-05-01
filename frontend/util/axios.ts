@@ -2,7 +2,9 @@ import axios, { AxiosError } from "axios";
 import config from "../config.json";
 
 export const baseURL =
-  process.env.NODE_ENV === "production" ? config.baseUrl : config.baseUrl;
+  process.env.NODE_ENV === "production"
+    ? "http://10.0.2.2:3001"
+    : "http://10.0.2.2:3001";
 
 const instance = axios.create({
   baseURL,

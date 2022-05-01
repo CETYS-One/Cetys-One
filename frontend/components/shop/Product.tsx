@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { ShopContext } from "../../context/ShopProvider";
 import { IProduct } from "../../types/strapi";
 import { AnimatedBox } from "../common/Animated";
+import { useAuth } from "../../hooks/useAuth";
 
 interface PropTypes extends IProduct {}
 
@@ -21,6 +22,7 @@ const Product = (props: PropTypes) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const { storeData } = useContext(ShopContext);
+  const { user } = useAuth({});
 
   return (
     <>
@@ -34,7 +36,11 @@ const Product = (props: PropTypes) => {
         animate={{ opacity: 1 }}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("Product", { product: props })}
+          onPress={() =>
+            user?.user.role.type === "seller"
+              ? navigation.navigate("ProductManagement", { product: props })
+              : navigation.navigate("Product", { product: props })
+          }
         >
           <Image
             source={{

@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useAuth } from "../../hooks/useAuth";
 import LoadingSplash from "../LoadingSlapsh";
 import AllProducts from "../seller/AllProducts";
+import Categories from "../seller/Categories";
 import Orders from "../seller/Orders";
 import ProductEdit from "../seller/ProductEdit";
 import Statistics from "../seller/Statistics";
@@ -44,27 +45,20 @@ const MainNavigator = () => {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Splash" component={LoadingSplash} />
-        {!user ? (
-          <>
-            <Stack.Screen name="Welcome" component={Welcome} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={SignUp} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="History" component={OrderHistory} />
-            <Stack.Screen name="Cart" component={Cart} />
-            <Stack.Screen name="Profile" component={Profile} />
-            <Stack.Screen name="Shop" component={ShopNavigator} />
-            <Stack.Screen name="Product" component={Product} />
-            {/* Seller */}
-            <Stack.Screen name="AllProducts" component={AllProducts} />
-            {/* <Stack.Screen name="Categories" component={Categories} /> */}
-            <Stack.Screen name="Orders" component={Orders} />
-            <Stack.Screen name="ProductManagement" component={ProductEdit} />
-            <Stack.Screen name="Statistics" component={Statistics} />
-          </>
-        )}
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={SignUp} />
+        <Stack.Screen name="History" component={OrderHistory} />
+        <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Shop" component={ShopNavigator} />
+        <Stack.Screen name="Product" component={Product} />
+        {/* Seller */}
+        <Stack.Screen name="AllProducts" component={AllProducts} />
+        <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="Orders" component={Orders} />
+        <Stack.Screen name="ProductManagement" component={ProductEdit} />
+        <Stack.Screen name="Statistics" component={Statistics} />
       </Stack.Navigator>
     </NavigationContainer>
   );

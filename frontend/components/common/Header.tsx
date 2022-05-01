@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AnimatePresence, MotiView } from "moti";
 import {
   Box,
-  Button,
   Center,
   FormControl,
   HamburgerIcon,
@@ -27,6 +26,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { Button } from "react-native";
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ShopContext } from "../../context/ShopProvider";
@@ -73,6 +73,8 @@ const Header = (props: PropTypes) => {
 
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
 
+  const { storeData } = useContext(ShopContext);
+
   const handleOpenSearchbar = () => {
     setIsSearchbarOpen(!isSearchbarOpen);
   };
@@ -88,12 +90,12 @@ const Header = (props: PropTypes) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: bgColor }}>
+    <SafeAreaView style={{ backgroundColor: storeData?.color }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         enabled={false}
       >
-        <Box height={"18%"} style={{ backgroundColor: bgColor }}>
+        <Box height={"18%"} style={{ backgroundColor: storeData?.color }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
               <HStack>
@@ -129,23 +131,44 @@ const Header = (props: PropTypes) => {
                   }}
                 >
                   <FormControl w="100%" mt={2} position={"relative"} zIndex={2}>
-                    <WhiteInput
-                      handleRef={inputRef}
-                      onChange={(e) => setSearchQuery(e.nativeEvent.text)}
-                      InputRightElement={
-                        <Button
-                          rounded={"none"}
-                          h={"100%"}
-                          style={{
-                            backgroundColor: bgColor,
-                          }}
-                          onPress={handleSearch}
-                          isLoading={isLoadingSearch}
-                        >
-                          Buscar
-                        </Button>
-                      }
-                    />
+                    <HStack w="100%">
+                      <WhiteInput
+                        w="80%"
+                        // borderRightRadius={0}
+                        value={searchQuery}
+                        rounded={0}
+                        handleRef={inputRef}
+                        onChange={(e) => setSearchQuery(e.nativeEvent.text)}
+                      />
+                      <TouchableOpacity
+                        style={{
+                          flex: 1,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderColor: "white",
+                          borderWidth: 1,
+                          borderLeftWidth: 0,
+                          borderTopRightRadius: 4,
+                          borderBottomEndRadius: 4,
+                        }}
+                        onPress={() => !isLoadingSearch && handleSearch()}
+                      >
+                        {isLoadingSearch ? (
+                          <Spinner color="white" />
+                        ) : (
+                          <Text color="white">Buscar</Text>
+                        )}
+                      </TouchableOpacity>
+                      {/* <Button
+                        // style={{
+                        //   backgroundColor: bgColor,
+                        // }}
+
+                        title="Buscar"
+                        onPress={handleSearch}
+                        // isLoading={isLoadingSearch}
+                      /> */}
+                    </HStack>
                   </FormControl>
                 </MotiView>
               )}

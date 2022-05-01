@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/categories/me",
+      "handler": "category.findMe",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/categories/count",
       "handler": "category.count",
       "config": {
@@ -28,6 +36,14 @@
       "method": "POST",
       "path": "/categories",
       "handler": "category.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/categories/me",
+      "handler": "category.createMe",
       "config": {
         "policies": []
       }

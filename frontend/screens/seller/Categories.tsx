@@ -17,12 +17,19 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import Header from "../../components/common/Header";
 import { ICategories } from "../../types/strapi";
 import { View } from "react-native";
-import axios from "../../util/axios";
 import { AnimatedBox, AnimatedText } from "../../components/common/Animated";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AnimatePresence } from "moti";
+import { useContext } from "react";
+import { ShopContext } from "../../context/ShopProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { useAxios } from "../../hooks/useAxios";
 
 const Categories = () => {
+  const { storeData } = useContext(ShopContext);
+  const { user } = useAuth({});
+  const axios = useAxios(user?.jwt);
+
   const { values, handleChange, handleBlur, resetForm, submitForm } = useFormik(
     {
       initialValues: {
@@ -41,13 +48,13 @@ const Categories = () => {
   const { data: categories, isLoading: isLoadingCategories } = useQuery(
     "categories",
     async () => {
-      const res = await axios.get<ICategories[]>("/categories");
+      const res = await axios.get<ICategories[]>("/categories/me");
       return res.data;
     }
   );
 
   const addCategory = useMutation(
-    async (name: string) => await axios.post("/categories", { name }),
+    async (name: string) => await axios.post("/categories/me", { name }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("categories");
@@ -120,11 +127,11 @@ const Categories = () => {
             value={values.name}
             InputRightElement={
               addCategory.isLoading ? (
-                <Spinner color={"amber.500"} mr={2} />
+                <Spinner color={storeData?.color} mr={2} />
               ) : (
                 <IconButton
                   onPress={submitForm}
-                  icon={<AddIcon color={"amber.500"} />}
+                  icon={<AddIcon color={storeData?.color} />}
                 />
               )
             }
@@ -156,7 +163,7 @@ const Categories = () => {
                     px={2}
                     rounded={4}
                     background={"gray.50"}
-                    borderLeftColor={"amber.500"}
+                    borderLeftColor={storeData?.color}
                     borderLeftWidth={4}
                   >
                     {category.name}
