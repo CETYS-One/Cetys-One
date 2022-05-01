@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Box, Button, Icon, Text } from "native-base";
+import { Box, Button, HStack, Icon, Text } from "native-base";
 import { stringify } from "qs";
 import * as React from "react";
 import { useContext, useState } from "react";
@@ -12,6 +12,7 @@ import { ProductsByCategory, ShopContext } from "../../context/ShopProvider";
 import { useAxios } from "../../hooks/useAxios";
 import ShopSplash from "./ShopSplash";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { Stores } from "../../types/strapi";
 
 interface PropTypes {
   isLoading: boolean;
@@ -27,6 +28,7 @@ const Shop = (props: PropTypes) => {
   const queryClient = useQueryClient();
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
   const navigation = useNavigation();
+  const { shoppingCart } = useContext(ShopContext);
 
   const handleProductSearch = async (query: string) => {
     setIsLoadingSearch(true);
@@ -61,7 +63,19 @@ const Shop = (props: PropTypes) => {
           >
             <MainSection />
           </Header>
-          <ActionButton buttonColor={color}>
+          <ActionButton
+            buttonColor={color}
+            renderIcon={(active) => (
+              <HStack space={1}>
+                <AntDesign name="shoppingcart" size={24} color="white" />
+                {shoppingCart[alias as Stores].length > 0 && (
+                  <Text color="white" adjustsFontSizeToFit fontWeight={"bold"}>
+                    {shoppingCart[alias as Stores].length}
+                  </Text>
+                )}
+              </HStack>
+            )}
+          >
             <ActionButton.Item
               buttonColor={color}
               title="Historial de ordenes"

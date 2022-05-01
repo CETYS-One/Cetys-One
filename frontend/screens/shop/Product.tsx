@@ -18,7 +18,7 @@ import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
 import { Ionicons } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AnimatedVStack } from "../../components/common/Animated";
 import { ShopContext } from "../../context/ShopProvider";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -38,7 +38,10 @@ const Product = () => {
   const { product } = route.params;
   const { name, photos, price, description, category, id, from } = product;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const submitForm = (values: { quantity: number; description: string }) => {
+    setIsLoading(true);
     if (!storeData) return;
     if (
       storeData.alias !== "DVolada" &&
@@ -143,8 +146,9 @@ const Product = () => {
                   py={4}
                   w={"90%"}
                   onPress={() => handleSubmit()}
+                  isLoading={isLoading}
                 >
-                  Agregar a carro
+                  Agregar al carrito
                 </Button>
               </VStack>
             )}

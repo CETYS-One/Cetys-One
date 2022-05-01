@@ -18,6 +18,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
 import { AnimatedBox } from "../../components/common/Animated";
 import { AnimatePresence } from "moti";
+import ProductCard from "../../components/common/ProductCard";
 
 const Cart = () => {
   const {
@@ -99,60 +100,23 @@ const Cart = () => {
                           }, false)
                         }
                       >
-                        <Box
-                          borderColor={"gray.200"}
-                          borderWidth={1}
-                          borderRadius={4}
-                          h={100}
-                          backgroundColor={"white"}
-                          style={{ overflow: "hidden" }}
-                        >
-                          <HStack position={"relative"} w="100%">
-                            <Center w="30%" h={100} background={"amber.100"}>
-                              <Image
-                                source={{
-                                  uri: item.product.photos[0]
-                                    ? item.product.photos[0].url
-                                    : "https://www.takeoutlist.com/assets/images/food_default.png",
-                                }}
-                                borderLeftRadius={4}
-                                resizeMode={"cover"}
-                                w="100%"
-                                h="100"
-                                alt="src"
-                              />
-                            </Center>
-                            <VStack
-                              padding={3}
-                              h={100}
-                              w="70%"
-                              flexWrap={"wrap"}
-                            >
-                              <Text fontWeight={"bold"}>
-                                {item.quantity}x{" "}
-                                {truncate(item.product.name, 20)}
-                              </Text>
-                              <Text fontSize={"xs"} flexWrap={"wrap"}>
-                                {truncate(item.description, 30)}
-                              </Text>
-                              <HStack
-                                marginTop={"auto"}
-                                alignItems={"center"}
-                                justifyContent={"space-between"}
-                              >
-                                <Text>
-                                  ${item.product.price * item.quantity}
-                                </Text>
-                                <ChevronLeftIcon />
-                              </HStack>
-                            </VStack>
-                          </HStack>
-                        </Box>
+                        <ProductCard
+                          name={`${item.quantity}x ${item.product.name}`}
+                          description={item.description}
+                          id={item.id}
+                          photo={
+                            item.product.photos[0]
+                              ? item.product.photos[0].url
+                              : "https://www.takeoutlist.com/assets/images/food_default.png"
+                          }
+                          price={item.product.price * item.quantity}
+                          key={item.id}
+                        />
                       </Swipeable>
                     </AnimatedBox>
                   ))}
                   <Text ml={"auto"} fontWeight={"bold"} fontSize={"xl"}>
-                    $
+                    Total: $
                     {shoppingCart[shop].reduce(
                       (acc, item) => acc + item.product.price * item.quantity,
                       0
