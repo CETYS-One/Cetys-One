@@ -8,7 +8,11 @@
 module.exports = {
   findMe: async (ctx) => {
     const store = ctx.state.user.cafeteria;
-    const orders = await strapi.services.order.find({ tienda: store });
+    const params = ctx.query;
+    const orders = await strapi.services.order.find({
+      to: store,
+      ...params,
+    });
     return orders;
   },
 };

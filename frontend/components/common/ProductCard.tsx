@@ -13,7 +13,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { ReactNode } from "react";
 
 interface Props extends IBoxProps {
-  id: string;
   name: string;
   price: number;
   description: string;
@@ -23,7 +22,6 @@ interface Props extends IBoxProps {
 
 const ProductCard = (props: Props) => {
   const {
-    id,
     name,
     price,
     description,
@@ -33,7 +31,6 @@ const ProductCard = (props: Props) => {
   } = props;
   return (
     <AnimatedBox
-      key={id}
       from={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
