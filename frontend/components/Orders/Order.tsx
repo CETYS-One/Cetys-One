@@ -24,6 +24,7 @@ import { ShopContext } from "../../context/ShopProvider";
 import { AnimatedBox } from "../common/Animated";
 import qs from "qs";
 import Toast from "react-native-toast-message";
+import { socket } from "../../util/socket";
 
 interface PropTypes {
   alias: string;

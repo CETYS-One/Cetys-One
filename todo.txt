@@ -1,3 +1,4 @@
-cancelar productos
-no fetch productos cancelados o terminados
-notificar al usuario si su pedido fue cancelado
+notificar al usuario si su pedido fue cancelado con socket
+imagen cuando no hay ordenes
+
+
