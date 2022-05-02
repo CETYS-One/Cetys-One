@@ -10,20 +10,27 @@ import {
 } from "native-base";
 import { AnimatedBox } from "../common/Animated";
 import { Swipeable } from "react-native-gesture-handler";
+import { ReactNode } from "react";
 
 interface Props extends IBoxProps {
-  id: string;
   name: string;
   price: number;
   description: string;
   photo?: string;
+  renderIcon?: ReactNode;
 }
 
 const ProductCard = (props: Props) => {
-  const { id, name, price, description, photo, ...box } = props;
+  const {
+    name,
+    price,
+    description,
+    photo,
+    renderIcon = <ChevronLeftIcon />,
+    ...box
+  } = props;
   return (
     <AnimatedBox
-      key={id}
       from={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -68,7 +75,7 @@ const ProductCard = (props: Props) => {
               justifyContent={"space-between"}
             >
               <Text>${price}</Text>
-              <ChevronLeftIcon />
+              {renderIcon}
             </HStack>
           </VStack>
         </HStack>

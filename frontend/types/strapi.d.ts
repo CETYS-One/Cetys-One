@@ -77,6 +77,8 @@ export interface IRole {
 }
 
 export interface IOrder {
+  _id: string;
+  id: string;
   status: "pending" | "rejected" | "done";
   from: IUser;
   items: IShoppingProduct[];

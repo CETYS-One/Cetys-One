@@ -31,6 +31,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import MainNavigator from "./screens/navigators/MainNavigator";
 import { IOrder } from "./types/strapi";
+import { baseURL } from "./util/axios";
 import { socket } from "./util/socket";
 
 LogBox.ignoreLogs(["Setting a timer", "Animated: `useNativeDriver`"]);
@@ -98,6 +99,7 @@ const nativeTheme = extendTheme({
 const queryClient = new QueryClient();
 
 export default function App() {
+  console.log(baseURL);
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
