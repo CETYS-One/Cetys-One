@@ -5,4 +5,10 @@
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+  findMe: async (ctx) => {
+    const store = ctx.state.user.cafeteria;
+    const orders = await strapi.services.order.find({ tienda: store });
+    return orders;
+  },
+};
