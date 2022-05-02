@@ -15,4 +15,13 @@ module.exports = {
     });
     return orders;
   },
+  findMeUser: async (ctx) => {
+    const id = ctx.state.user.id;
+    const params = ctx.query;
+    const orders = await strapi.services.order.find({
+      from: id,
+      ...params,
+    });
+    return orders;
+  },
 };
