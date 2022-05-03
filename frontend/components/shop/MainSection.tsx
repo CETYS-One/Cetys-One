@@ -18,7 +18,7 @@ const MainSection = () => {
   const { data: products, isLoading } = useQuery(
     storeData ? storeData.alias : "",
     async () => {
-      const res = await getAxios().get<ProductsByCategory>(
+      const res = await getAxios(user?.jwt).get<ProductsByCategory>(
         `/products/byCategories/${storeData?.alias}`
       );
       return res.data;
