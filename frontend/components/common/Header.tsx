@@ -4,6 +4,7 @@ import { AnimatePresence, MotiView } from "moti";
 import {
   Box,
   Center,
+  ChevronLeftIcon,
   FormControl,
   HamburgerIcon,
   HStack,
@@ -50,6 +51,7 @@ interface PropTypes {
   isLoading?: boolean;
   bgColor?: string;
   isLoadingSearch?: boolean;
+  showBack?: boolean;
   onSearch?: (value: string) => void;
   menuContent?: ReactNode;
 }
@@ -63,6 +65,7 @@ const Header = (props: PropTypes) => {
     isLoading = false,
     isLoadingSearch = false,
     onSearch,
+    showBack = true,
     bgColor = "#f59e0b",
     menuContent = <></>,
   } = props;
@@ -99,7 +102,13 @@ const Header = (props: PropTypes) => {
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
               <HStack>
-                <MenuContent />
+                {showBack && (
+                  <ChevronLeftIcon
+                    color="white"
+                    size={5}
+                    onPress={() => navigation.goBack()}
+                  />
+                )}
               </HStack>
               <HStack mt={2}>
                 <Text fontWeight={"700"} fontSize={"30px"} color="white">

@@ -83,4 +83,5 @@ export interface IOrder {
   from: IUser;
   items: IShoppingProduct[];
   to: Stores;
+  createdAt: string;
 }

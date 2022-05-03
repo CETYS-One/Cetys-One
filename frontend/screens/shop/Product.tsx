@@ -1,6 +1,13 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Formik } from "formik";
-import { Button, ChevronLeftIcon, Flex, ScrollView, VStack } from "native-base";
+import {
+  Button,
+  ChevronLeftIcon,
+  Flex,
+  ScrollView,
+  VStack,
+  Pressable,
+} from "native-base";
 import React, { useContext, useState } from "react";
 import { Image } from "react-native";
 import uuid from "react-native-uuid";
@@ -13,6 +20,7 @@ import Hora from "../../components/Product/Hora";
 import { ShopContext } from "../../context/ShopProvider";
 import { IProduct } from "../../types/strapi";
 import ObjectID from "bson-objectid";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Product = () => {
   const { storeData, addShoppingCartItem } = useContext(ShopContext);
@@ -55,29 +63,31 @@ const Product = () => {
         showsVerticalScrollIndicator={false}
       >
         <Flex w={"100%"}>
-          <ChevronLeftIcon
-            color="black"
-            size={5}
+          <Pressable
+            zIndex={1}
+            onPress={() => navigation.goBack()}
+            // backgroundColor={"amber.500"}
             position={"absolute"}
             top={"60px"}
             left={5}
+            padding={6}
+          >
+            <ChevronLeftIcon color="black" size={5} position={"absolute"} />
+          </Pressable>
+          <Image
+            source={{
+              uri: photos[0]
+                ? photos[0].url
+                : "https://www.takeoutlist.com/assets/images/food_default.png",
+            }}
+            style={{ height: 400 }}
+            resizeMode="cover"
           />
-          <SharedElement id={id}>
-            <Image
-              source={{
-                uri: photos[0]
-                  ? photos[0].url
-                  : "https://www.takeoutlist.com/assets/images/food_default.png",
-              }}
-              style={{ height: 400 }}
-              resizeMode="cover"
-            />
-          </SharedElement>
         </Flex>
 
         <AnimatedVStack
           shadow={8}
-          borderRadius={"30px"}
+          borderTopRadius={"30px"}
           mt={"-30px"}
           bgColor={"white"}
           alignItems={"center"}
@@ -119,10 +129,10 @@ const Product = () => {
                     onChange={(value) => setFieldValue("description", value)}
                     value={values.description}
                   />
-                  <Hora
+                  {/* <Hora
                     value={values.hour}
                     onChange={(value) => setFieldValue("hour", value)}
-                  />
+                  /> */}
                 </VStack>
 
                 <Button
