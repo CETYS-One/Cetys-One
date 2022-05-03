@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { Box, Text, Flex, ChevronLeftIcon, VStack } from "native-base";
+import qs from "qs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
 import Header from "../../components/common/Header";
@@ -13,17 +14,24 @@ const OrderHistory = () => {
   const axios = useAxios(user?.jwt);
 
   const { data: orders, isLoading } = useQuery("orders", async () => {
-    const res = await axios.get<IOrder[]>("orders/user/me");
+    const query = qs.stringify({
+      _sort: "createdAt:desc",
+    });
+
+    const res = await axios.get<IOrder[]>(`orders/user/me?${query}`);
     return res.data;
   });
 
   return (
-    <Header title="Historial de Ordenes">
+    <Header title="Ordenes" isLoading={isLoading}>
       <VStack space={4}>
         {orders &&
           orders.map((order) => (
             <Order
-              name={user?.user.name}
+              key={order.id}
+              to={order.to}
+              status={order.status}
+              name={order.to}
               date={format(new Date(order.createdAt), "y/MM/dd")}
               products={order.items.reduce(
                 (acc, item) => acc + item.quantity,

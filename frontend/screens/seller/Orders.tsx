@@ -30,6 +30,7 @@ const Orders = () => {
     `orders-${user?.user.cafeteria}`,
     async () => {
       const query = qs.stringify({
+        _sort: "createdAt:desc",
         _where: [{ status: "pending" }],
       });
       const res = await axios.get<IOrder[]>(`orders/me?${query}`);

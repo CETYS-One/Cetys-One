@@ -11,14 +11,17 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   Pressable,
+  Badge,
 } from "native-base";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { blue100 } from "react-native-paper/lib/typescript/styles/colors";
 import Expand from "./Expand";
 import { IShoppingProduct } from "../../context/ShopProvider";
+import { AnimatedBox } from "../common/Animated";
 
 interface PropTypes {
+  status: "pending" | "rejected" | "done";
   name: string;
   to: string;
   date: string;
@@ -28,7 +31,7 @@ interface PropTypes {
 }
 
 const Order = (props: PropTypes) => {
-  const { name, to, date, price, products, items } = props;
+  const { name, to, date, price, products, items, status } = props;
   const [isExpanded, setIsExpanded] = React.useState(false);
 
   function setExpanded() {
@@ -58,19 +61,39 @@ const Order = (props: PropTypes) => {
         </VStack>
         <VStack justifyContent={"space-between"} borderWidth={0} h={100}>
           <Text fontSize={"15px"}>{date}</Text>
+          <Badge
+            colorScheme={
+              status === "done"
+                ? "success"
+                : status === "pending"
+                ? "gray"
+                : "error"
+            }
+            alignSelf="center"
+          >
+            {status === "done"
+              ? "Completado"
+              : status === "pending"
+              ? "Pendiente"
+              : "Rechazado"}
+          </Badge>
           <HStack justifyContent={"space-between"} alignItems={"center"}>
             <Text color={"amber.400"} fontWeight={"bold"} fontSize={"20px"}>
-              {to}
+              {/* {to} */}
             </Text>
-            {isExpanded ? (
+            <AnimatedBox
+              animate={{ rotateZ: isExpanded ? "3.142rad" : "0rad" }}
+            >
               <ChevronUpIcon size={"20px"} />
+            </AnimatedBox>
+            {/* {isExpanded ? (
             ) : (
               <ChevronDownIcon size={"20px"} onPress={setExpanded} />
-            )}
+            )} */}
           </HStack>
         </VStack>
       </HStack>
-      {isExpanded ? <Expand /> : null}
+      {isExpanded ? <Expand items={items} /> : null}
     </Pressable>
   );
 };

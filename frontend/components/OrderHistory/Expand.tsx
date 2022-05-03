@@ -3,9 +3,9 @@ import { IShoppingProduct } from "../../context/ShopProvider";
 import { AnimatedBox } from "../common/Animated";
 
 interface PropTypes {
-  item: IShoppingProduct[];
+  items: IShoppingProduct[];
 }
-const Expand = ({ item }: PropTypes) => {
+const Expand = ({ items }: PropTypes) => {
   return (
     <AnimatedBox
       borderBottomRadius={"10px"}
@@ -21,30 +21,16 @@ const Expand = ({ item }: PropTypes) => {
         justifyContent={"space-between"}
         space={"1"}
       >
-        <HStack alignItems={"center"} space={"30px"}>
-          <Text>Hamburguesa</Text>
-          <Text position={"absolute"} right={0}>
-            $20
-          </Text>
-        </HStack>
-        <HStack alignItems={"center"} space={"30px"}>
-          <Text>Hamburguesa</Text>
-          <Text position={"absolute"} right={0}>
-            $20
-          </Text>
-        </HStack>
-        <HStack alignItems={"center"} space={"30px"}>
-          <Text>Spaguetti</Text>
-          <Text position={"absolute"} right={0}>
-            $20
-          </Text>
-        </HStack>
-        <HStack borderTopWidth={0.3} mt={2}>
-          <Text>Total</Text>
-          <Text position={"absolute"} right={0} fontWeight={"bold"}>
-            $105
-          </Text>
-        </HStack>
+        {items.map((item) => (
+          <HStack alignItems={"center"} space={"30px"} key={item.id}>
+            <Text>
+              {item.quantity}x {item.product.name}
+            </Text>
+            <Text position={"absolute"} right={0}>
+              ${item.quantity * item.product.price}
+            </Text>
+          </HStack>
+        ))}
       </VStack>
     </AnimatedBox>
   );
