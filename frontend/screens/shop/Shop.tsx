@@ -62,7 +62,6 @@ function LightenDarkenColor(col: string, amt: number) {
 const Shop = (props: PropTypes) => {
   const { isLoading, name, color, alias } = props;
 
-  const axios = useAxios();
   const queryClient = useQueryClient();
 
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
@@ -72,6 +71,8 @@ const Shop = (props: PropTypes) => {
   const { user, logout } = useAuth({
     onSuccessLogout: () => navigation.navigate("Welcome"),
   });
+
+  const axios = useAxios(user?.jwt);
 
   const handleProductSearch = async (query: string) => {
     setIsLoadingSearch(true);
