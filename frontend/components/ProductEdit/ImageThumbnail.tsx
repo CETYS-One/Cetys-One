@@ -45,10 +45,26 @@ const ImageThumbnail = (props: PropTypes) => {
     let result: ImagePicker.ImagePickerResult;
 
     if (camera) {
+      const cameraPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
+
+      if (!cameraPermission.granted) {
+        alert("Necesitas ortorgar permisos para usar la cámara");
+        return;
+      }
+
       result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
       });
     } else {
+      const libraryPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
+
+      if (!libraryPermission.granted) {
+        alert("Necesitas ortorgar permisos para poder ver tus fotos");
+        return;
+      }
       result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
