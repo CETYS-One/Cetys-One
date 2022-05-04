@@ -1,13 +1,11 @@
-import { SafeAreaView, TouchableOpacity } from "react-native";
-import { Box, Text, Center, ScrollView } from "native-base";
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Box, Center, ScrollView, Text } from "native-base";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import { RootStackParams } from "./Pages";
 
 const pages: string[] = [
+  "LoadingSplash",
   "SignUp",
   "Welcome",
   "Login",
@@ -18,14 +16,14 @@ const pages: string[] = [
   "Cart",
   "OrderHistory",
   "Orders",
+  "Categories",
   "Statistics",
   "ProductEdit",
   "AllProduct",
 ];
 
 const AllPages = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   return (
     <SafeAreaView>
@@ -38,13 +36,16 @@ const AllPages = () => {
             <Text mt={2}>
               Aqui puedes acceder a cualquier pagina que se esta trabajando.
               Tambien puedes ver el progreso de los demas sin tanta
-              complicacion:D
+              complicacion:D jijijija
             </Text>
           </Box>
           <ScrollView h="550">
             {pages.map((page) => (
               // @ts-ignore
-              <TouchableOpacity onPress={() => navigation.navigate(page)}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(page)}
+                key={page}
+              >
                 <Box key={page} my={2} p={4} bg={"gray.200"} borderRadius={4}>
                   <Text>{page}</Text>
                 </Box>

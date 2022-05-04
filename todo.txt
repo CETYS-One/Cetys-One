@@ -1,0 +1,4 @@
+notificar al usuario si su pedido fue cancelado con socket
+imagen cuando no hay ordenes
+
+

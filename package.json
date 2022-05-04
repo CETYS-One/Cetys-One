@@ -9,12 +9,19 @@
         "install:server": "yarn --cwd backend",
         "install:client": "yarn --cwd frontend",
         "dev:client": "yarn --cwd frontend start",
-        "dev:server": "yarn --cwd backend dev",
+        "dev:client:android": "yarn --cwd frontend start --android",
+        "dev:client:android:ngrok": "set ENV=ngrok && yarn --cwd frontend start --android",
+        "dev:server": "node ./tools/baseUrl.js && yarn --cwd backend dev",
+        "dev:server:ngrok": "concurrently \"yarn --cwd backend dev\" \"node ./tools/connectNGROK.js\"",
         "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+        "dev:android": "concurrently \"yarn dev:server\" \"yarn dev:client:android\"",
+        "dev:android:ngrok": "concurrently \"yarn dev:server:ngrok\" \"yarn dev:client:android:ngrok\"",
         "db:save": "python ./tools/savedb.py",
         "db:reset": "python ./tools/resetdb.py"
     },
     "dependencies": {
-        "concurrently": "^7.0.0"
+        "concurrently": "^7.0.0",
+        "dotenv": "^16.0.0",
+        "ngrok": "^4.3.1"
     }
 }

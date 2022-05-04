@@ -1,26 +1,33 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Formik } from "formik";
-import { MotiView } from "moti";
 import {
   Box,
-  Text,
-  VStack,
+  Button,
+  ChevronLeftIcon,
   FormControl,
   Input,
-  Button,
-  IconButton,
-  ChevronLeftIcon,
+  Text,
+  VStack,
 } from "native-base";
+import { useContext } from "react";
 import { TouchableOpacity } from "react-native";
-import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
+import { ShopContext } from "../../context/ShopProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { RootStackParams } from "../Pages";
 
 const Login = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
+  const { handleStoreChange } = useContext(ShopContext);
+  const { login, isSigningIn } = useAuth({
+    onSuccessLogin: () => navigation.replace("Shop"),
+    onSuccessLoginSeller: (store) => {
+      handleStoreChange(store);
+      navigation.replace("AllProducts");
+    },
+  });
   return (
     <Box>
       <Box h="28%" background={"amber.500"}>
@@ -44,7 +51,7 @@ const Login = () => {
           <Box mt={10}>
             <Formik
               initialValues={{ id: "", password: "" }}
-              onSubmit={(values) => console.log(values)}
+              onSubmit={(values) => login(values.id, values.password)}
               validationSchema={Yup.object({
                 id: Yup.string().required("La matricula es requerida."),
                 password: Yup.string().required("La contrasena es requerida"),
@@ -91,8 +98,9 @@ const Login = () => {
                     backgroundColor={"amber.500"}
                     mt={10}
                     py={4}
+                    isLoading={isSigningIn}
                   >
-                    Inicar Sesion
+                    Iniciar Sesion
                   </Button>
                   <Button variant="ghost" colorScheme={"amber"} mt={5}>
                     Olvide mi contrasena

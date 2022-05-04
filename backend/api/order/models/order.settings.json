@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "name": "Order",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shopping.shopping"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "rejected",
+        "done"
+      ]
+    },
+    "from": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "to": {
+      "type": "enumeration",
+      "enum": [
+        "DVolada",
+        "Honey",
+        "Cafeteria"
+      ]
+    }
+  }
+}

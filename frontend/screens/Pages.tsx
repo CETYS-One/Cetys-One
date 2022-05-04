@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./user/Login";
 import Password from "./user/Password";
 import Profile from "./user/Profile";
@@ -14,6 +14,13 @@ import Orders from "./seller/Orders";
 import AllProducts from "./seller/AllProducts";
 import Welcome from "./user/Welcome";
 import AllPages from "./AllPages";
+import Categories from "./seller/Categories";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { enableScreens } from "react-native-screens";
+import { useEffect } from "react";
+import LoadingSplash from "./LoadingSlapsh";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+enableScreens(false);
 
 export type RootStackParams = {
   AllPages: any;
@@ -30,17 +37,17 @@ export type RootStackParams = {
   ProductEdit: any;
   AllProduct: any;
   Welcome: any;
+  Categories: any;
+  LoadingSplash: any;
 };
 
-const Stack = createNativeStackNavigator<RootStackParams>();
+const Stack = createSharedElementStackNavigator<RootStackParams>();
 
 const Pages = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="AllPages"
-        screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}
-      >
+      <Stack.Navigator initialRouteName="LoadingSplash">
+        <Stack.Screen name="LoadingSplash" component={LoadingSplash} />
         <Stack.Screen name="AllPages" component={AllPages} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -48,10 +55,10 @@ const Pages = () => {
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Shop" component={Shop} />
-        <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Orders" component={Orders} />
+        <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Statistics" component={Statistics} />
         <Stack.Screen name="ProductEdit" component={ProductEdit} />
         <Stack.Screen name="AllProduct" component={AllProducts} />

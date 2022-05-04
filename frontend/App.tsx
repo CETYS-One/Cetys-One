@@ -1,12 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { extendTheme, NativeBaseProvider } from "native-base";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import Pages from "./screens/Pages";
-
-import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
 import {
-  useFonts,
   Montserrat_100Thin,
   Montserrat_100Thin_Italic,
   Montserrat_200ExtraLight,
@@ -21,7 +13,28 @@ import {
   Montserrat_600SemiBold_Italic,
   Montserrat_700Bold,
   Montserrat_700Bold_Italic,
+  useFonts,
 } from "@expo-google-fonts/montserrat";
+import { StatusBar } from "expo-status-bar";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import { useEffect } from "react";
+import { LogBox } from "react-native";
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider as PaperProvider } from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { QueryClient, QueryClientProvider } from "react-query";
+import AuthProvider from "./context/AuthProvider";
+import ShopProvider from "./context/ShopProvider";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import MainNavigator from "./screens/navigators/MainNavigator";
+import { IOrder } from "./types/strapi";
+import { baseURL } from "./util/axios";
+import { socket } from "./util/socket";
+
+LogBox.ignoreLogs(["Setting a timer", "Animated: `useNativeDriver`"]);
 
 const nativeTheme = extendTheme({
   fontConfig: {
@@ -67,9 +80,15 @@ const nativeTheme = extendTheme({
       variants: {
         white: () => {
           return {
-            color: "white",
-            placeholderTextColor: "white",
-            focusOutlineColor: "gray.200",
+            _light: {
+              borderColor: "white",
+              placeholderTextColor: "white",
+              _focus: {
+                borderColor: "green.500",
+              },
+            },
+            placeholder: "Busca aqui",
+            style: { color: "white", borderColor: "white", borderWidth: 1 },
           };
         },
       },
@@ -77,7 +96,10 @@ const nativeTheme = extendTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 export default function App() {
+  console.log(baseURL);
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
@@ -103,8 +125,20 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NativeBaseProvider theme={nativeTheme}>
-          <Pages />
-          <StatusBar />
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <ShopProvider>
+                <PaperProvider>
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <MainNavigator />
+                    {/* <Pages /> */}
+                    <StatusBar />
+                    <Toast />
+                  </GestureHandlerRootView>
+                </PaperProvider>
+              </ShopProvider>
+            </AuthProvider>
+          </QueryClientProvider>
         </NativeBaseProvider>
       </SafeAreaProvider>
     );

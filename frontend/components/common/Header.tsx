@@ -1,138 +1,213 @@
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { AnimatePresence, MotiView } from "moti";
 import {
   Box,
-  Button,
   Center,
   ChevronLeftIcon,
   FormControl,
+  HamburgerIcon,
   HStack,
-  IconButton,
-  Input,
+  Icon,
   KeyboardAvoidingView,
-  PresenceTransition,
+  Menu,
+  Pressable,
   ScrollView,
   SearchIcon,
   Spacer,
+  Spinner,
   Text,
   VStack,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, {
+  MutableRefObject,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Button } from "react-native";
 import { Platform, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { ReactNode, useState } from "react";
-import { RootStackParams } from "../../screens/Pages";
-import { color } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ShopContext } from "../../context/ShopProvider";
+import { RootStackParamList } from "../../types";
+import { AnimatedBox } from "./Animated";
+import WhiteInput from "./WhiteInput";
+import {
+  Entypo,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import MenuUser from "./Menu";
+import MenuContent from "./Menu";
 
 interface PropTypes {
   title: string;
   children: ReactNode;
   searchBar?: boolean;
-  onSearchbarPressed?: () => void;
+  container?: boolean;
+  isLoading?: boolean;
+  bgColor?: string;
+  isLoadingSearch?: boolean;
+  showBack?: boolean;
+  onSearch?: (value: string) => void;
+  menuContent?: ReactNode;
 }
+
 const Header = (props: PropTypes) => {
-  const { title, children, searchBar = false, onSearchbarPressed } = props;
+  const {
+    title,
+    children,
+    searchBar = false,
+    container = true,
+    isLoading = false,
+    isLoadingSearch = false,
+    onSearch,
+    showBack = true,
+    bgColor = "#f59e0b",
+    menuContent = <></>,
+  } = props;
 
+  const inputRef = useRef<MutableRefObject<any>>(null);
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Workarourd
-  const [renderPlaceholderList, setRenderPlaceholderList] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
 
-  const handleSearch = () => {
-    setIsSearchbarOpen(false);
-    setIsSearchbarOpen(!isSearchbarOpen);
-  };
+  const { storeData } = useContext(ShopContext);
 
   const handleOpenSearchbar = () => {
-    // setRenderPlaceholderList(true);
     setIsSearchbarOpen(!isSearchbarOpen);
   };
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  useEffect(() => {
+    if (!isSearchbarOpen) return;
+
+    (inputRef.current as any).focus();
+  }, [isSearchbarOpen]);
+
+  const handleSearch = () => {
+    onSearch && onSearch(searchQuery);
+  };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      enabled={false}
-    >
-      <Box height="18%" background={"amber.500"}>
-        <VStack w={"90%"} margin={"auto"}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ChevronLeftIcon color="white" size={5} />
-          </TouchableOpacity>
-          {/* <HStack mt={2}> */}
-          <HStack mt={2}>
-            <Text fontWeight={"700"} fontSize={"30px"} color="white">
-              {title}
-            </Text>
-            <Spacer />
-            <Center>
-              {searchBar && (
-                <SearchIcon
-                  color="white"
-                  size="5"
-                  onPress={handleOpenSearchbar}
-                />
+    <SafeAreaView style={{ backgroundColor: storeData?.color }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        enabled={false}
+      >
+        <Box height={"18%"} style={{ backgroundColor: storeData?.color }}>
+          <VStack w={"90%"} margin={"auto"}>
+            <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
+              <HStack>
+                {showBack && (
+                  <ChevronLeftIcon
+                    color="white"
+                    size={5}
+                    onPress={() => navigation.goBack()}
+                  />
+                )}
+              </HStack>
+              <HStack mt={2}>
+                <Text fontWeight={"700"} fontSize={"30px"} color="white">
+                  {title}
+                </Text>
+                {isLoading && <Spinner color={"white"} ml={5} />}
+                <Spacer />
+                {searchBar && (
+                  <Center>
+                    <Pressable pl={5} py={4} onPress={handleOpenSearchbar}>
+                      <SearchIcon color="white" size="5" />
+                    </Pressable>
+                  </Center>
+                )}
+              </HStack>
+            </MotiView>
+            <AnimatePresence>
+              {isSearchbarOpen && (
+                <MotiView
+                  from={{ translateX: -480 }}
+                  animate={{ translateX: 0 }}
+                  exit={{ translateX: -480 }}
+                  transition={{ type: "timing", duration: 500 }}
+                  style={{
+                    position: "absolute",
+                    bottom: -40,
+                    right: 0,
+                    left: 0,
+                  }}
+                >
+                  <FormControl w="100%" mt={2} position={"relative"} zIndex={2}>
+                    <HStack w="100%">
+                      <WhiteInput
+                        w="80%"
+                        // borderRightRadius={0}
+                        value={searchQuery}
+                        rounded={0}
+                        handleRef={inputRef}
+                        onChange={(e) => setSearchQuery(e.nativeEvent.text)}
+                      />
+                      <TouchableOpacity
+                        style={{
+                          flex: 1,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderColor: "white",
+                          borderWidth: 1,
+                          borderLeftWidth: 0,
+                          borderTopRightRadius: 4,
+                          borderBottomEndRadius: 4,
+                        }}
+                        onPress={() => !isLoadingSearch && handleSearch()}
+                      >
+                        {isLoadingSearch ? (
+                          <Spinner color="white" />
+                        ) : (
+                          <Text color="white">Buscar</Text>
+                        )}
+                      </TouchableOpacity>
+                      {/* <Button
+                        // style={{
+                        //   backgroundColor: bgColor,
+                        // }}
+
+                        title="Buscar"
+                        onPress={handleSearch}
+                        // isLoading={isLoadingSearch}
+                      /> */}
+                    </HStack>
+                  </FormControl>
+                </MotiView>
               )}
-            </Center>
-          </HStack>
-          <PresenceTransition
-            visible={isSearchbarOpen}
-            initial={{ translateX: -400 }}
-            animate={{
-              translateX: 0,
-              transition: {
-                type: "spring",
-                velocity: 10,
-              },
-            }}
-          >
-            <FormControl w="100%" mt={2}>
-              <Input
-                variant={"outline"}
-                borderColor={"white"}
-                _light={{
-                  placeholderTextColor: "white",
-                  _focus: {
-                    borderColor: "white",
-                  },
-                }}
-                placeholder={"Busca aqui"}
-                style={{ color: "white" }}
-              />
-            </FormControl>
-          </PresenceTransition>
-        </VStack>
-      </Box>
-      {searchBar ? (
-        <PresenceTransition
-          style={{ height: "85%" }}
-          visible={isSearchbarOpen}
-          initial={{ translateY: 0 }}
-          animate={{ translateY: 30 }}
-        >
-          <Box
-            background={"white"}
-            borderTopRadius={20}
-            mt={-4}
-            height={"100%"}
-          >
-            <ScrollView height={"100%"}>
-              <Box w={"90%"} mx={"auto"} mt={10} background="white">
-                <>{children}</>
-              </Box>
-            </ScrollView>
-          </Box>
-        </PresenceTransition>
-      ) : (
-        <Box background={"white"} borderTopRadius={20} mt={-4} height="85%">
-          <ScrollView height={"100%"}>
-            <Box w={"90%"} mx={"auto"} mt={10} background="white">
-              <>{children}</>
-            </Box>
-          </ScrollView>
+            </AnimatePresence>
+          </VStack>
         </Box>
-      )}
-    </KeyboardAvoidingView>
+
+        <AnimatedBox
+          background={"white"}
+          borderTopRadius={20}
+          mt={-4}
+          height="85%"
+          animate={{ translateY: isSearchbarOpen ? 50 : 0 }}
+          position={"relative"}
+          zIndex={1}
+        >
+          <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
+            {container ? (
+              <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
+                {children}
+              </Box>
+            ) : (
+              <Box mt={10} mb={20} background={"white"}>
+                {children}
+              </Box>
+            )}
+          </ScrollView>
+        </AnimatedBox>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

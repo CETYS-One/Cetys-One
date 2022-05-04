@@ -1,118 +1,134 @@
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Formik, yupToFormErrors } from "formik";
 import {
-  Button,
   Box,
-  VStack,
-  Text,
+  Button,
   ChevronLeftIcon,
-  ScrollView,
   FormControl,
   Input,
+  ScrollView,
+  Text,
+  VStack,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { stringify } from "qs";
+import React, { useContext } from "react";
 import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
-import { RootStackParams } from "../Pages";
-import { Formik } from "formik";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { useMutation } from "react-query";
+import Header from "../../components/common/Header";
+import { ShopContext } from "../../context/ShopProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { useAxios } from "../../hooks/useAxios";
+import { getErrorMessage } from "../../util/axios";
+import { RootStackParams } from "../Pages";
 import * as Yup from "yup";
+import { AxiosError } from "axios";
 
 const Profile = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
+  const { storeData } = useContext(ShopContext);
+  const { user, loadUserData } = useAuth({
+    onSuccessLoad: () => navigation.goBack(),
+  });
+  const axios = useAxios(user?.jwt);
+
+  const handleProfileUpdate = useMutation(
+    async (values: { name: string; password: string }) => {
+      await axios.put(`users/${user?.user.id}`, {
+        ...values,
+        password: !values.password ? undefined : values.password,
+      });
+    },
+    {
+      onSuccess: () => {
+        Toast.show({
+          text1: "Exito",
+          text2: "Perfil actualizado con exito",
+          type: "success",
+        });
+
+        loadUserData();
+      },
+      onError: (err: AxiosError<any, any>) => {
+        Toast.show({
+          text1: "Error",
+          text2: `No se pudo actualizar el perfil: ${getErrorMessage(err)}`,
+          type: "error",
+        });
+      },
+    }
+  );
   return (
-    <SafeAreaView>
-      <Box h="28%" background={"amber.500"}>
-        <VStack w={"90%"} margin={"auto"}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ChevronLeftIcon color="white" size={5} />
-          </TouchableOpacity>
-          <Text fontWeight={"700"} fontSize={"30px"} color="white" mt={5}>
-            Perfil
-          </Text>
+    <Header title="Perfil">
+      <Box>
+        <VStack space={2} mb={10}>
+          <Text fontWeight={"bold"}>Correo:</Text>
+          <Text>{user?.user.email}</Text>
+          <Text fontWeight={"bold"}>Matricula:</Text>
+          <Text>{user?.user.username}</Text>
         </VStack>
-      </Box>
-      <Box h="82%" background={"white"} borderTopRadius={20} mt={-4}>
-        <ScrollView
-          w={"90%"}
-          mx={"auto"}
-          mt={10}
-          showsVerticalScrollIndicator={false}
+        <Formik
+          initialValues={{
+            name: user?.user.name ?? "",
+            password: "",
+          }}
+          onSubmit={(values) => handleProfileUpdate.mutate(values)}
+          validationSchema={Yup.object({
+            name: Yup.string().required("El nombre es requerido"),
+          })}
         >
-          <Box h={"600px"}>
-            <VStack space={2} mb={10}>
-              <Text fontWeight={"bold"}>Correo:</Text>
-              <Text>hola@gmail.com</Text>
-              <Text fontWeight={"bold"}>Matricula:</Text>
-              <Text>13252</Text>
-            </VStack>
-            <Formik
-              initialValues={{
-                name: "",
-                password: "",
-              }}
-              onSubmit={(values) => console.log(values)}
-            >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                touched,
-              }) => (
-                // @ts-ignore
-                <KeyboardAwareScrollView
-                  extraScrollHeight={100}
-                  enableOnAndroid
-                  keyboardShouldPersistTaps="handled"
-                >
-                  <ScrollView>
-                    <FormControl isInvalid={touched.name && !!errors.name}>
-                      <FormControl.Label>Nombre *</FormControl.Label>
-                      <Input
-                        onChangeText={handleChange("name")}
-                        onBlur={handleBlur("name")}
-                        value={values.name}
-                      />
-                      <FormControl.ErrorMessage>
-                        {errors.name}
-                      </FormControl.ErrorMessage>
-                    </FormControl>
-                    <FormControl
-                      isInvalid={touched.password && !!errors.password}
-                    >
-                      <FormControl.Label>Contraseña *</FormControl.Label>
-                      <Input
-                        type="password"
-                        onChangeText={handleChange("password")}
-                        onBlur={handleBlur("password")}
-                        value={values.password}
-                      />
-                      <FormControl.ErrorMessage>
-                        {errors.password}
-                      </FormControl.ErrorMessage>
-                    </FormControl>
-                    <Button
-                      type="submit"
-                      onPress={() => handleSubmit()}
-                      borderRadius="10"
-                      backgroundColor={"amber.500"}
-                      mt={10}
-                      py={4}
-                    >
-                      Guardar Cambios
-                    </Button>
-                  </ScrollView>
-                </KeyboardAwareScrollView>
-              )}
-            </Formik>
-          </Box>
-        </ScrollView>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <FormControl isInvalid={touched.name && !!errors.name}>
+                <FormControl.Label>Nombre *</FormControl.Label>
+                <Input
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                />
+                <FormControl.ErrorMessage>
+                  {errors.name}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={touched.password && !!errors.password}>
+                <FormControl.Label>Contraseña *</FormControl.Label>
+                <Input
+                  type="password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                />
+                <FormControl.ErrorMessage>
+                  {errors.password}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <Button
+                type="submit"
+                onPress={() => handleSubmit()}
+                borderRadius="10"
+                isLoading={handleProfileUpdate.isLoading}
+                backgroundColor={storeData?.color}
+                mt={10}
+                py={4}
+              >
+                Guardar Cambios
+              </Button>
+            </>
+          )}
+        </Formik>
       </Box>
-    </SafeAreaView>
+    </Header>
   );
 };
 
