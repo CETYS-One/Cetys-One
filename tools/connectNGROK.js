@@ -3,7 +3,7 @@ const fs = require("fs").promises;
 const path = require("path");
 require("dotenv").config();
 
-const TOKEN = "247748POiDjrY9OzfUfwJ7U9pIN_7HQZmD8PhYaEqueS5tmyT";
+const TOKEN = "28EHZ1k69cliwMu5kaTAoJEL7G1_CzdfMbJqDwtSXKkrvptr";
 
 const getNgrokUrl = async() => {
     await ngrok.authtoken(`${process.env.NGROK_TOKEN}`);
