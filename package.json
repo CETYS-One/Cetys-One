@@ -1,20 +1,20 @@
 {
-  "name": "cetys-one",
-  "version": "0.0.1",
-  "repository": "https://github.com/CETYS-One/Cetys-One.git",
-  "author": "CETYS One",
-  "license": "MIT",
-  "scripts": {
-    "install:all": "yarn && yarn --cwd backend && yarn --cwd frontend",
-    "install:server": "yarn --cwd backend",
-    "install:client": "yarn --cwd frontend",
-    "dev:client": "yarn --cwd frontend start",
-    "dev:server": "yarn --cwd backend dev",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "db:save": "python ./tools/savedb.py",
-    "db:reset": "python ./tools/resetdb.py"
-  },
-  "dependencies": {
-    "concurrently": "^7.0.0"
-  }
+    "name": "cetys-one",
+    "version": "0.0.1",
+    "repository": "https://github.com/CETYS-One/Cetys-One.git",
+    "author": "CETYS One",
+    "license": "MIT",
+    "scripts": {
+        "install:all": "yarn && yarn --cwd backend && yarn --cwd frontend",
+        "install:server": "yarn --cwd backend",
+        "install:client": "yarn --cwd frontend",
+        "dev:client": "yarn --cwd frontend start",
+        "dev:server": "yarn --cwd backend dev",
+        "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+        "db:save": "python ./tools/savedb.py",
+        "db:reset": "python ./tools/resetdb.py"
+    },
+    "dependencies": {
+        "concurrently": "^7.0.0"
+    }
 }
