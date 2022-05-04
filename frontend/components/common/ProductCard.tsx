@@ -11,12 +11,14 @@ import {
 import { AnimatedBox } from "../common/Animated";
 import { Swipeable } from "react-native-gesture-handler";
 import { ReactNode } from "react";
+import ImageBlurLoading from "react-native-image-blur-loading";
 
 interface Props extends IBoxProps {
   name: string;
   price: number;
   description: string;
   photo?: string;
+  photoBlur?: string;
   renderIcon?: ReactNode;
 }
 
@@ -26,7 +28,9 @@ const ProductCard = (props: Props) => {
     price,
     description,
     photo,
+    photoBlur,
     renderIcon = <ChevronLeftIcon />,
+    id,
     ...box
   } = props;
   return (
@@ -47,15 +51,17 @@ const ProductCard = (props: Props) => {
         <HStack position={"relative"} w="100%">
           {!!photo && (
             <Center w="30%" h={100}>
-              <Image
+              <ImageBlurLoading
+                thumbnailSource={{ uri: photoBlur }}
                 source={{
                   uri: photo,
                 }}
-                borderLeftRadius={4}
-                resizeMode={"cover"}
-                w="100%"
-                h="100"
-                alt="src"
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  resizeMode: "cover",
+                  borderLeftRadius: 4,
+                }}
               />
             </Center>
           )}

@@ -101,15 +101,21 @@ const Header = (props: PropTypes) => {
         <Box height={"18%"} style={{ backgroundColor: storeData?.color }}>
           <VStack w={"90%"} margin={"auto"}>
             <MotiView animate={{ translateY: isSearchbarOpen ? -15 : 0 }}>
-              <HStack>
-                {showBack && (
+              {showBack && (
+                <Pressable
+                  onPress={() => navigation.goBack()}
+                  p={4}
+                  w={20}
+                  py={5}
+                >
                   <ChevronLeftIcon
                     color="white"
                     size={5}
-                    onPress={() => navigation.goBack()}
+                    position={"absolute"}
+                    top={2}
                   />
-                )}
-              </HStack>
+                </Pressable>
+              )}
               <HStack mt={2}>
                 <Text fontWeight={"700"} fontSize={"25px"} color="white">
                   {title}
@@ -144,6 +150,7 @@ const Header = (props: PropTypes) => {
                       <WhiteInput
                         w="80%"
                         // borderRightRadius={0}
+                        // size={"lg"}
                         value={searchQuery}
                         rounded={0}
                         handleRef={inputRef}

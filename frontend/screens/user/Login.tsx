@@ -24,7 +24,11 @@ const Login = () => {
 
   const { handleStoreChange } = useContext(ShopContext);
   const { login, isSigningIn } = useAuth({
-    onSuccessLogin: () => navigation.replace("Shop"),
+    onSuccessLogin: () =>
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Shop" }],
+      }),
     onSuccessLoginSeller: (store) => {
       handleStoreChange(store);
       navigation.replace("AllProducts");

@@ -23,7 +23,7 @@ const Expand = ({ items }: PropTypes) => {
       >
         {items.map((item) => (
           <HStack alignItems={"center"} space={"30px"} key={item.id}>
-            <Text>
+            <Text w={"80%"}>
               {item.quantity}x {item.product.name}
             </Text>
             <Text position={"absolute"} right={0}>

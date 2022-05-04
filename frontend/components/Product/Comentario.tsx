@@ -7,7 +7,7 @@ interface PropTypes {
 
 const Comentario = ({ onChange, value }: PropTypes) => {
   return (
-    <VStack space={"2"} alignItems={"center"}>
+    <VStack space={"2"} alignItems={"flex-start"} justifyContent={"flex-start"}>
       <Text fontSize={"20px"}>Comentario</Text>
       <TextArea
         value={value}

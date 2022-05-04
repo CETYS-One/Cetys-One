@@ -1,8 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Toast from "react-native-toast-message";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { useQueryClient } from "react-query";
+import { ShopContext } from "../../context/ShopProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { IOrder, Stores } from "../../types/strapi";
 import { socket } from "../../util/socket";
@@ -38,10 +40,12 @@ export type IAuthNav = {
   Statistics: any;
 };
 
+// const Stack = createStackNavigator<IAuthNav>();
 const Stack = createStackNavigator<IAuthNav>();
 
 const MainNavigator = () => {
   const { user } = useAuth({});
+  const { storeData } = useContext(ShopContext);
 
   const queryClient = useQueryClient();
   socket.on("order", (store: Stores) => {

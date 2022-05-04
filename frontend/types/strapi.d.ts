@@ -10,7 +10,7 @@ export interface UploadFile extends ImageFormat {
   updatedAt: string;
   created_by: string;
   updated_by: string;
-  providers: {
+  formats: {
     thumbnail?: ImageFormat;
     small?: ImageFormat;
     medium?: ImageFormat;

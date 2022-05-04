@@ -12,7 +12,7 @@ import React, { useContext, useState } from "react";
 import { Image } from "react-native";
 import uuid from "react-native-uuid";
 import { SharedElement } from "react-navigation-shared-element";
-import { AnimatedVStack } from "../../components/common/Animated";
+import { AnimatedBox, AnimatedVStack } from "../../components/common/Animated";
 import Cantidad from "../../components/Product/Cantidad";
 import Comentario from "../../components/Product/Comentario";
 import Description from "../../components/Product/Description";
@@ -21,6 +21,9 @@ import { ShopContext } from "../../context/ShopProvider";
 import { IProduct } from "../../types/strapi";
 import ObjectID from "bson-objectid";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ImageBlurLoading from "react-native-image-blur-loading";
+import Toast from "react-native-toast-message";
+import { addScaleCorrection } from "framer-motion";
 
 const Product = () => {
   const { storeData, addShoppingCartItem } = useContext(ShopContext);
@@ -49,9 +52,13 @@ const Product = () => {
       quantity: values.quantity,
       description: values.description,
       hour: "",
-      id: new ObjectID().str,
+      id: ObjectID().toHexString(),
     });
 
+    Toast.show({
+      text1: "Producto agregado",
+      text2: "El producto ha sido agregado con exito al carrito",
+    });
     navigation.goBack();
   };
 
@@ -74,14 +81,18 @@ const Product = () => {
           >
             <ChevronLeftIcon color="black" size={5} position={"absolute"} />
           </Pressable>
-          <Image
+          <ImageBlurLoading
+            thumbnailSource={{
+              uri: photos[0]
+                ? photos[0].formats.thumbnail?.url
+                : "https://www.takeoutlist.com/assets/images/food_default.png",
+            }}
             source={{
               uri: photos[0]
                 ? photos[0].url
                 : "https://www.takeoutlist.com/assets/images/food_default.png",
             }}
-            style={{ height: 400 }}
-            resizeMode="cover"
+            style={{ height: 400, resizeMode: "cover" }}
           />
         </Flex>
 

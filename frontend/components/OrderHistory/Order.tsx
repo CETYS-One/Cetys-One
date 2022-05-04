@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { endOfDay } from "date-fns";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Flex,
   VStack,
@@ -17,7 +17,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { blue100 } from "react-native-paper/lib/typescript/styles/colors";
 import Expand from "./Expand";
-import { IShoppingProduct } from "../../context/ShopProvider";
+import { IShoppingProduct, ShopContext } from "../../context/ShopProvider";
 import { AnimatedBox } from "../common/Animated";
 
 interface PropTypes {
@@ -31,6 +31,7 @@ interface PropTypes {
 }
 
 const Order = (props: PropTypes) => {
+  const { storeData } = useContext(ShopContext);
   const { name, to, date, price, products, items, status } = props;
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -51,7 +52,9 @@ const Order = (props: PropTypes) => {
         paddingRight={"10px"}
       >
         <VStack justifyContent={"space-between"} py={"10px"}>
-          <Text fontSize={"20px"}>{name}</Text>
+          <Text fontSize={"20px"} color={storeData?.color} fontWeight={"bold"}>
+            {name}
+          </Text>
           <Text fontSize={"15px"} color={"gray.600"}>
             {products} Producto(s)
           </Text>
@@ -82,7 +85,7 @@ const Order = (props: PropTypes) => {
               {/* {to} */}
             </Text>
             <AnimatedBox
-              animate={{ rotateZ: isExpanded ? "3.142rad" : "0rad" }}
+              animate={{ rotateZ: isExpanded ? "0rad" : "3.142rad" }}
             >
               <ChevronUpIcon size={"20px"} />
             </AnimatedBox>

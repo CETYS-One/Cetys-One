@@ -8,8 +8,10 @@ import {
   HStack,
   TextArea,
   Button,
+  Pressable,
 } from "native-base";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../../context/ShopProvider";
 
 interface PropTypes {
   onChange: (value: number) => void;
@@ -17,6 +19,7 @@ interface PropTypes {
 }
 
 const Cantidad = ({ onChange, value }: PropTypes) => {
+  const { storeData } = useContext(ShopContext);
   function addOne() {
     onChange(value + 1);
   }
@@ -26,38 +29,18 @@ const Cantidad = ({ onChange, value }: PropTypes) => {
   }
 
   return (
-    <VStack alignItems={"center"} space={2}>
+    <VStack alignItems={"flex-start"} justifyContent={"flex-start"} space={2}>
       <Text fontSize={"20px"}>Cantidad</Text>
-      <HStack justifyContent={"center"} alignItems={"center"} space={3}>
-        <Button
-          bgColor={"white"}
-          color={"black"}
-          borderRadius={"10000"}
-          h={"40px"}
-          w={"40px"}
-          onPress={reduceOne}
-          borderWidth={"1px"}
-          borderColor={"gray.300"}
-        >
-          <Text fontWeight={"bold"} fontSize={10}>
-            -
-          </Text>
-        </Button>
-        <Text>{value}</Text>
-        <Button
-          bgColor={"white"}
-          color={"black"}
-          borderRadius={"10000"}
-          h={"40px"}
-          w={"40px"}
-          borderWidth={"1px"}
-          borderColor={"gray.300"}
-          onPress={addOne}
-        >
-          <Text fontWeight={"bold"} fontSize={10} textAlign={"center"}>
-            +
-          </Text>
-        </Button>
+      <HStack alignItems={"center"} justifyContent={"center"}>
+        <Pressable onPress={reduceOne} pr={5}>
+          <Text fontSize={30}>-</Text>
+        </Pressable>
+        <Text fontSize={20} px={5}>
+          {value}
+        </Text>
+        <Pressable onPress={addOne} pl={5}>
+          <Text fontSize={30}>+</Text>
+        </Pressable>
       </HStack>
     </VStack>
   );
