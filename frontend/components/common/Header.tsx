@@ -111,7 +111,7 @@ const Header = (props: PropTypes) => {
                 )}
               </HStack>
               <HStack mt={2}>
-                <Text fontWeight={"700"} fontSize={"30px"} color="white">
+                <Text fontWeight={"700"} fontSize={"25px"} color="white">
                   {title}
                 </Text>
                 {isLoading && <Spinner color={"white"} ml={5} />}
@@ -168,15 +168,6 @@ const Header = (props: PropTypes) => {
                           <Text color="white">Buscar</Text>
                         )}
                       </TouchableOpacity>
-                      {/* <Button
-                        // style={{
-                        //   backgroundColor: bgColor,
-                        // }}
-
-                        title="Buscar"
-                        onPress={handleSearch}
-                        // isLoading={isLoadingSearch}
-                      /> */}
                     </HStack>
                   </FormControl>
                 </MotiView>
@@ -189,7 +180,7 @@ const Header = (props: PropTypes) => {
           background={"white"}
           borderTopRadius={20}
           mt={-4}
-          height="85%"
+          height="87%"
           animate={{ translateY: isSearchbarOpen ? 50 : 0 }}
           position={"relative"}
           zIndex={1}

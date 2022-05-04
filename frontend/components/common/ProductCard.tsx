@@ -59,13 +59,10 @@ const ProductCard = (props: Props) => {
               />
             </Center>
           )}
-          <VStack
-            padding={3}
-            h={100}
-            w={photo ? "70%" : "100%"}
-            flexWrap={"wrap"}
-          >
-            <Text fontWeight={"bold"}>{name}</Text>
+          <VStack padding={3} h={100} w={photo ? "70%" : "100%"} flexGrow={1}>
+            <Text fontWeight={"bold"} fontSize={12}>
+              {name}
+            </Text>
             <Text fontSize={"xs"} flexWrap={"wrap"}>
               {description}
             </Text>

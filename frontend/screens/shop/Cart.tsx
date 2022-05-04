@@ -49,7 +49,7 @@ const Cart = () => {
           justifyContent: "center",
         }}
       >
-        <Text textAlign={"center"} color={"white"} px={4}>
+        <Text textAlign={"center"} color={"white"} px={4} fontSize={13}>
           Eliminar
         </Text>
       </TouchableOpacity>
@@ -58,12 +58,12 @@ const Cart = () => {
 
   const submitConfimation = (shop: Stores) => {
     Alert.alert("Realizar Pedido", "¿Estas seguro de realizar el pedido?", [
+      { text: "No" },
       {
         text: "Si",
         onPress: () =>
           handleSubmit.mutate({ orders: shoppingCart[shop], shop }),
       },
-      { text: "No" },
     ]);
   };
 

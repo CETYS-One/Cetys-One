@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { HStack, Skeleton, VStack, Button } from "native-base";
 import { useContext } from "react";
-import { Pressable } from "react-native";
+import { Dimensions, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery, useQueryClient } from "react-query";
 import { ProductsByCategory, ShopContext } from "../../context/ShopProvider";
@@ -48,9 +48,10 @@ const MainSection = () => {
         <>
           {user?.user.role.type === "seller" && (
             <VStack>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProductManagement")}
+              >
                 <Button
-                  onPress={() => navigation.navigate("ProductManagement")}
                   backgroundColor={storeData?.color}
                   w={"95%"}
                   m={"auto"}
@@ -59,9 +60,10 @@ const MainSection = () => {
                   Crear Nuevo Producto
                 </Button>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Categories")}
+              >
                 <Button
-                  onPress={() => navigation.navigate("Categories")}
                   backgroundColor={storeData?.color}
                   w={"95%"}
                   m={"auto"}

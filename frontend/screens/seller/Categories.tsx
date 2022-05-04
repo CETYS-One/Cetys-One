@@ -107,7 +107,7 @@ const Categories = () => {
           {isLoading ? (
             <Spinner color={"white"} />
           ) : (
-            <Text textAlign={"center"} color={"white"} px={4}>
+            <Text textAlign={"center"} color={"white"} px={4} fontSize={12}>
               Eliminar
             </Text>
           )}

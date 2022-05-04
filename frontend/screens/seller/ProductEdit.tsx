@@ -80,7 +80,7 @@ const ProductEdit = () => {
     for (const [index, image] of images.entries()) {
       setPhotosUploaded(`Subiendo foto ${index + 1}/${images.length}`);
 
-      const file = await uploadPhoto(image);
+      const file = await uploadPhoto(image, user?.jwt ?? "");
       if (!file) {
         Toast.show({
           type: "error",
@@ -187,150 +187,150 @@ const ProductEdit = () => {
             setFieldValue,
           }) => (
             // @ts-ignore
-            <KeyboardAwareScrollView
-              extraScrollHeight={100}
-              enableOnAndroid
-              keyboardShouldPersistTaps="handled"
-            >
-              <ScrollView showsVerticalScrollIndicator={true}>
-                <FormControl isInvalid={touched.name && !!errors.name}>
-                  <FormControl.Label>Nombre *</FormControl.Label>
-                  <Input
-                    onChangeText={handleChange("name")}
-                    onBlur={handleBlur("name")}
-                    value={values.name}
-                  />
-                  <FormControl.ErrorMessage>
-                    {errors.name}
-                  </FormControl.ErrorMessage>
-                </FormControl>
-                <FormControl
+            <>
+              {/* <KeyboardAwareScrollView
+               extraScrollHeight={100}
+               enableOnAndroid
+               keyboardShouldPersistTaps="handled"
+             > */}
+              {/* <ScrollView showsVerticalScrollIndicator={true}> */}
+              <FormControl isInvalid={touched.name && !!errors.name}>
+                <FormControl.Label>Nombre *</FormControl.Label>
+                <Input
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                />
+                <FormControl.ErrorMessage>
+                  {errors.name}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={touched.description && !!errors.description}
+              >
+                <FormControl.Label>Descripcion *</FormControl.Label>
+                <TextArea
+                  onChangeText={handleChange("description")}
+                  onBlur={handleBlur("description")}
                   isInvalid={touched.description && !!errors.description}
+                  value={values.description}
+                />
+                <FormControl.ErrorMessage>
+                  {errors.description}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={touched.price && !!errors.price}>
+                <FormControl.Label>Precio (MXN)*</FormControl.Label>
+                <Input
+                  keyboardType={
+                    Platform.OS === "android" ? "numeric" : "number-pad"
+                  }
+                  onChangeText={handleChange("price")}
+                  onBlur={handleBlur("price")}
+                  value={`${values.price}`}
+                />
+                <FormControl.ErrorMessage>
+                  {errors.price}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={touched.categories && !!errors.categories}
+              >
+                <FormControl.Label>Categoria</FormControl.Label>
+                <Select
+                  isDisabled={isLoadingCategories}
+                  selectedValue={values.categories}
+                  onValueChange={(value) => setFieldValue("categories", value)}
                 >
-                  <FormControl.Label>Descripcion *</FormControl.Label>
-                  <TextArea
-                    onChangeText={handleChange("description")}
-                    onBlur={handleBlur("description")}
-                    isInvalid={touched.description && !!errors.description}
-                    value={values.description}
-                  />
-                  <FormControl.ErrorMessage>
-                    {errors.description}
-                  </FormControl.ErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={touched.price && !!errors.price}>
-                  <FormControl.Label>Precio (MXN)*</FormControl.Label>
-                  <Input
-                    keyboardType={
-                      Platform.OS === "android" ? "numeric" : "number-pad"
-                    }
-                    onChangeText={handleChange("price")}
-                    onBlur={handleBlur("price")}
-                    value={`${values.price}`}
-                  />
-                  <FormControl.ErrorMessage>
-                    {errors.price}
-                  </FormControl.ErrorMessage>
-                </FormControl>
-                <FormControl
-                  isInvalid={touched.categories && !!errors.categories}
-                >
-                  <FormControl.Label>Categoria</FormControl.Label>
-                  <Select
-                    isDisabled={isLoadingCategories}
-                    selectedValue={values.categories}
-                    onValueChange={(value) =>
-                      setFieldValue("categories", value)
-                    }
-                  >
-                    {categories &&
-                      categories.map((category) => (
-                        <Select.Item
-                          value={category._id}
-                          label={category.name}
-                          key={category._id}
-                        />
-                      ))}
-                  </Select>
-                  <FormControl.ErrorMessage>
-                    {errors.categories}
-                  </FormControl.ErrorMessage>
-                </FormControl>
-                {product && product.photos.length > 0 && (
-                  <FormControl>
-                    <FormControl.Label>Imagenes Subidas</FormControl.Label>
-                    <ScrollView
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                    >
-                      <HStack space={4}>
-                        {values.uploadedImages.map((image) => (
-                          <ImageThumbnail
-                            key={image._id}
-                            src={image.url}
-                            onImageUpload={() => {}}
-                            deleteImage={(deletedId) =>
-                              setFieldValue(
-                                "uploadedImages",
-                                values.uploadedImages.filter(
-                                  (image) => image.url !== deletedId
-                                )
-                              )
-                            }
-                          />
-                        ))}
-                      </HStack>
-                    </ScrollView>
-                  </FormControl>
-                )}
+                  {categories &&
+                    categories.map((category) => (
+                      <Select.Item
+                        value={category._id}
+                        label={category.name}
+                        key={category._id}
+                      />
+                    ))}
+                </Select>
+                <FormControl.ErrorMessage>
+                  {errors.categories}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              {product && product.photos.length > 0 && (
                 <FormControl>
-                  <FormControl.Label>Imagenes</FormControl.Label>
+                  <FormControl.Label>Imagenes Subidas</FormControl.Label>
                   <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                   >
                     <HStack space={4}>
-                      {values.images.map((image) => (
+                      {values.uploadedImages.map((image) => (
                         <ImageThumbnail
-                          key={image.uri}
-                          src={image.uri}
-                          onImageUpload={(result) =>
-                            setFieldValue("images", [...values.images, result])
-                          }
+                          key={image._id}
+                          src={image.url}
+                          onImageUpload={() => {}}
                           deleteImage={(deletedId) =>
                             setFieldValue(
-                              "images",
-                              values.images.filter(
-                                (image) => image.uri !== deletedId
+                              "uploadedImages",
+                              values.uploadedImages.filter(
+                                (image) => image.url !== deletedId
                               )
                             )
                           }
                         />
                       ))}
+                    </HStack>
+                  </ScrollView>
+                </FormControl>
+              )}
+              <FormControl>
+                <FormControl.Label>Imagenes</FormControl.Label>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  <HStack space={4}>
+                    {values.images.map((image) => (
                       <ImageThumbnail
+                        key={image.uri}
+                        src={image.uri}
                         onImageUpload={(result) =>
                           setFieldValue("images", [...values.images, result])
                         }
+                        deleteImage={(deletedId) =>
+                          setFieldValue(
+                            "images",
+                            values.images.filter(
+                              (image) => image.uri !== deletedId
+                            )
+                          )
+                        }
                       />
-                    </HStack>
-                  </ScrollView>
-                  <FormControl.Label>{photosUploaded}</FormControl.Label>
-                </FormControl>
-                <TouchableOpacity>
-                  <Button
-                    type="submit"
-                    onPress={() => handleSubmit()}
-                    borderRadius="10"
-                    backgroundColor={storeData?.color}
-                    mt={10}
-                    py={4}
-                    isLoading={isSubmitting}
-                  >
-                    {product ? "Editar Producto" : "Crear Producto"}
-                  </Button>
-                </TouchableOpacity>
-              </ScrollView>
-            </KeyboardAwareScrollView>
+                    ))}
+                    <ImageThumbnail
+                      onImageUpload={(result) =>
+                        setFieldValue("images", [...values.images, result])
+                      }
+                    />
+                  </HStack>
+                </ScrollView>
+                <FormControl.Label>{photosUploaded}</FormControl.Label>
+              </FormControl>
+              <TouchableOpacity>
+                <Button
+                  type="submit"
+                  onPress={() => handleSubmit()}
+                  borderRadius="10"
+                  backgroundColor={storeData?.color}
+                  mt={10}
+                  py={4}
+                  isLoading={isSubmitting}
+                >
+                  {product ? "Editar Producto" : "Crear Producto"}
+                </Button>
+              </TouchableOpacity>
+              {/* </ScrollView> */}
+              {/* </KeyboardAwareScrollView> */}
+            </>
           )}
         </Formik>
       </Box>

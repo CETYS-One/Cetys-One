@@ -55,7 +55,7 @@ const ShopNavs = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-    }, 200);
+    }, 500);
   };
 
   return (

@@ -69,7 +69,7 @@ const Shop = (props: PropTypes) => {
   const { shoppingCart } = useContext(ShopContext);
 
   const { user, logout } = useAuth({
-    onSuccessLogout: () => navigation.navigate("Welcome"),
+    onSuccessLogout: () => navigation.replace("Welcome"),
   });
 
   const axios = useAxios(user?.jwt);
@@ -96,7 +96,7 @@ const Shop = (props: PropTypes) => {
       {isLoading ? (
         <ShopSplash title={name} color={color} />
       ) : (
-        <Box flex={1}>
+        <AnimatedBox flex={1} from={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Header
             title={name}
             searchBar
@@ -165,7 +165,7 @@ const Shop = (props: PropTypes) => {
               buttonColor={color}
               renderIcon={(active) => (
                 <HStack space={1}>
-                  <AntDesign name="shoppingcart" size={24} color="white" />
+                  <AntDesign name="plus" size={24} color="white" />
                   {shoppingCart[alias as Stores].length > 0 && (
                     <Text
                       color="white"
@@ -212,7 +212,7 @@ const Shop = (props: PropTypes) => {
               </ActionButton.Item>
             </ActionButton>
           )}
-        </Box>
+        </AnimatedBox>
       )}
     </>
   );

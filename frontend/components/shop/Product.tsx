@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, Box, Flex, AspectRatio, Spacer, VStack } from "native-base";
-import { Share, TouchableOpacity, Image } from "react-native";
+import { Share, TouchableOpacity, Image, Dimensions } from "react-native";
 import { RootStackParams } from "../../screens/Pages";
 import { SharedElement } from "react-navigation-shared-element";
 import { useContext } from "react";
@@ -28,7 +28,7 @@ const Product = (props: PropTypes) => {
     <>
       <AnimatedBox
         w={120}
-        h={200}
+        h={Dimensions.get("window").height * 0.26}
         shadow={"1"}
         bgColor={"gray.50"}
         borderRadius={"10px"}
@@ -55,19 +55,13 @@ const Product = (props: PropTypes) => {
             }}
             resizeMode="cover"
           />
+          <VStack w={"100%"} px={"8px"} py={2}>
+            <Text fontSize={12}>{truncate(name, 20)}</Text>
+            <Text color={storeData?.color} fontWeight={"bold"}>
+              ${price}
+            </Text>
+          </VStack>
         </TouchableOpacity>
-        <VStack w={"100%"} px={"8px"} py={2}>
-          <Text>{truncate(name, 20)}</Text>
-        </VStack>
-        <Text
-          color={storeData?.color}
-          fontWeight={"bold"}
-          position={"absolute"}
-          bottom={1}
-          left={2}
-        >
-          ${price}
-        </Text>
       </AnimatedBox>
     </>
   );
