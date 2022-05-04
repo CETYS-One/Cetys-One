@@ -8,6 +8,8 @@ import { IAuthNav } from "./navigators/MainNavigator";
 import { AnimatedBox, AnimatedText } from "../components/common/Animated";
 import MaskedView from "@react-native-community/masked-view";
 import { ShopContext } from "../context/ShopProvider";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 
 const LoadingSplash = () => {
   const dims = Dimensions.get("screen");
@@ -30,6 +32,18 @@ const LoadingSplash = () => {
       loadUserData();
     }, [])
   );
+
+  // useEffect(() => {
+  //   registerForPushNotificationsAsync();
+  // }, []);
+
+  // const registerForPushNotificationsAsync = async () => {
+  //   const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  //   if (status !== "granted") {
+  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  //   }
+  // };
+
   return (
     <AnimatedBox
       w={dims.width}

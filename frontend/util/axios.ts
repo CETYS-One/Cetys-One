@@ -3,8 +3,8 @@ import config from "../config.json";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
-    ? "http://10.0.2.2:3001"
-    : "http://10.0.2.2:3001";
+    ? "https://cetys-one.herokuapp.com"
+    : config.baseUrl;
 
 const instance = axios.create({
   baseURL,
