@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { HStack, Skeleton, VStack, Button } from "native-base";
+import { HStack, Skeleton, VStack, Button, Text } from "native-base";
+import qs from "qs";
+import React, { Suspense } from "react";
 import { useContext } from "react";
 import { Dimensions, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import { ProductsByCategory, ShopContext } from "../../context/ShopProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { getAxios } from "../../hooks/useAxios";
@@ -15,15 +17,28 @@ const MainSection = () => {
   const { user } = useAuth({});
   const navigation = useNavigation();
 
-  const { data: products, isLoading } = useQuery(
+  const {
+    data: products,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery(
     storeData ? storeData.alias : "",
-    async () => {
+    async ({ pageParam = 0 }) => {
+      const query = qs.stringify({
+        _limit: 2,
+        _start: pageParam,
+      });
+
       const res = await getAxios(user?.jwt).get<ProductsByCategory>(
-        `/products/byCategories/${storeData?.alias}`
+        `/products/byCategories/${storeData?.alias}?${query}`
       );
       return res.data;
     },
     {
+      getNextPageParam: (lastPage, pages) => lastPage.cursor,
       enabled: !!storeData,
     }
   );
@@ -75,9 +90,16 @@ const MainSection = () => {
             </VStack>
           )}
           {products &&
-            Object.keys(products).map((key) => (
-              <Section products={products[key]} key={key} />
-            ))}
+            products.pages.map((p) =>
+              Object.keys(p).map(
+                (key) =>
+                  key !== "cursor" && (
+                    // <Text>{key}</Text>
+                    <Section products={p[key]} key={key} />
+                  )
+              )
+            )}
+          <Button onPress={() => fetchNextPage()}>load</Button>
         </>
       )}
     </VStack>

@@ -25,7 +25,6 @@ const Product = (props: PropTypes) => {
   const { storeData } = useContext(ShopContext);
   const { user } = useAuth({});
 
-  console.log(Dimensions.get("screen").width);
   return (
     <>
       <AnimatedBox
@@ -55,7 +54,7 @@ const Product = (props: PropTypes) => {
               }}
               source={{
                 uri: photos[0]
-                  ? photos[0].url
+                  ? photos[0].formats.thumbnail?.url
                   : "https://www.takeoutlist.com/assets/images/food_default.png",
               }}
               style={{
