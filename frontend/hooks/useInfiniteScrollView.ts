@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useInfiniteScrollView = <T>(
   allItems: Array<T>,
@@ -6,11 +6,12 @@ export const useInfiniteScrollView = <T>(
   getNextCursor: (currCursor: number) => number,
   delay: number = 100
 ) => {
+  const [_allItems, setAllItems] = useState(allItems);
   const [cursor, setCursor] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const [itemsShown, setItemsShown] = useState<T[]>([
-    ...allItems.slice(0, limit),
+    ..._allItems.slice(0, limit),
   ]);
 
   const fetchItems = () => {
@@ -18,7 +19,7 @@ export const useInfiniteScrollView = <T>(
     const nextCursor = getNextCursor(cursor);
     setItemsShown([
       ...itemsShown,
-      ...allItems.slice(nextCursor, nextCursor + limit),
+      ..._allItems.slice(nextCursor, nextCursor + limit),
     ]);
     setCursor(nextCursor);
     setTimeout(() => setIsLoading(false), delay);
@@ -26,8 +27,9 @@ export const useInfiniteScrollView = <T>(
 
   return {
     itemsShown,
-    hasMorePages: allItems.length >= cursor + limit,
+    hasMorePages: _allItems.length >= cursor + limit,
     fetchItems,
     isLoading,
+    setAllItems,
   };
 };

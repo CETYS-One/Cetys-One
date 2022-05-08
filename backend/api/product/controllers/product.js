@@ -39,10 +39,12 @@ module.exports = {
     // Necesitamos ahora obtener el next cursor
     // Start es desde donde empieza
 
-    const nextCursor = Math.min(
-      parseInt(_start) + parseInt(_limit),
-      Object.keys(categories).length
-    ); // No queremos pasarnos
+    let nextCursor = parseInt(_start) + parseInt(_limit);
+
+    if (nextCursor >= Object.keys(categories).length) {
+      nextCursor = undefined;
+    }
+
     const requestedCategories = Object.keys(categories).slice(
       _start,
       nextCursor

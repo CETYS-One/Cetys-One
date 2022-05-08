@@ -32,7 +32,7 @@ const Section = (props: PropTypes) => {
       products,
       PRODUCTS_PER_PAGE,
       (cursor) => cursor + PRODUCTS_PER_PAGE,
-      800
+      400
     );
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {

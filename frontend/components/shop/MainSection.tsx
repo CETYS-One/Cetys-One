@@ -1,47 +1,32 @@
 import { useNavigation } from "@react-navigation/native";
-import { HStack, Skeleton, VStack, Button, Text } from "native-base";
+import { HStack, Skeleton, VStack, Button, Text, Spinner } from "native-base";
 import qs from "qs";
 import React, { Suspense } from "react";
 import { useContext } from "react";
 import { Dimensions, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { ProductsByCategory, ShopContext } from "../../context/ShopProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { getAxios } from "../../hooks/useAxios";
 import Section from "./Section";
 
-const MainSection = () => {
+interface PropTypes {
+  isLoading: boolean;
+  products: ProductsByCategory[];
+  hasNextPage: boolean;
+}
+const MainSection = (props: PropTypes) => {
+  const { isLoading, products, hasNextPage } = props;
   const queryClient = useQueryClient();
   const { storeData } = useContext(ShopContext);
   const { user } = useAuth({});
   const navigation = useNavigation();
-
-  const {
-    data: products,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
-    storeData ? storeData.alias : "",
-    async ({ pageParam = 0 }) => {
-      const query = qs.stringify({
-        _limit: 2,
-        _start: pageParam,
-      });
-
-      const res = await getAxios(user?.jwt).get<ProductsByCategory>(
-        `/products/byCategories/${storeData?.alias}?${query}`
-      );
-      return res.data;
-    },
-    {
-      getNextPageParam: (lastPage, pages) => lastPage.cursor,
-      enabled: !!storeData,
-    }
-  );
 
   return (
     <VStack>
@@ -90,7 +75,7 @@ const MainSection = () => {
             </VStack>
           )}
           {products &&
-            products.pages.map((p) =>
+            products.map((p) =>
               Object.keys(p).map(
                 (key) =>
                   key !== "cursor" && (
@@ -99,7 +84,7 @@ const MainSection = () => {
                   )
               )
             )}
-          <Button onPress={() => fetchNextPage()}>load</Button>
+          {hasNextPage && <Spinner color={storeData?.color} />}
         </>
       )}
     </VStack>

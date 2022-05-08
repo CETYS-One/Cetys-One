@@ -27,7 +27,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Button } from "react-native";
+import { Button, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ShopContext } from "../../context/ShopProvider";
@@ -54,6 +54,7 @@ interface PropTypes {
   showBack?: boolean;
   onSearch?: (value: string) => void;
   menuContent?: ReactNode;
+  onScrollReachedEnd?: () => void;
 }
 
 const Header = (props: PropTypes) => {
@@ -68,6 +69,7 @@ const Header = (props: PropTypes) => {
     showBack = true,
     bgColor = "#f59e0b",
     menuContent = <></>,
+    onScrollReachedEnd,
   } = props;
 
   const inputRef = useRef<MutableRefObject<any>>(null);
@@ -90,6 +92,15 @@ const Header = (props: PropTypes) => {
 
   const handleSearch = () => {
     onSearch && onSearch(searchQuery);
+  };
+
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const reachedEnd =
+      e.nativeEvent.layoutMeasurement.height + e.nativeEvent.contentOffset.y >=
+      e.nativeEvent.contentSize.height - 1;
+    if (reachedEnd) {
+      onScrollReachedEnd && onScrollReachedEnd();
+    }
   };
 
   return (
@@ -192,7 +203,11 @@ const Header = (props: PropTypes) => {
           position={"relative"}
           zIndex={1}
         >
-          <ScrollView height={"100%"} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            height={"100%"}
+            showsVerticalScrollIndicator={false}
+            onScroll={handleScroll}
+          >
             {container ? (
               <Box w={"90%"} mx={"auto"} mt={10} mb={20} background="white">
                 {children}

@@ -2,9 +2,7 @@ import axios, { AxiosError } from "axios";
 import config from "../config.json";
 
 export const baseURL =
-  process.env.NODE_ENV === "production"
-    ? "https://cetys-one.herokuapp.com"
-    : config.baseUrl;
+  process.env.NODE_ENV === "production" ? config.baseUrl : config.baseUrl;
 
 const instance = axios.create({
   baseURL,

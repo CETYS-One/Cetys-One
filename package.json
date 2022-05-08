@@ -1,27 +1,29 @@
 {
-    "name": "cetys-one",
-    "version": "0.0.1",
-    "repository": "https://github.com/CETYS-One/Cetys-One.git",
-    "author": "CETYS One",
-    "license": "MIT",
-    "scripts": {
-        "install:all": "yarn && yarn --cwd backend && yarn --cwd frontend",
-        "install:server": "yarn --cwd backend",
-        "install:client": "yarn --cwd frontend",
-        "dev:client": "yarn --cwd frontend start",
-        "dev:client:android": "yarn --cwd frontend start --android",
-        "dev:client:android:ngrok": "set ENV=ngrok && yarn --cwd frontend start --android",
-        "dev:server": "node ./tools/baseUrl.js && yarn --cwd backend dev",
-        "dev:server:ngrok": "concurrently \"yarn --cwd backend dev\" \"node ./tools/connectNGROK.js\"",
-        "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-        "dev:android": "concurrently \"yarn dev:server\" \"yarn dev:client:android\"",
-        "dev:android:ngrok": "concurrently \"yarn dev:server:ngrok\" \"yarn dev:client:android:ngrok\"",
-        "db:save": "python ./tools/savedb.py",
-        "db:reset": "python ./tools/resetdb.py"
-    },
-    "dependencies": {
-        "concurrently": "^7.0.0",
-        "dotenv": "^16.0.0",
-        "ngrok": "^4.3.1"
-    }
+  "name": "cetys-one",
+  "version": "0.0.1",
+  "repository": "https://github.com/CETYS-One/Cetys-One.git",
+  "author": "CETYS One",
+  "license": "MIT",
+  "scripts": {
+    "install:all": "yarn && yarn --cwd backend && yarn --cwd frontend",
+    "install:server": "yarn --cwd backend",
+    "install:client": "yarn --cwd frontend",
+    "dev:client": "yarn --cwd frontend start",
+    "dev:client:android": "yarn --cwd frontend start --android",
+    "dev:client:android:ngrok": "set ENV=ngrok && yarn --cwd frontend start --android",
+    "dev:server": "node ./tools/baseUrl.js && yarn --cwd backend dev",
+    "dev:server:ngrok": "concurrently \"yarn --cwd backend dev\" \"node ./tools/connectNGROK.js\"",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "dev:android": "concurrently \"yarn dev:server\" \"yarn dev:client:android\"",
+    "dev:android:ngrok": "concurrently \"yarn dev:server:ngrok\" \"yarn dev:client:android:ngrok\"",
+    "build:server": "yarn --cwd backend build",
+    "start:server": "yarn --cwd backend start",
+    "db:save": "python ./tools/savedb.py",
+    "db:reset": "python ./tools/resetdb.py"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0",
+    "dotenv": "^16.0.0",
+    "ngrok": "^4.3.1"
+  }
 }

@@ -4,12 +4,12 @@ import { stringify } from "qs";
 import * as React from "react";
 import { useContext, useState } from "react";
 import ActionButton from "react-native-action-button";
-import { useQueryClient } from "react-query";
+import { useInfiniteQuery, useQueryClient } from "react-query";
 import { AnimatedBox } from "../../components/common/Animated";
 import Header from "../../components/common/Header";
 import MainSection from "../../components/shop/MainSection";
 import { ProductsByCategory, ShopContext } from "../../context/ShopProvider";
-import { useAxios } from "../../hooks/useAxios";
+import { getAxios, useAxios } from "../../hooks/useAxios";
 import ShopSplash from "./ShopSplash";
 import { Stores } from "../../types/strapi";
 import { socket } from "../../util/socket";
@@ -23,6 +23,8 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import { LogOutput } from "concurrently";
+import qs from "qs";
+import { useInfiniteScrollView } from "../../hooks/useInfiniteScrollView";
 
 interface PropTypes {
   isLoading: boolean;
@@ -74,22 +76,45 @@ const Shop = (props: PropTypes) => {
 
   const axios = useAxios(user?.jwt);
 
-  const handleProductSearch = async (query: string) => {
+  const [query, setQuery] = useState("");
+  const handleProductSearch = async (_query: string) => {
     setIsLoadingSearch(true);
-    const filters = stringify({
-      _where: {
-        _or: [{ name_contains: query }, { description_contains: query }],
-      },
-    });
-
-    await queryClient.fetchQuery(alias, async () => {
-      const res = await axios.get<ProductsByCategory>(
-        `products/byCategories/${alias}?${filters}`
-      );
-      return res.data;
-    });
+    setQuery(_query);
     setIsLoadingSearch(false);
   };
+
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    ...remaining
+  } = useInfiniteQuery(
+    [alias, query],
+    async ({ pageParam = 0 }) => {
+      const paramQuery = qs.stringify({
+        _limit: 2,
+        _start: pageParam,
+        _where: {
+          name_contains: query,
+          // _or: [{ name_contains: query }, { description_contains: query }],
+        },
+      });
+
+      const res = await getAxios(user?.jwt).get<ProductsByCategory>(
+        `/products/byCategories/${alias}?${paramQuery}`
+      );
+      return res.data;
+    },
+    {
+      getNextPageParam: (lastPage, pages) => lastPage.cursor,
+      cacheTime: 0,
+      retry: false,
+    }
+  );
+
+  const p = products?.pages.map((p) => p);
 
   return (
     <>
@@ -104,9 +129,16 @@ const Shop = (props: PropTypes) => {
             bgColor={color}
             onSearch={handleProductSearch}
             isLoadingSearch={isLoadingSearch}
+            isLoading={isLoadingProducts || isFetchingNextPage}
             showBack={false}
+            onScrollReachedEnd={() => !isFetchingNextPage && fetchNextPage()}
           >
-            <MainSection />
+            {/* <Text>{isPreviousData && "Cache"}</Text> */}
+            <MainSection
+              products={p || []}
+              isLoading={isLoadingProducts}
+              hasNextPage={hasNextPage ?? true}
+            />
           </Header>
           {user?.user.cafeteria ? (
             <ActionButton
