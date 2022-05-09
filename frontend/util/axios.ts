@@ -3,7 +3,7 @@ import config from "../config.json";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
-    ? "http://cetys-one.westus.cloudapp.azure.com:1337"
+    ? "http://cetys-one.westus.cloudapp.azure.com"
     : config.baseUrl;
 
 const instance = axios.create({
