@@ -24,4 +24,14 @@ module.exports = {
     });
     return orders;
   },
+  statisticsMe: async (ctx) => {
+    const store = ctx.state.user.cafeteria;
+    const orders = await strapi.services.order.find({
+      to: store,
+    });
+
+    // Should return
+
+    return orders;
+  },
 };

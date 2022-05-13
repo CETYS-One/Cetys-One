@@ -13,7 +13,6 @@ const socket = require("../../helpers/socket");
 
 module.exports = () => {
   let io = socket.connect(strapi.server);
-
   io.on("connection", (socket) => {
     socket.on("hola", (data) => {
       console.log("RECIBIDO", data);
