@@ -15,9 +15,10 @@ module.exports = {
     },
     afterUpdate(result) {
       const res = {
-        status: result.status,
-        _id: result._id,
-        to: result.to,
+        status: result.status, // status de la orden
+        _id: result._id, // id de la orden
+        to: result.to, // cafeteria
+        user: result.from._id,
       };
       socket.getIO().sockets.emit(`order-${result.from._id}`, res);
     },

@@ -64,6 +64,9 @@ const MainNavigator = () => {
   });
 
   socket.on(`order-${user?.user.id}`, (order) => {
+    // Evitando que la cafeteria reciba la notificacion o otro usuario que no pertenece
+    if (user?.user.cafeteria || user?.user.id !== order.user) return;
+
     queryClient.invalidateQueries("orders");
     if (order.status === "done") {
       Toast.show({
