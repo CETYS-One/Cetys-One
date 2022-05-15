@@ -8,6 +8,7 @@ import { BottomNavigation } from "react-native-paper";
 import { ShopContext } from "../../context/ShopProvider";
 import Shop from "../shop/Shop";
 import { Text } from "native-base";
+import { useQueryClient } from "react-query";
 
 export type IAuthNav = {
   DVolada: any;
@@ -18,6 +19,7 @@ export type IAuthNav = {
 const ShopNavs = () => {
   const { handleStoreChange } = useContext(ShopContext);
 
+  const queryClient = useQueryClient();
   const [index, setIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,6 +48,8 @@ const ShopNavs = () => {
     if (isLoading) return;
     setIndex(newIndex);
     setIsLoading(true);
+
+    queryClient.removeQueries("shop");
 
     const key = routes[newIndex].key;
     if (key !== "DVolada" && key !== "Cafeteria" && key !== "Honey") return;

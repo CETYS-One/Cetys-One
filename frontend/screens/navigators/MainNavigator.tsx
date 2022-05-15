@@ -63,6 +63,23 @@ const MainNavigator = () => {
     queryClient.invalidateQueries(`orders-${store}`);
   });
 
+  socket.on(`order-${user?.user.id}`, (order) => {
+    queryClient.invalidateQueries("orders");
+    if (order.status === "Done") {
+      Toast.show({
+        type: "success",
+        text1: "Pedido Terminado",
+        text2: `Tu pedido de ${order.to} fue finalizado con exito.`,
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Pedido Rechazado",
+        text2: `Tu pedido de ${order.to} fue rechazado por la cafeteria`,
+      });
+    }
+  });
+
   return (
     <NavigationContainer>
       {/* @ts-ignore */}

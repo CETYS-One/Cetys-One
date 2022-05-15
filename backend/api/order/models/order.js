@@ -13,5 +13,13 @@ module.exports = {
       socket.getIO().sockets.emit("order", result.to);
       console.log(result);
     },
+    afterUpdate(result) {
+      const res = {
+        status: result.status,
+        _id: result._id,
+        to: result.to,
+      };
+      socket.getIO().sockets.emit(`order-${result.from._id}`, res);
+    },
   },
 };

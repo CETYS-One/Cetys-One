@@ -21,6 +21,8 @@ import { IOrder } from "../../types/strapi";
 import { baseURL, getErrorMessage } from "../../util/axios";
 import Header from "../../components/common/Header";
 import Order from "../../components/Orders/Order";
+import EmptyCart from "../../assets/images/empty_cart.png";
+import ImageBlurLoading from "react-native-image-blur-loading";
 
 const Orders = () => {
   const { user } = useAuth({});
@@ -48,7 +50,7 @@ const Orders = () => {
               <Skeleton h={100}></Skeleton>
               <Skeleton h={100}></Skeleton>
             </VStack>
-          ) : (
+          ) : orders.length > 0 ? (
             orders.map((order) => (
               <>
                 <Order
@@ -58,6 +60,20 @@ const Orders = () => {
                 />
               </>
             ))
+          ) : (
+            <Center>
+              <ImageBlurLoading
+                source={EmptyCart}
+                height={300}
+                style={{ height: 300, aspectRatio: 1 / 1 }}
+              />
+              <Text mt={4} fontWeight={"bold"} textAlign={"center"}>
+                No hay órdenes pendientes
+              </Text>
+              <Text mt={4} textAlign={"center"}>
+                Espera a que un usuario realice un pedido
+              </Text>
+            </Center>
           )}
         </VStack>
       </Flex>

@@ -16,7 +16,7 @@ const Statistics = () => {
   const axios = useAxios(user?.jwt);
 
   const { data: statistics } = useQuery("statistics", async () => {
-    const res = await axios.get<IOrder>("/orders/statistics");
+    const res = await axios.get<IOrder>("/orders/statistics/me");
 
     const orders = res.data;
     // Debes de obtener la cantidad de productos vendidos, el producto mas vendido y el ingreso obtenido DE HOY.

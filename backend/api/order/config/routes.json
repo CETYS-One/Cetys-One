@@ -42,7 +42,7 @@
     },
     {
       "method": "GET",
-      "path": "/orders/statistics",
+      "path": "/orders/statistics/me",
       "handler": "order.statisticsMe",
       "config": {
         "policies": []

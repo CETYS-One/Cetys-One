@@ -91,7 +91,7 @@ const Shop = (props: PropTypes) => {
     isFetchingNextPage,
     ...remaining
   } = useInfiniteQuery(
-    [alias, query],
+    ["shop", query],
     async ({ pageParam = 0 }) => {
       const paramQuery = qs.stringify({
         _limit: 2,
@@ -109,8 +109,6 @@ const Shop = (props: PropTypes) => {
     },
     {
       getNextPageParam: (lastPage, pages) => lastPage.cursor,
-      cacheTime: 0,
-      retry: false,
     }
   );
 
