@@ -49,8 +49,9 @@ const ShopNavs = () => {
     setIndex(newIndex);
     setIsLoading(true);
 
-    queryClient.removeQueries("shop");
-
+    for (const r in routes) {
+      queryClient.removeQueries(r.key);
+    }
     const key = routes[newIndex].key;
     if (key !== "DVolada" && key !== "Cafeteria" && key !== "Honey") return;
 
