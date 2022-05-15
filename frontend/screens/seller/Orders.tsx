@@ -24,6 +24,7 @@ import Order from "../../components/Orders/Order";
 import EmptyCart from "../../assets/images/empty_cart.png";
 import ImageBlurLoading from "react-native-image-blur-loading";
 
+
 const Orders = () => {
   const { user } = useAuth({});
   const axios = useAxios(user?.jwt);

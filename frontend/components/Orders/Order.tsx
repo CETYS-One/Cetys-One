@@ -111,7 +111,7 @@ const Order = ({ alias, order }: PropTypes) => {
               <HStack alignItems={"center"} space={2}>
                 {open ? (
                   <>
-                    <Text>Ocultar Productos</Text>
+                    <Text>Ocultar Producto</Text>
                     <ChevronUpIcon />
                   </>
                 ) : (

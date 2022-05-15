@@ -21,7 +21,11 @@ interface Props extends IBoxProps {
   photoBlur?: string;
   renderIcon?: ReactNode;
 }
-
+{/* <HStack alignItems={"center"}>
+<ChevronLeftIcon color={"red"}/>
+                <ChevronLeftIcon />
+                <Text>Eliminar</Text>
+              </HStack> */}
 const ProductCard = (props: Props) => {
   const {
     name,
@@ -29,7 +33,7 @@ const ProductCard = (props: Props) => {
     description,
     photo,
     photoBlur,
-    renderIcon = <ChevronLeftIcon />,
+    renderIcon = <HStack alignItems={"center"}><ChevronLeftIcon color={"red.500"}/><ChevronLeftIcon color={"red.500"}/><Text color={"red.500"}>Eliminar</Text></HStack>,  
     id,
     ...box
   } = props;
@@ -78,7 +82,9 @@ const ProductCard = (props: Props) => {
               justifyContent={"space-between"}
             >
               <Text>${price}</Text>
-              {renderIcon}
+
+                {renderIcon}
+             
             </HStack>
           </VStack>
         </HStack>
