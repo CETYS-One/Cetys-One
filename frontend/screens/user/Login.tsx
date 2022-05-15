@@ -114,9 +114,9 @@ const Login = () => {
                     >
                       Iniciar Sesion
                     </Button>
-                    <Button variant="ghost" colorScheme={"amber"} mt={5}>
+                    {/* <Button variant="ghost" colorScheme={"amber"} mt={5}>
                       Olvide mi contrasena
-                    </Button>
+                    </Button> */}
                   </>
                 )}
               </Formik>
