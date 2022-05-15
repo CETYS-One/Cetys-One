@@ -65,7 +65,7 @@ const MainNavigator = () => {
 
   socket.on(`order-${user?.user.id}`, (order) => {
     queryClient.invalidateQueries("orders");
-    if (order.status === "Done") {
+    if (order.status === "done") {
       Toast.show({
         type: "success",
         text1: "Pedido Terminado",
