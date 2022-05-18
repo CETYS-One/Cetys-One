@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Formik } from "formik";
@@ -6,12 +7,15 @@ import {
   Button,
   ChevronLeftIcon,
   FormControl,
+  Icon,
   Input,
   KeyboardAvoidingView,
   ScrollView,
   Text,
   VStack,
 } from "native-base";
+import { useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useContext } from "react";
 import { Dimensions, TouchableOpacity } from "react-native";
 import * as Yup from "yup";
@@ -21,7 +25,7 @@ import { RootStackParams } from "../Pages";
 
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
-
+  const [show, setShow] = useState(false);
   const { handleStoreChange } = useContext(ShopContext);
   const { login, isSigningIn } = useAuth({
     onSuccessLogin: () =>
@@ -98,6 +102,7 @@ const Login = () => {
                         onChangeText={handleChange("password")}
                         onBlur={handleBlur("id")}
                         value={values.password}
+                        type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />}
                       />
                       <FormControl.ErrorMessage>
                         {errors.password}
