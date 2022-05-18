@@ -1,3 +1,6 @@
+import React from "react";
+import { useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ErrorMessage, Formik } from "formik";
@@ -10,6 +13,7 @@ import {
   ScrollView,
   Text,
   VStack,
+  Icon
 } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -23,7 +27,7 @@ import { AxiosError } from "axios";
 
 const SignUp = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
-
+  const [show, setShow] = useState(false);
   const handleSignUp = useMutation(
     async (values: {
       id: string;
@@ -136,6 +140,8 @@ const SignUp = () => {
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
                       value={values.password}
+                      type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />}
+
                     />
                     <FormControl.ErrorMessage>
                       {errors.password}

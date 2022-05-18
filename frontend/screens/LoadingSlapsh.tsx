@@ -62,7 +62,7 @@ const LoadingSplash = () => {
             transition={{ type: "spring" }}
             color={"white"}
           >
-            CETYS One
+            CETYS ONE
           </AnimatedText>
         </Center>
       </Center>
