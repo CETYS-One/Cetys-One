@@ -1,10 +1,6 @@
 notificar al usuario si su pedido fue cancelado con socket
 imagen cuando no hay ordenes
 
-
-coentarios de la comida
-
 error de buscador
 
-ver contrasena
 

@@ -51,7 +51,7 @@ const Statistics = () => {
 
     todayOrders.forEach((order) => {
       order.items.forEach((item) => {
-        console.log([productsName[item.product.name]]);
+        //console.log([productsName[item.product.name]]);
         if (productsName[item.product.name]) {
           console.log("si jala");
           productsName[item.product.name]++;
