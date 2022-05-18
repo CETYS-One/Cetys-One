@@ -1,4 +1,4 @@
-import { Box, Text, View, Image, TextArea, Center, Flex } from "native-base";
+import { Box,  Image, TextArea,Flex } from "native-base";
 
 const Header = () => {
   return (

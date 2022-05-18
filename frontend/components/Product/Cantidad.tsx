@@ -1,13 +1,7 @@
 import {
-  Box,
   Text,
-  Image,
-  Flex,
-  Center,
   VStack,
   HStack,
-  TextArea,
-  Button,
   Pressable,
 } from "native-base";
 import { useContext, useEffect, useState } from "react";

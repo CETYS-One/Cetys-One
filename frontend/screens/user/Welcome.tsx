@@ -60,10 +60,10 @@ const Welcome = () => {
             />
           </Box>
           <Text fontSize={"20px"} fontWeight="700">
-            Bienvenido a CETYS One
+            Bienvenido a CETYS ONE
           </Text>
           <Text fontSize={"16"} fontWeight="400">
-            Pedir comida en las cafeterias nunca habia sido tan sencillo
+            Pedir comida en las cafeterias nunca habia sido tan sencillo.
           </Text>
           <VStack width={"100%"} space={2} mt={"20"}>
             {/* <Button onPress={() => getUserData()}>userdata</Button> */}
